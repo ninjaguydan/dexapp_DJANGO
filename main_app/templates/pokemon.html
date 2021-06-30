@@ -4,13 +4,39 @@
 {% block js %}<script src="{% static 'pkmn.js' %}" defer></script>{% endblock %}
 {% block title %}| {{name}}{% endblock %}
 
+{% block main_nav %}
+{% if request.session.userid %}
+    <li class="bold"><a href="">{{user.username}}</a></li>
+    <li class="bold"><a href="/logout">Logout</a></li>
+    {% else %}
+    <li class="bold"><a href="/login/register">Sign Up</a></li>
+    <li class="bold"><a href="/login/">Login</a></li>  
+{% endif %}
+{% endblock %}
+
+{% block mobile_nav %}
+{% if request.session.userid %}
+<li class="list-group-item bold"><a href="">{{user.username}}</a></li>
+    <li class="list-group-item bold"><a href="/logout">Logout</a></li> 
+    {% else %}
+    <li class="list-group-item bold"><a href="/login/">Login</a></li> 
+    <li class="list-group-item bold"><a href="/login/register">Sign Up</a></li>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <h2>#{{pokemon.id}} {{name}}</h2>
 <div class="profile-card top">
     <img src="{{img_url}}" alt="{{name}}'s game sprite">
     <div class="rating">
-        <p class="star">2/10 &#x2605</p>
-        <a href="/pkmn/{{pokemon.id}}/fav" class="heart">3 &hearts;</a>
+        <p class="star">{{average}}/10 &#x2605</p>
+        {% if pokemon not in user.favorites.all %}
+        <a href="/pkmn/{{pokemon.id}}/fav" class="heart">{{pokemon.favorited_by.all | length}} &hearts;</a>
+        {% elif "userid" not in request.session %}
+        <span class="heart">{{pokemon.favorited_by.all | length}} &hearts;</span>
+        {% else %}
+        <a href="/pkmn/{{pokemon.id}}/unfav" class="heart">{{pokemon.favorited_by.all | length}} &hearts;</a>
+        {% endif %}
     </div>
 </div>
 <forjs id = "{{pokemon.id}}">
@@ -34,7 +60,8 @@
 </div>
 <br><br><br>
 <div class="review">
-    <form action="wall/post_message" method="POST">
+    {% if "userid" in request.session %}
+    <form action="/pkmn/{{pokemon.id}}/post_review" method="POST">
         {% csrf_token %}
         <div class="form-row">
             <label>What do you think of {{name}}?</label><br><br>
@@ -47,15 +74,31 @@
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
-                <option value="1">6</option>
-                <option value="2">7</option>
-                <option value="3">8</option>
-                <option value="4">9</option>
-                <option value="5">10</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
             </select>
         <div class="btn-container">
             <button class="btn btn-primary">Post review</button>
         </div>
     </form><br>
+    {% else %}
+    <h3 style="margin-bottom: 30px;">Login or create an account to leave a review!</h3>
+    {% endif %}
+    <ul class="list-group">
+      {% for review in pokemon.reviews.all %}
+      <li class="list-group-item clear">
+        <span class="n{{review.rating}}">{{review.rating}}</span>
+        <h5>{{review.added_by.username}} says:</h5>
+        <p>{{review.content}}</p>
+        <small>{{review.created_at}}</small><br>
+        {% if request.session.userid == review.added_by.id %}
+        <a href="/pkmn/{{review.id}}/delete_review">Delete Review</a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
 </div>
 {% endblock %}

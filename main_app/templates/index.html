@@ -3,7 +3,25 @@
 {% block js %}<script src="{% static 'index.js' %}" defer></script>{% endblock %}
 {% block title %}| Home{% endblock %}
 
+{% block main_nav %}
+{% if request.session.userid %}
+    <li class="bold"><a href="">{{user.username}}</a></li>
+    <li class="bold"><a href="/logout">Logout</a></li>
+    {% else %}
+    <li class="bold"><a href="/login/register">Sign Up</a></li>
+    <li class="bold"><a href="/login/">Login</a></li>  
+{% endif %}
+{% endblock %}
 
+{% block mobile_nav %}
+{% if request.session.userid %}
+<li class="list-group-item bold"><a href="">{{user.username}}</a></li>
+    <li class="list-group-item bold"><a href="/logout">Logout</a></li> 
+    {% else %}
+    <li class="list-group-item bold"><a href="/login/">Login</a></li> 
+    <li class="list-group-item bold"><a href="/login/register">Sign Up</a></li>
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <h2>Pokemon</h2>

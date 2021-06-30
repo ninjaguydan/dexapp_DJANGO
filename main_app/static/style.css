@@ -142,7 +142,12 @@ a {
         .list-group-item a:hover {
             color: var(--third);
         }
-
+.clear {
+    background-color: transparent;
+}
+    .clear a {
+        color: initial;
+    }
 .wrapper {
     padding: 30px;
 
@@ -320,6 +325,9 @@ a {
     #menu-btn {
         display: none;
     }
+    .mobile-nav {
+        display: none !important;
+    }
     .main-nav {
         display: flex;
         justify-content: space-between;
@@ -332,5 +340,16 @@ a {
             .main-nav a:hover {
                 color: var(--third);
             }
+    .card-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        column-gap: 20px;
+    }
 
+}
+/*---------- At 1800px ----------*/
+@media only screen and (min-width: 1800px) {
+    .card-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        column-gap: 20px;
+    }  
 }

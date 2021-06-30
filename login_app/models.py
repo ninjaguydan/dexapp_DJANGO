@@ -37,6 +37,7 @@ class UserManager(models.Manager):
         return self.create(
             first_name = form['fname'],
             last_name = form['lname'],
+            username = form['username'],
             email = form['email'],
             password = pw,
         )

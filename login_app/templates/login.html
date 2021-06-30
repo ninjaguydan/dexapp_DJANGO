@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}| Login{% endblock %}
+
+{% block content %}
+<div class="logres">
+    <h2>Login</h2>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="/login/user_login" method="POST" id="login">
+        {% csrf_token %}
+        <div class = "form-row">
+            <label>Email</label>
+            <div>
+                <input type="email" name="email" class="form-control">
+            </div>
+        </div>
+        <div class = "form-row">
+            <label>Password</label>
+            <div>
+                <input type="password" name="pw" class="form-control">
+            </div>
+        </div>
+        <div class="btn-container">
+            <button class="btn btn-primary">Log In</button>
+            <a class="btn btn-secondary" href="/login/register">Create New Account</a>
+        </div>
+    </form>
+</div><!--wrapper-->
+{% endblock %}

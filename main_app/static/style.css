@@ -1,0 +1,336 @@
+* {
+    /* outline: 1px dotted magenta; */
+    --primary: #F20C32;
+    --secondary: #272727;
+    --third: #009DF1;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--secondary);
+}
+a {
+    text-decoration: none;
+    color: var(--secondary);
+}
+    a:hover {
+        color: var(--primary);
+    }
+.bold {
+    font-weight: 700;
+}
+.btn {
+    padding: .5rem 1rem;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.table {
+    margin-bottom: 0;
+}
+.rating {
+    display: flex;
+    justify-content: space-between;
+}
+.heart, .star {
+    font-size: 1.5em;
+}
+    .heart {
+        color: var(--primary);
+    }
+    .star {
+        color: var(--third);
+    }
+.rating p {
+    margin: 0;
+    justify-content: center;
+}
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+        background-color: #ca0b2b;
+        border-color: #ca0b2b;
+    }
+    .btn-primary:focus {
+        box-shadow: 0 0 0 0.25rem rgb(253 49 88 / 50%);
+    }
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--secondary);
+    color: var(--secondary);
+}
+.main {
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--secondary);
+}
+    .main .header-logo {
+        background: url('img/dex-icon-w.svg') no-repeat center center;
+        background-size: contain;
+        width: 40px;
+        height: 40px;
+    }
+    .menu-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        transition: all .1s ease-in-out;
+    }
+    .menu-btn_burger {
+        width: 30px;
+        height: 2px;
+        background: white;
+        transition: all .1s ease-in-out;
+    }
+    .menu-btn_burger::before, .menu-btn_burger::after {
+        content: '';
+        position: absolute;
+        width: 30px;
+        height: 2px;
+        background: white;
+        transition: all .1s ease-in-out;
+    }
+    .menu-btn_burger::before {
+        transform: translateY(-10px);
+        transform-origin: left, top;
+    }  
+    .menu-btn_burger::after {
+        transform: translateY(10px);
+        transform-origin: left, bottom;
+    }
+        .menu-btn.open .menu-btn_burger {
+            background: transparent;
+        }
+        .menu-btn.open .menu-btn_burger::before {
+            background-color: var(--third);
+            transform: rotate(45deg);
+        }
+        .menu-btn.open .menu-btn_burger::after {
+            background-color: var(--third);
+            transform: rotate(-45deg);
+        }
+@keyframes overlay {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.main-nav {
+    display: none;
+}
+.mobile-nav {
+    display: none;
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    animation: overlay .5s forwards;
+}
+.list-group-item {
+    padding: 1rem 2rem;
+    background-color: var(--secondary);
+}
+    .list-group-item a {
+        color: white;
+    }
+        .list-group-item a:hover {
+            color: var(--third);
+        }
+
+.wrapper {
+    padding: 30px;
+
+}
+.wrapper h2 {
+    margin-bottom: 30px;
+}
+.logres {
+    max-width: 500px;
+    margin: 0 auto;
+}
+.logres .form-row, .logres .form-group {
+    margin-bottom: 15px;
+}
+.form-control:focus {
+    border-color: #e58494;
+    box-shadow: 0 0 0 0.25rem rgb(253 49 88 / 25%);
+}
+.btn-container {
+    margin-top: 30px;
+}
+.card {
+    border-radius: .5rem;
+    padding: 15px;
+    margin-bottom: 30px;
+    box-shadow: 5px 5px 10px lightgray;
+    transition: transform .2s;
+    cursor: pointer;
+}
+    .card:hover {
+        transform: scale(1.0625)
+    }
+    .card h3 {
+        color: lightgray;
+    }
+    .card h2 {
+        text-transform: capitalize;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.25em;
+    }
+.profile-card {
+    position: relative;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-width: 500px;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+}
+    .top {
+        border-radius: .5rem .5rem 0 0;
+        padding: 20px;
+    }
+.types {
+    text-transform: capitalize;
+}
+.type {
+    border-radius: 1rem;
+    padding: 5px;
+    margin: 0 auto;
+    margin-top: 10px;
+    text-align: center;
+    width: 200px;
+}
+    .bug {
+        background-color: rgb(133, 163, 24);
+        color: white;
+    }
+    .dark {
+        background-color: rgb(43, 13, 36);
+        color: white;
+    }
+    .dragon {
+        background-color: rgb(97, 0, 253);
+        color: white;
+    }
+    .electric {
+        background-color: rgb(228, 225, 21);
+        color: black;
+    }
+    .fairy {
+        background-color: rgb(255, 151, 151);
+        color: rgb(82, 27, 27);
+    }
+    .fighting {
+        background-color: rgb(128, 30, 0);
+        color: white;
+    }
+    .fire {
+        background-color: rgb(228, 69, 21);
+        color: white;
+    }
+    .flying {
+        background-color: rgb(127, 221, 238);
+        color: rgb(0, 0, 0);
+    }
+    .ghost {
+        background-color: rgb(108, 72, 124);
+        color: white;
+    }
+    .grass {
+        background-color: green;
+        color: white;
+    }
+    .ground {
+        background-color: rgb(112, 56, 18);
+        color: white;
+    }
+    .ice {
+        background-color: rgb(7, 231, 247);
+        color: rgb(0, 0, 0);
+    }
+    .normal {
+        background-color: rgb(128, 128, 128);
+        color: white;
+    }
+    .psychic {
+        background-color: rgb(214, 70, 190);
+        color: white;
+    }
+    .poison {
+        background-color: rgb(176, 44, 209);
+        color: white;
+    }
+    .rock {
+        background-color: rgb(92, 64, 27);
+        color: white;
+    }
+    .water {
+        background-color: rgb(11, 125, 190);
+        color: white;
+    }
+    .steel {
+        background-color: rgb(93, 110, 119);
+        color: white;
+    }
+.review {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/*---------- At 450px ----------*/
+@media only screen and (min-width: 450px) {
+    .card-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 15px;
+    }
+}
+
+/*---------- At 700px ----------*/
+@media only screen and (min-width: 700px) {
+    .card-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 15px;
+    }
+    .main .header-logo {
+        background: url('img/dex-logo-w.svg') no-repeat center center;
+        background-size: contain;
+        width: 150px;
+        height: 50px;
+    }
+    .wrapper h2 {
+        text-align: center;
+    }
+}
+
+/*---------- At 1080px ----------*/
+@media only screen and (min-width: 1080px) {
+    #menu-btn {
+        display: none;
+    }
+    .main-nav {
+        display: flex;
+        justify-content: space-between;
+        width: 600px;
+        margin: 0;
+    }
+        .main-nav a {
+            color: white;
+        }
+            .main-nav a:hover {
+                color: var(--third);
+            }
+
+}

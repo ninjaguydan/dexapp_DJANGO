@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}| Sign Up{% endblock %}
+
+{% block content %}
+<div class="logres">
+    <h2>Register</h2>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="/login/signup" method="POST" id="registration">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>First Name</label>
+            <div>
+                <input type="text" name="fname" class="form-control">
+            </div>
+        </div>
+        <div class = "form-row">
+            <label>Last Name</label>
+            <div>
+                <input type="text" name="lname" class="form-control">
+            </div>
+        </div>
+        <div class = "form-row">
+            <label>Username</label>
+            <div>
+                <input type="text" name="username" class="form-control">
+            </div>
+        </div>
+        <div class = "form-row">
+            <label>Email</label>
+            <div>
+                <input type="email" name="email" class="form-control">
+            </div>
+        </div>
+        <div class = "form-row">
+            <label>Password</label>
+            <div>
+                <input type="password" name="pw" class="form-control pw">
+            </div>
+        </div>
+        <div class = "form-row">
+            <label>Confirm Password</label>
+            <div id="confirm-pw-input">
+                <input type="password" name="confirm" class="form-control confirm">
+            </div>
+        </div>
+        <div class="btn-container">
+            <button class="btn btn-primary">Sign up</button>
+            <a class="btn btn-secondary" href="/login">Log in</a>
+        </div>
+    </form>
+</div><!-- wrapper -->
+{% endblock %}

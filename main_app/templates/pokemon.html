@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block js %}<script src="{% static 'pkmn.js' %}" defer></script>{% endblock %}
+{% block title %}| {{name}}{% endblock %}
+
+{% block content %}
+<h2>#{{pokemon.id}} {{name}}</h2>
+<div class="profile-card top">
+    <img src="{{img_url}}" alt="{{name}}'s game sprite">
+    <div class="rating">
+        <p class="star">2/10 &#x2605</p>
+        <a href="/pkmn/{{pokemon.id}}/fav" class="heart">3 &hearts;</a>
+    </div>
+</div>
+<forjs id = "{{pokemon.id}}">
+<div class="profile-card types">
+    <table class="table">
+        <tbody>
+          <tr>
+            <th scope="row" class="bold">ID:</th>
+            <td>{{pokemon.id}}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="bold">Height:</th>
+            <td>{{height}}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="bold">Weight:</th>
+            <td>{{weight}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+<br><br><br>
+<div class="review">
+    <form action="wall/post_message" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+            <label>What do you think of {{name}}?</label><br><br>
+            <textarea name="review" class="form-control" rows="5"></textarea>
+        </div><br>
+        <label>Rating</label>
+            <select name="rating"  class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="1">6</option>
+                <option value="2">7</option>
+                <option value="3">8</option>
+                <option value="4">9</option>
+                <option value="5">10</option>
+            </select>
+        <div class="btn-container">
+            <button class="btn btn-primary">Post review</button>
+        </div>
+    </form><br>
+</div>
+{% endblock %}

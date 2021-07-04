@@ -6,7 +6,7 @@ for (let i = 1; i <= 251; i++) {
         html_str += "<a href='/pkmn/" + pkmn.id + "'>";
         html_str += "<div class='card'>";
         html_str += "<h3>#"+ pkmn.id +"</h3>";
-        html_str += "<img src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/" + i + ".png'>";
+        html_str += "<img src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + i + ".png'>";
         html_str += "<h2>"+ pkmn.name +"</h2>";
         html_str += "</div>";
         html_str += "</a>";

@@ -3,10 +3,13 @@
     --primary: #F20C32;
     --secondary: #272727;
     --third: #009DF1;
+    --fourth:#444444;
 }
 body {
     font-family: 'Poppins', sans-serif;
-    color: var(--secondary);
+    color: white;
+    background-color: var(--secondary);
+
 }
 a {
     text-decoration: none;
@@ -56,15 +59,13 @@ a {
     }
 .btn-secondary {
     background-color: transparent;
-    border: 1px solid var(--secondary);
-    color: var(--secondary);
 }
 .main {
     padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--secondary);
+    background-color: var(--fourth);
 }
     .main .header-logo {
         background: url('img/dex-icon-w.svg') no-repeat center center;
@@ -134,7 +135,7 @@ a {
 }
 .list-group-item {
     padding: 1rem 2rem;
-    background-color: var(--secondary);
+    background-color: var(--fourth);
 }
     .list-group-item a {
         color: white;
@@ -149,15 +150,17 @@ a {
         color: initial;
     }
 .wrapper {
-    padding: 30px;
-
+    padding: 15px;
 }
 .wrapper h2 {
     margin-bottom: 30px;
 }
 .logres {
-    max-width: 500px;
+    width: 100%;
     margin: 0 auto;
+    padding: 15px;
+    border-radius: .5rem;
+    background-color: var(--fourth);
 }
 .logres .form-row, .logres .form-group {
     margin-bottom: 15px;
@@ -293,6 +296,10 @@ a {
     max-width: 500px;
     margin: 0 auto;
 }
+.tag {
+    display: none;    
+}
+
 
 /*---------- At 450px ----------*/
 @media only screen and (min-width: 450px) {
@@ -303,11 +310,15 @@ a {
     }
 }
 
-/*---------- At 700px ----------*/
-@media only screen and (min-width: 700px) {
-    .card-grid {
-        grid-template-columns: 1fr 1fr 1fr;
-        column-gap: 15px;
+/*---------- At 550px ----------*/
+@media only screen and (min-width: 550px) {
+    .logres {
+        position: absolute;
+        top: 53%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 500px;
     }
     .main .header-logo {
         background: url('img/dex-logo-w.svg') no-repeat center center;
@@ -317,6 +328,14 @@ a {
     }
     .wrapper h2 {
         text-align: center;
+    }
+}
+
+/*---------- At 700px ----------*/
+@media only screen and (min-width: 700px) {
+    .card-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 15px;
     }
 }
 
@@ -344,6 +363,40 @@ a {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         column-gap: 20px;
     }
+    .log-wrapper {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        top: 53%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 1200px;
+    }
+    .logres {
+        position: initial;
+        -ms-transform: none;
+        transform: none;
+        margin: 0;
+    }
+    .tag {
+        display: block;
+        width: 500px;
+    }
+        .tag h3 {
+            font-size: 2.25em;
+            line-height: 1.25em;
+            font-weight: 300;
+        }
+        .tag h3 span {
+            color: var(--third);
+            font-weight: 700;
+        }
+        .tag img {
+            width: 500px;
+        }
+    
 
 }
 /*---------- At 1800px ----------*/

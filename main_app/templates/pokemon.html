@@ -24,39 +24,71 @@
 {% endif %}
 {% endblock %}
 
+<!------------------------ Body ------------------------>
 {% block content %}
-<h2>#{{pokemon.id}} {{name}}</h2>
-<div class="profile-card top">
-    <img src="{{img_url}}" alt="{{name}}'s game sprite">
-    <div class="rating">
-        <p class="star">{{average}}/10 &#x2605</p>
-        {% if pokemon not in user.favorites.all %}
-        <a href="/pkmn/{{pokemon.id}}/fav" class="heart">{{pokemon.favorited_by.all | length}} &hearts;</a>
-        {% elif "userid" not in request.session %}
-        <span class="heart">{{pokemon.favorited_by.all | length}} &hearts;</span>
-        {% else %}
-        <a href="/pkmn/{{pokemon.id}}/unfav" class="heart">{{pokemon.favorited_by.all | length}} &hearts;</a>
-        {% endif %}
+<div class="column">
+    <div class="profile-card-head">
+        <h3>{{name}}</h3>
+    </div><!-- profile-card-head -->
+    <div class="profile-card types">
+        <img src="{{img_url}}" alt="{{name}}'s game sprite">
     </div>
-</div>
-<forjs id = "{{pokemon.id}}">
-<div class="profile-card types">
-    <table class="table">
-        <tbody>
-          <tr>
-            <th scope="row" class="bold">ID:</th>
-            <td>{{pokemon.id}}</td>
-          </tr>
-          <tr>
-            <th scope="row" class="bold">Height:</th>
-            <td>{{height}}</td>
-          </tr>
-          <tr>
-            <th scope="row" class="bold">Weight:</th>
-            <td>{{weight}}</td>
-          </tr>
-        </tbody>
+    <forjs id = "{{pokemon.id}}"></forjs>
+  <div class="profile-card">
+      <table class="table">
+          <tbody>
+              <tr>
+                  <th scope="row" class="bold">ID:</th>
+                  <td>{{pokemon.id}}</td>
+              </tr>
+              <tr>
+                  <th scope="row" class="bold">Height:</th>
+                  <td>{{height}}</td>
+              </tr>
+              <tr>
+                  <th scope="row" class="bold">Weight:</th>
+                  <td>{{weight}}</td>
+              </tr>
+              <tr>
+                  <th scope="row" class="bold">Avg Rating:</th>
+                  <td>{{average}} <span class="star">&#x2605;</span></td>
+              </tr>
+              <tr>
+                  <th scope="row" class="bold">Favorites:</th>
+                  <td>{{pokemon.favorited_by.all | length}} <span class="heart">&hearts;</span></td>
+              </tr>
+          </tbody>
       </table>
+      {% if pokemon not in user.favorites.all %}
+      <a href="/pkmn/{{pokemon.id}}/fav" class="profile-card-item">Add to Favorites</a>
+      {% elif "userid" not in request.session %}
+      <span class="profile-card-item">Sign in to Favorite!</span>
+      {% else %}
+      <a href="/pkmn/{{pokemon.id}}/unfav" class="profile-card-item">Remove from Favorites</a>
+      {% endif %}
+  </div>
+
+  <div class="profile-card-item">
+      <div>
+          <img src="{{prev}}">  
+          <a href="">Previous</a>
+      </div>    
+      <div>
+          <img src="{{next}}">  
+          <a href="">Next</a>
+      </div>    
+  </div>
+
+
+
+
+
+
+
+      
+
+      
+  
 </div>
 <br><br><br>
 <div class="review">
@@ -89,7 +121,7 @@
     {% endif %}
     <ul class="list-group">
       {% for review in pokemon.reviews.all %}
-      <li class="list-group-item clear">
+      <li class="list-group-item">
         <span class="n{{review.rating}}">{{review.rating}}</span>
         <h5>{{review.added_by.username}} says:</h5>
         <p>{{review.content}}</p>

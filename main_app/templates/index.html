@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block js %}<script src="{% static 'index.js' %}" defer></script>{% endblock %}
+
+{% block js %}
+    <script src="{% static 'index.js' %}" defer></script>
+    <script src="{% static 'pkmn.js' %}" defer></script>
+{% endblock %}
+
 {% block title %}| Home{% endblock %}
 
 {% block main_nav %}
@@ -24,8 +29,80 @@
 {% endblock %}
 
 {% block content %}
-<h2>Pokemon</h2>
-<div class="card-grid">
+<div class="column">
+    <h2>Top Pokemon</h2>
+    <div class="card-grid">
+        <!-- display pokemon from API here -->
+    </div><!-- card-grid -->
+</div><!-- column -->
 
+<div class="column feed">
+    <ul class="list-group">
+        <li class="list-group-head">
+            <h3>Status Updates</h3>
+        </li>
+        <li class="list-group-item">
+            <a href=""><h5>danboy</h5></a>
+            <small>July 4, 2021, 9:36am</small>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Dolorum natus atque voluptas aspernatur perferendis excepturi?
+            </p>
+            <a href="">Reply</a>
+        </li>
+        <li class="list-group-item">
+            <a href=""><h5>danboy</h5></a>
+            <small>July 4, 2021, 9:36am</small>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Dolorum natus atque voluptas aspernatur perferendis excepturi?
+            </p>
+            <a href="">Reply</a>
+        </li>
+        <li class="list-group-item">
+            <a href=""><h5>danboy</h5></a>
+            <small>July 4, 2021, 9:36am</small>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Dolorum natus atque voluptas aspernatur perferendis excepturi?
+            </p>
+            <a href="">Reply</a>
+        </li>
+
+    </ul>
+    <ul class="list-group">
+        <li class="list-group-head">
+            <h3>Recent Reviews</h3>
+        </li>
+        <li class="list-group-item">
+            <a href=""><h5>Metapod</h5></a>
+            <span class="n5 star"></span>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Dolorum porro minima necessitatibus cumque, deserunt esse, 
+                voluptatum ut impedit, natus atque voluptas aspernatur 
+                perferendis excepturi?
+            </p>
+            <p><a href="">danboy</a>  <small>July 4, 2021, 9:36am</small></p>
+        </li>
+        <li class="list-group-item">
+            <a href=""><h5>Metapod</h5></a>
+            <span class="n7 star"></span>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Dolorum porro minima necessitatibus cumque, deserunt esse, 
+                voluptatum ut impedit, natus atque voluptas aspernatur 
+                perferendis excepturi? Asperiores exercitationem ea 
+                accusantium dolorem aperiam?
+            </p>
+            <p><a href="">danboy</a>  <small>July 4, 2021, 9:36am</small></p>
+        </li>
+        <li class="list-group-item">
+            <a href=""><h5>Metapod</h5></a>
+            <span class="n2 star"></span>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Dolorum porro minima necessitatibus cumque, deserunt esse, 
+                voluptatum ut impedit.
+            </p>
+            <p><a href="">danboy</a>  <small>July 4, 2021, 9:36am</small></p>
+        </li>
+    </ul>
 </div>
+
+
 {% endblock %}

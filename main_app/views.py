@@ -26,6 +26,7 @@ def pokemon(request, pkmn_id):
         user = User.objects.get(id = request.session['userid'])
     else:
         user = None
+    # get pokemon object from api
     response = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pkmn_id}/")
     pokemon = Pokemon.objects.get(id = pkmn_id)
     #get average of all review ratings..
@@ -37,14 +38,27 @@ def pokemon(request, pkmn_id):
         avg = total/len(all_reviews)
     else:
         avg = 0
+    #look at previous pokemon object and grab sprite url if it exits
+    if pkmn_id-1 != 0:
+        prev = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pkmn_id-1}.png"
+    else:
+        prev = None
+    #look at next pokemon object and grab sprite url if it exits
+    if pkmn_id+1 != 898:
+        nxt = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pkmn_id+1}.png"
+    else:
+        nxt = None
+    
     context = {
         "pokemon" : pokemon,
         "name" : response.json()["name"].capitalize(),
-        "img_url" : f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pkmn_id}.png",
+        "img_url" : f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{pkmn_id}.png",
         "height" : response.json()["height"],
         "weight" : response.json()["weight"],
         "user" : user,
         "average" : round(avg, 2),
+        "prev" : prev,
+        "next" : nxt
     }
     return render(request, "pokemon.html", context)
 

@@ -41,6 +41,7 @@ a {
     }
     .star {
         color: var(--third);
+        margin-bottom: -20px;
     }
 .rating p {
     margin: 0;
@@ -61,7 +62,7 @@ a {
     background-color: transparent;
 }
 .main {
-    padding: 15px 30px;
+    padding: 15px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -143,18 +144,13 @@ a {
         .list-group-item a:hover {
             color: var(--third);
         }
-.clear {
-    background-color: transparent;
-}
-    .clear a {
-        color: initial;
-    }
 .wrapper {
     padding: 15px;
 }
 .wrapper h2 {
     margin-top: 15px;
     margin-bottom: 30px;
+    text-align: center;
 }
 .logres {
     width: 100%;
@@ -199,22 +195,42 @@ a {
     font-size: 1.25em;
 }
 .profile-card {
-    position: relative;
-    margin: 0 auto;
-    padding-bottom: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     display: flex;
     flex-direction: column;
     min-width: 0;
     max-width: 500px;
-    word-wrap: break-word;
-    background-color: #fff;
+    background-color: var(--fourth);
     background-clip: border-box;
-    border: 1px solid rgba(0,0,0,.125);
 }
-    .top {
-        border-radius: .5rem .5rem 0 0;
-        padding: 20px;
+
+.profile-card img {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
     }
+.profile-card-head {
+    background-color: var(--primary);
+    border-radius: .5rem .5rem 0 0;
+    padding: 20px;
+    margin-bottom: 0 !important;
+    text-align: center;
+}
+    .profile-card-head h3 {
+        margin: 0;
+    }
+.profile-card-item {
+    padding: .5rem;
+    display: flex;
+    justify-content: space-between;
+}
+    .profile-card-item div {
+        text-align: center;
+    }
+.table {
+    color: white;
+}
 .types {
     text-transform: capitalize;
 }
@@ -302,7 +318,7 @@ a {
     max-width: 500px;
     margin: 0 auto;
 }
-.tag {
+.tag, .feed {
     display: none;    
 }
 
@@ -333,6 +349,9 @@ a {
         height: 50px;
     }
     .wrapper h2 {
+        text-align: left;
+    }
+    .card h2 {
         text-align: center;
     }
 }
@@ -353,6 +372,9 @@ a {
     .mobile-nav {
         display: none !important;
     }
+    .main {
+        padding: 15px 30px;
+    }
     .main-nav {
         display: flex;
         justify-content: space-between;
@@ -366,9 +388,29 @@ a {
                 color: var(--third);
             }
     .card-grid {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        column-gap: 20px;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 10px;
     }
+        .card {
+            margin-bottom: 10px;
+        }
+    .list-group {
+        margin-bottom: 40px;
+    }
+        .list-group h3 {
+            margin: 0;
+        }
+        .list-group-head {
+            background-color: var(--primary);
+            padding: .5rem 2rem;
+            border-radius: .5rem .5rem 0 0;
+        }
+        .list-group-item p {
+            color: lightgrey;
+        }
+        .list-group-item small {
+            color: grey;
+        }
     .log-wrapper {
         position: absolute;
         display: flex;
@@ -386,6 +428,12 @@ a {
         transform: none;
         margin: 0;
     }
+    .wrapper {
+        width: 1080px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+    }
     .tag {
         display: block;
         width: 500px;
@@ -402,13 +450,16 @@ a {
         .tag img {
             width: 500px;
         }
-    
+    .column {
+        width: 55%;
+    }
+    .feed {
+        display: block;
+        width: 40%;
+        margin-top: 80px;
+    }
+    .feed h6 {
+        display: inline;
+    }
 
-}
-/*---------- At 1800px ----------*/
-@media only screen and (min-width: 1800px) {
-    .card-grid {
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        column-gap: 20px;
-    }  
 }

@@ -28,10 +28,13 @@
 {% block content %}
 <div class="column">
     <div class="profile-card-head">
-        <h3>{{name}}</h3>
+        <h3>{{pokemon.name | title}}</h3>
     </div><!-- profile-card-head -->
-    <div class="profile-card types">
-        <img src="{{img_url}}" alt="{{name}}'s game sprite">
+    <div class="profile-card">
+        <img src="{{pokemon.art_url}}" alt="{{pokemon.name}}'s game sprite">
+    </div>
+    <div class="types profile-card-item">
+        <!-- append types here -->
     </div>
     <forjs id = "{{pokemon.id}}"></forjs>
   <div class="profile-card">
@@ -43,55 +46,52 @@
               </tr>
               <tr>
                   <th scope="row" class="bold">Height:</th>
-                  <td>{{height}}</td>
+                  <td>{{pokemon.height}}</td>
               </tr>
               <tr>
                   <th scope="row" class="bold">Weight:</th>
-                  <td>{{weight}}</td>
+                  <td>{{pokemon.weight}}</td>
               </tr>
               <tr>
                   <th scope="row" class="bold">Avg Rating:</th>
-                  <td>{{average}} <span class="star">&#x2605;</span></td>
+                  <td><span class="star">&#x2605;</span> {{average}}</td>
               </tr>
               <tr>
                   <th scope="row" class="bold">Favorites:</th>
-                  <td>{{pokemon.favorited_by.all | length}} <span class="heart">&hearts;</span></td>
+                  <td><span class="heart">&hearts;</span> {{pokemon.favorited_by.all | length}}</td>
               </tr>
           </tbody>
       </table>
       {% if pokemon not in user.favorites.all %}
       <a href="/pkmn/{{pokemon.id}}/fav" class="profile-card-item">Add to Favorites</a>
       {% elif "userid" not in request.session %}
-      <span class="profile-card-item">Sign in to Favorite!</span>
+      <span class="profile-card-item">Log in to Favorite!</span>
       {% else %}
       <a href="/pkmn/{{pokemon.id}}/unfav" class="profile-card-item">Remove from Favorites</a>
       {% endif %}
   </div>
 
-  <div class="profile-card-item">
+  <div class="profile-card-item profile-card-bottom">
       <div>
-          <img src="{{prev}}">  
-          <a href="">Previous</a>
-      </div>    
+        <a href="/pkmn/{{prev_num}}" class="reverse">
+          <img src="{{prev}}">
+          <p><span class="flip" style="display: inline-block;">&#10141;</span> Previous</p>
+        </a>
+      </div> 
+
       <div>
-          <img src="{{next}}">  
-          <a href="">Next</a>
+        <a href="/pkmn/{{next_num}}">
+          <img src="{{next}}">
+          <p>Next <span>&#10141;</span></p>
+        </a>
       </div>    
   </div>
 
 
-
-
-
-
-
-      
-
-      
-  
+<!-- Review Section -->  
 </div>
 <br><br><br>
-<div class="review">
+<div class="column review">
     {% if "userid" in request.session %}
     <form action="/pkmn/{{pokemon.id}}/post_review" method="POST">
         {% csrf_token %}
@@ -117,17 +117,22 @@
         </div>
     </form><br>
     {% else %}
-    <h3 style="margin-bottom: 30px;">Login or create an account to leave a review!</h3>
+    <h3 style="margin-bottom: 30px; text-align: center;">Log in or create an account<br>to leave a review!</h3>
     {% endif %}
     <ul class="list-group">
-      {% for review in pokemon.reviews.all %}
+      {% for review in pokemon.reviews.all reversed %}
       <li class="list-group-item">
-        <span class="n{{review.rating}}">{{review.rating}}</span>
-        <h5>{{review.added_by.username}} says:</h5>
+        <div class="comment-head">
+            <img src="{% static 'img/default-profiles/0.png' %}" alt="profile pic" class="comments-user-img">
+            <div>
+                <h5>{{review.added_by.username}}</h5>
+                <small>{{review.created_at}}</small><br>
+            </div>
+        </div>
+        <span class="n{{review.rating}} star">{{review.rating}}</span>
         <p>{{review.content}}</p>
-        <small>{{review.created_at}}</small><br>
         {% if request.session.userid == review.added_by.id %}
-        <a href="/pkmn/{{review.id}}/delete_review">Delete Review</a>
+        <a href="/pkmn/{{review.id}}/delete_review" class="delete">Delete</a>
         {% endif %}
       </li>
       {% endfor %}

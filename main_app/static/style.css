@@ -137,12 +137,24 @@ a {
 .list-group-item {
     padding: 1rem 2rem;
     background-color: var(--fourth);
+    color: white;
 }
-    .list-group-item a {
-        color: white;
+    .list-group-item small {
+        color: gray;
+        font-style: italic;
+        font-size: 0.75em;
+    }
+    .list-group-item p {
+        margin-bottom: 1rem;
+        margin-top: .5rem;
+    }
+    .list-group-item a.delete {
+        color: lightgrey;
+        display: block;
+        text-align: right;
     }
         .list-group-item a:hover {
-            color: var(--third);
+            color: var(--primary);
         }
 .wrapper {
     padding: 15px;
@@ -185,8 +197,7 @@ a {
 }
 .card img {
     width: 90%;
-    margin-bottom: 15px;
-    margin-top: 15px;
+    margin: 15px auto;
 }
 .card h2 {
     text-transform: capitalize;
@@ -195,6 +206,7 @@ a {
     font-size: 1.25em;
 }
 .profile-card {
+    margin: 0 auto;
     padding-top: 15px;
     padding-bottom: 15px;
     display: flex;
@@ -211,28 +223,52 @@ a {
     padding: 20px;
     }
 .profile-card-head {
+    margin: 0 auto;
     background-color: var(--primary);
     border-radius: .5rem .5rem 0 0;
     padding: 20px;
     margin-bottom: 0 !important;
     text-align: center;
+    max-width: 500px;
 }
     .profile-card-head h3 {
         margin: 0;
     }
+.profile-card-bottom {
+    margin: 0 auto;
+    border-radius: 0 0 .5rem .5rem;
+    max-width: 500px;
+}
 .profile-card-item {
     padding: .5rem;
     display: flex;
     justify-content: space-between;
+    background-color: var(--fourth);
 }
-    .profile-card-item div {
+    .profile-card-item div a {
         text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+    .profile-card-item img {
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+    .profile-card-item .flip {
+        transform: scaleX(-1);
+    }
+    a.profile-card-item {
+        border-bottom: 1px solid white;
     }
 .table {
     color: white;
 }
 .types {
+    margin: 0 auto;
     text-transform: capitalize;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
 }
 .type {
     border-radius: 1rem;
@@ -321,9 +357,24 @@ a {
 .tag, .feed {
     display: none;    
 }
+.comment-head {
+    display: flex;
+    align-items: center;
+}
+    .comment-head img {
+        margin-right: 15px;
+    }
+    .comment-head h5 {
+        margin: 0;
+    }
+.comments-user-img {
+    width: 60px;
+    border-radius: 50%;
+    background-color: var(--secondary);
+}
 
 
-/*---------- At 450px ----------*/
+/*-------------------- At 450px --------------------*/
 @media only screen and (min-width: 450px) {
     .card-grid {
         display: grid;
@@ -332,7 +383,7 @@ a {
     }
 }
 
-/*---------- At 550px ----------*/
+/*-------------------- At 550px --------------------*/
 @media only screen and (min-width: 550px) {
     .logres {
         position: absolute;
@@ -354,9 +405,22 @@ a {
     .card h2 {
         text-align: center;
     }
+    .profile-card-item div a {
+        flex-direction: row;
+        align-items: center;
+    }
+    .profile-card-item div a.reverse {
+        flex-direction: row-reverse;
+    }
+    .profile-card-item div a p {
+        margin: 0;
+    }
+    .types {
+        flex-direction: row;
+    }
 }
 
-/*---------- At 700px ----------*/
+/*-------------------- At 700px --------------------*/
 @media only screen and (min-width: 700px) {
     .card-grid {
         grid-template-columns: 1fr 1fr 1fr;
@@ -364,7 +428,7 @@ a {
     }
 }
 
-/*---------- At 1080px ----------*/
+/*-------------------- At 1080px --------------------*/
 @media only screen and (min-width: 1080px) {
     #menu-btn {
         display: none;

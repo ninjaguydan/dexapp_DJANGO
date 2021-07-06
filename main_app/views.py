@@ -1,21 +1,35 @@
 from django.shortcuts import render, redirect
+from django.db.models.functions import Length
 from main_app.models import *
+import random
 import requests
 import json
 
 # Create your views here.
+
 def index(request):
     if len(Pokemon.objects.all()) == 0:
-        for i in range(897): 
-            Pokemon.objects.create()
+        for i in range(1,899):
+            response = requests.get(f"https://pokeapi.co/api/v2/pokemon/{i}/")
+            Pokemon.objects.create(
+                name = response.json()["name"],
+                sprite_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{i}.png",
+                shiny_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/{i}.png",
+                art_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{i}.png",
+                height = response.json()["height"],
+                weight = response.json()["weight"],
+            )
         return redirect('/')
+    if "userid" in request.session:
+        user = User.objects.get(id = request.session['userid'])
     else:
-        if "userid" in request.session:
-            context = {
-                "user" : User.objects.get(id = request.session['userid']),
-            }
-            return render(request, "index.html", context)
-        return render(request, "index.html")
+        user = None
+    context = {
+        "user" : user,
+        "reviews" : Review.objects.all().order_by("created_at")[:10],
+        "all_pokemon" : Pokemon.objects.all().order_by()[:30],
+    }
+    return render(request, "index.html", context)
 
 def logout(request):
     request.session.clear()
@@ -40,25 +54,22 @@ def pokemon(request, pkmn_id):
         avg = 0
     #look at previous pokemon object and grab sprite url if it exits
     if pkmn_id-1 != 0:
-        prev = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pkmn_id-1}.png"
+        prev = pkmn_id-1
     else:
-        prev = None
+        prev = 898
     #look at next pokemon object and grab sprite url if it exits
-    if pkmn_id+1 != 898:
-        nxt = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{pkmn_id+1}.png"
+    if pkmn_id+1 != 899:
+        nxt = pkmn_id+1
     else:
-        nxt = None
-    
+        nxt = 1
     context = {
         "pokemon" : pokemon,
-        "name" : response.json()["name"].capitalize(),
-        "img_url" : f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{pkmn_id}.png",
-        "height" : response.json()["height"],
-        "weight" : response.json()["weight"],
         "user" : user,
         "average" : round(avg, 2),
-        "prev" : prev,
-        "next" : nxt
+        "prev" : f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{prev}.png",
+        "prev_num" : prev,
+        "next" : f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{nxt}.png",
+        "next_num" : nxt,
     }
     return render(request, "pokemon.html", context)
 

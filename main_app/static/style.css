@@ -257,7 +257,7 @@ a {
     .profile-card-item .flip {
         transform: scaleX(-1);
     }
-    a.profile-card-item {
+    a.profile-card-item, span.profile-card-item {
         border-bottom: 1px solid white;
     }
 .table {

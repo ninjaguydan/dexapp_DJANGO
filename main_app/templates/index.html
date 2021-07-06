@@ -9,7 +9,7 @@
 
 {% block main_nav %}
 {% if request.session.userid %}
-    <li class="bold"><a href="">{{user.username}}</a></li>
+    <li class="bold"><a href="/{{user.id}}">{{user.username}}</a></li>
     <li class="bold"><a href="/logout">Logout</a></li>
     {% else %}
     <li class="bold"><a href="/login/register">Sign Up</a></li>
@@ -19,7 +19,7 @@
 
 {% block mobile_nav %}
 {% if request.session.userid %}
-<li class="list-group-item bold"><a href="">{{user.username}}</a></li>
+<li class="list-group-item bold"><a href="/{{user.id}}">{{user.username}}</a></li>
     <li class="list-group-item bold"><a href="/logout">Logout</a></li> 
     {% else %}
     <li class="list-group-item bold"><a href="/login/">Login</a></li> 
@@ -28,7 +28,7 @@
 {% endblock %}
 
 
-<!-- body -->
+<!------------------------ Body ------------------------>
 {% block content %}
 <div class="column">
     <h2>Popular Pokemon</h2>
@@ -104,7 +104,7 @@
             <span class="n{{review.rating}} star"></span>
             <p>{{review.content}}
             </p>
-            <p><a href="">{{review.added_by.username}}</a>  <small>{{review.created_at | timesince}}</small></p>
+            <p><a href="/{{review.added_by.id}}">{{review.added_by.username}}</a>  <small>{{review.created_at | timesince}}</small></p>
         </li>
         {% empty %}
         <li class="list-group-item">

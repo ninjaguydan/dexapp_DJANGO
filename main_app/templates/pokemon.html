@@ -2,11 +2,11 @@
 {% load static %}
 
 {% block js %}<script src="{% static 'pkmn.js' %}" defer></script>{% endblock %}
-{% block title %}| {{name}}{% endblock %}
+{% block title %}| {{pokemon.name | title}}{% endblock %}
 
 {% block main_nav %}
 {% if request.session.userid %}
-    <li class="bold"><a href="">{{user.username}}</a></li>
+    <li class="bold"><a href="/{{user.id}}">{{user.username}}</a></li>
     <li class="bold"><a href="/logout">Logout</a></li>
     {% else %}
     <li class="bold"><a href="/login/register">Sign Up</a></li>
@@ -16,7 +16,7 @@
 
 {% block mobile_nav %}
 {% if request.session.userid %}
-<li class="list-group-item bold"><a href="">{{user.username}}</a></li>
+<li class="list-group-item bold"><a href="/{{user.id}}">{{user.username}}</a></li>
     <li class="list-group-item bold"><a href="/logout">Logout</a></li> 
     {% else %}
     <li class="list-group-item bold"><a href="/login/">Login</a></li> 
@@ -69,6 +69,14 @@
       {% else %}
       <a href="/pkmn/{{pokemon.id}}/unfav" class="profile-card-item">Remove from Favorites</a>
       {% endif %}
+      
+      {% if pokemon not in user.team.all %}
+      <a href="/pkmn/{{pokemon.id}}/add_pkmn" class="profile-card-item">Add to Team</a>
+      {% elif "userid" not in request.session %}
+      <span class="profile-card-item">Log in to create your team!</span>
+      {% else %}
+      <a href="/pkmn/{{pokemon.id}}/remove_pkmn" class="profile-card-item">Remove from Team</a>
+      {% endif %}
   </div>
 
   <div class="profile-card-item profile-card-bottom">
@@ -96,7 +104,7 @@
     <form action="/pkmn/{{pokemon.id}}/post_review" method="POST">
         {% csrf_token %}
         <div class="form-row">
-            <label>What do you think of {{name}}?</label><br><br>
+            <label>What do you think of {{pokemon.name | title}}?</label><br><br>
             <textarea name="review" class="form-control" rows="5"></textarea>
         </div><br>
         <label>Rating</label>

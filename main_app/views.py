@@ -98,10 +98,32 @@ def post_review(request, pkmn_id):
     )
     return redirect(f'/pkmn/{pkmn_id}')
 
-def delete_review(request, review_id):
+def delete_review(review_id):
     review_to_delete = Review.objects.get(id = review_id)
     pkmn_id = review_to_delete.pkmn.id
     review_to_delete.delete()
     return redirect(f'/pkmn/{pkmn_id}')
 
-    
+def add_pkmn(request, pkmn_id):
+    user = User.objects.get(id = request.session['userid'])
+    pkmn = Pokemon.objects.get(id = pkmn_id)
+    if len(user.team.all()) < 6:
+        user.team.add(pkmn)
+    return redirect(f'/pkmn/{pkmn_id}')
+
+def remove_pkmn(request, pkmn_id):
+    user = User.objects.get(id = request.session['userid'])
+    pkmn = Pokemon.objects.get(id = pkmn_id)
+    user.team.remove(pkmn)
+    return redirect(f'/pkmn/{pkmn_id}')
+
+def profile(request, profile_id):
+    if "userid" in request.session:
+        user = User.objects.get(id = request.session['userid'])
+    else:
+        user = None
+    context = {
+        "user" : user,
+        "profile" : User.objects.get(id = profile_id),
+    }
+    return render(request, "profile.html", context)

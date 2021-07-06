@@ -11,6 +11,7 @@ class Pokemon(models.Model):
     height = models.IntegerField(null = True)
     weight = models.IntegerField(null = True)
     favorited_by = models.ManyToManyField(User, related_name = "favorites")
+    teams = models.ManyToManyField(User, related_name = "team")
 
 class Review(models.Model):
     content = models.TextField()
@@ -35,8 +36,8 @@ class Status(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
-class Team(models.Model):
-    user = ForeignKey(User, related_name = "team", on_delete = models.CASCADE)
-    pkmn = ManyToManyField(Pokemon, related_name = "teams")
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
+# class Team(models.Model):
+#     user = ForeignKey(User, related_name = "team", on_delete = models.CASCADE)
+#     pkmn = ManyToManyField(Pokemon, related_name = "teams")
+#     created_at = models.DateTimeField(auto_now_add = True)
+#     updated_at = models.DateTimeField(auto_now = True)

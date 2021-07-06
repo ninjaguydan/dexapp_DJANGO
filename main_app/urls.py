@@ -8,5 +8,8 @@ urlpatterns = [
     path('pkmn/<int:pkmn_id>/fav', views.favorite),
     path('pkmn/<int:pkmn_id>/unfav', views.unfavorite),
     path('pkmn/<int:pkmn_id>/post_review', views.post_review),
+    path('pkmn/<int:pkmn_id>/add_pkmn', views.add_pkmn),
+    path('pkmn/<int:pkmn_id>/remove_pkmn', views.remove_pkmn),
     path('pkmn/<int:review_id>/delete_review', views.delete_review),
+    path('<int:profile_id>', views.profile),
 ]

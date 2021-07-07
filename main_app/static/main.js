@@ -15,3 +15,11 @@ function openMenu() {
     }
 }
 
+// function leaveReply() {
+//     let form = document.querySelector('.comment');
+//     if (form.style.display === "block") {
+//         form.style.display = "none";
+//     } else {
+//         form.style.display = "block"
+//     }
+// }

@@ -11,6 +11,9 @@ body {
     background-color: var(--secondary);
 
 }
+ol, ul {
+    padding: 0;
+}
 a {
     text-decoration: none;
     color: lightgrey;
@@ -369,6 +372,15 @@ a {
 }
 .tag, .feed {
     display: none;    
+}
+.comment {
+    display: none;
+}
+.comment .btn-container {
+    text-align: right;
+}
+.comment .btn {
+    width: 50%;
 }
 .comment-head {
     display: flex;

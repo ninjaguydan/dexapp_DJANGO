@@ -15,11 +15,8 @@ function openMenu() {
     }
 }
 
-// function leaveReply() {
-//     let form = document.querySelector('.comment');
-//     if (form.style.display === "block") {
-//         form.style.display = "none";
-//     } else {
-//         form.style.display = "block"
-//     }
-// }
+// display reply form
+$('.list-group-item').click(function(){
+    $(this).find('.comment').css("display", "block");
+})
+

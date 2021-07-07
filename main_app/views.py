@@ -144,3 +144,21 @@ def delete_status(request, status_id):
     user_id = status_to_delete.added_by.id
     status_to_delete.delete()
     return redirect(f'/{user_id}')
+
+def comment_status(request, status_id):
+    status = Status.objects.get(id = status_id)
+    profile = User.objects.get(id = status.added_by.id)
+    user = User.objects.get(id = request.session['userid'])
+    Comment.objects.create(
+        content = request.POST['comment'],
+        added_by = user,
+        status = status
+    )
+    return redirect(f'/{profile.id}')
+
+def delete_status_comment(request, comment_id):
+    comment_to_delete = Comment.objects.get(id = comment_id)
+    status = Status.objects.get(id = comment_to_delete.status.id)
+    profile = User.objects.get(id = status.added_by.id)
+    comment_to_delete.delete()
+    return redirect(f'/{profile.id}')

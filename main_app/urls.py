@@ -14,4 +14,6 @@ urlpatterns = [
     path('<int:profile_id>', views.profile),
     path('<int:user_id>/post_status', views.post_status),
     path('<int:status_id>/delete_status', views.delete_status),
+    path('<int:status_id>/comment_status', views.comment_status),
+    path('<int:comment_id>/delete_status_comment', views.delete_status_comment),
 ]

@@ -105,22 +105,44 @@
             </div>
             <p>{{status.content}}</p>
             <div class="list-group-row">
-                {% if "userid" in request.session %}<a href="">Reply</a>{% endif %}
+                {% if "userid" in request.session %}<p class="reply">Reply</p>{% endif %}
                 {% if request.session.userid == status.added_by.id %}
                 <a href="/{{status.id}}/delete_status" class="delete">Delete</a>
                 {% endif %}
             </div>
+            {% if status.comments.all %}
+            <ul class="list-group">
+            {% for comment in status.comments.all %}
+                <li class="list-group-item">
+                    <div class="comment-head">
+                        <img src="{% static 'img/default-profiles/2m.png' %}" alt="profile pic" class="comments-user-img">
+                        <div>
+                            <a href="/{{comment.added_by.id}}"><h5>{{comment.added_by.username}}</h5></a>
+                            <small>{{comment.created_at}}</small><br>
+                        </div>
+                    </div>
+                    <p>{{comment.content}}</p>
+                    {% if request.session.userid == comment.added_by.id %}
+                    <a href="/{{comment.id}}/delete_status_comment" class="delete">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            {% if request.session.userid %}
             <div class="comment"><br><br>
-            <form action="/{{user.id}}/post_status" method="POST">
-                {% csrf_token %}
-                <div class="form-row">
-                    <textarea name="comment" class="form-control" rows="2"></textarea>
-                </div><br>
-                <div class="btn-container">
-                    <button class="btn btn-primary">Leave Reply</button>
-                </div>
-            </form><!-- comment -->
-          </div>
+                <form action="/{{status.id}}/comment_status" method="POST">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <textarea name="comment" class="form-control" rows="2"></textarea>
+                    </div><br>
+                    <div class="btn-container">
+                        <button class="btn btn-primary">Leave Reply</button>
+                    </div>
+                </form>
+            </div><!-- comment -->
+            {% else %}
+            {% endif %}
         </li>
         {% endfor %}
       </ul>

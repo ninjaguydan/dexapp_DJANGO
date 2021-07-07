@@ -29,7 +29,7 @@ class Status(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
-class Comments(models.Model):
+class Comment(models.Model):
     content = models.TextField()
     added_by = models.ForeignKey(User, related_name = "comments_added", null = True, on_delete = models.CASCADE)
     likes = models.ManyToManyField(User, related_name = "liked_comments")

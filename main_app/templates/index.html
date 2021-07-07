@@ -53,47 +53,21 @@
         <li class="list-group-head">
             <h3>Status Updates</h3>
         </li>
+        {% for status in statuses reversed %}
         <li class="list-group-item">
             <div class="comment-head">
-                <img src="{% static 'img/default-profiles/0.png' %}" alt="profile pic" class="comments-user-img">
+                <img src="{% static 'img/default-profiles/3m.png' %}" alt="profile pic" class="comments-user-img">
                 <div>
-                    <a href=""><h5>danboy</h5></a>
-                    <small>July 4, 2021, 9:36am</small>
+                    <a href="/{{status.added_by.id}}"><h5>{{status.added_by.username}}</h5></a>
+                    <small>{{status.created_at | timesince}}</small>
                 </div>
             </div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Dolorum natus atque voluptas aspernatur perferendis excepturi?
-            </p>
+            <p>{{status.content}}</p>
             <a href="">Reply</a>
         </li>
-        <li class="list-group-item">
-            <div class="comment-head">
-                <img src="{% static 'img/default-profiles/0.png' %}" alt="profile pic" class="comments-user-img">
-                <div>
-                    <a href=""><h5>danboy</h5></a>
-                    <small>July 4, 2021, 9:36am</small>
-                </div>
-            </div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Dolorum natus atque voluptas aspernatur perferendis excepturi?
-            </p>
-            <a href="">Reply</a>
-        </li>
-        <li class="list-group-item">
-            <div class="comment-head">
-                <img src="{% static 'img/default-profiles/0.png' %}" alt="profile pic" class="comments-user-img">
-                <div>
-                    <a href=""><h5>danboy</h5></a>
-                    <small>July 4, 2021, 9:36am</small>
-                </div>
-            </div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Dolorum natus atque voluptas aspernatur perferendis excepturi?
-            </p>
-            <a href="">Reply</a>
-        </li>
-
+        {% endfor %}
     </ul>
+    
     <ul class="list-group">
         <li class="list-group-head">
             <h3>Recent Reviews</h3>

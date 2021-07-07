@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.db.models.functions import Length
+from django.db.models import Count
 from main_app.models import *
 import random
 import requests
@@ -26,8 +26,9 @@ def index(request):
         user = None
     context = {
         "user" : user,
+        "statuses" : Status.objects.all().order_by("created_at")[:5],
         "reviews" : Review.objects.all().order_by("created_at")[:10],
-        "all_pokemon" : Pokemon.objects.all().order_by()[:30],
+        "all_pokemon" : Pokemon.objects.annotate(count = Count('favorited_by')).order_by('-count')[:30],
     }
     return render(request, "index.html", context)
 
@@ -98,7 +99,7 @@ def post_review(request, pkmn_id):
     )
     return redirect(f'/pkmn/{pkmn_id}')
 
-def delete_review(review_id):
+def delete_review(request, review_id):
     review_to_delete = Review.objects.get(id = review_id)
     pkmn_id = review_to_delete.pkmn.id
     review_to_delete.delete()
@@ -127,3 +128,19 @@ def profile(request, profile_id):
         "profile" : User.objects.get(id = profile_id),
     }
     return render(request, "profile.html", context)
+
+def post_status(request, user_id):
+    if request.method == "GET":
+        return redirect(f'/{user_id}')
+    user = User.objects.get(id= user_id)
+    Status.objects.create(
+        content = request.POST['status'],
+        added_by = user,
+    )
+    return redirect(f'/{user_id}')
+
+def delete_status(request, status_id):
+    status_to_delete = Status.objects.get(id = status_id)
+    user_id = status_to_delete.added_by.id
+    status_to_delete.delete()
+    return redirect(f'/{user_id}')

@@ -22,17 +22,19 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
-class Comments(models.Model):
-    content = models.TextField()
-    added_by = models.ForeignKey(User, related_name = "comments_added", null = True, on_delete = models.CASCADE)
-    likes = models.ManyToManyField(User, related_name = "liked_comments")
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
-
 class Status(models.Model):
     content = models.TextField()
     added_by = models.ForeignKey(User, related_name = "statuses", null = True, on_delete = models.CASCADE)
     likes = models.ManyToManyField(User, related_name = "liked_statuses")
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
+class Comments(models.Model):
+    content = models.TextField()
+    added_by = models.ForeignKey(User, related_name = "comments_added", null = True, on_delete = models.CASCADE)
+    likes = models.ManyToManyField(User, related_name = "liked_comments")
+    status = models.ForeignKey(Status, related_name = "comments", on_delete = models.CASCADE, null = True)
+    review = models.ForeignKey(Review, related_name = "comments", on_delete = models.CASCADE, null = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 

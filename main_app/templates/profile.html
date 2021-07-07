@@ -26,23 +26,72 @@
 <!------------------------ Body ------------------------>
 {% block content %}
 <div class="column">
-    <ul class="list_group">
+    <ul class="list-group list-group-profile">
         <li class="list-group-item">
             <h3>{{profile.first_name}} {{profile.last_name}} <span style="color: gray;">{{profile.username}}</span></h3>
         </li>
         <li class="list-group-item">
-            <img src="{% static 'img/default-profiles/1m.png' %}">
+            <img src="{% static 'img/default-profiles/3m.png' %}" class="list-group-profile-img">
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item team">
+            <h4>Main Team</h4>
             {% for pkmn in profile.team.all %}
             <a href="/pkmn/{{pkmn.id}}">
                 <img src="{{pkmn.sprite_url}}" alt="{{pkmn.name}}'s sprite">
             </a>
             {% endfor %}
         </li>
+        <li class="list-group-item ">
+            <div class="list-group-row">
+                <h5>Friends</h5>
+                <a href="">All ({{profile.friends.all | length}})</a>
+            </div>
+            <hr>
+            <ul>
+                {% for friend in profile.friends.all %}
+                <li class="comment-head">
+                    <img src="{% static 'img/default-profile/0.png' %}">
+                    <p>{{friend.username}}</p>
+                </li>
+                {% empty %}
+                <li>No friends yet!</li>
+                {% endfor %}
+            </ul>
+        </li>
     </ul>
-    <div class="profile-card-head">
-       
-    </div>
+</div>
+<br><br><br>
+<div class="column timeline">
+    {% if request.session.userid == profile.id %}
+    <form action="/{{user.id}}/post_status" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+            <label>What's on your mind?</label><br><br>
+            <textarea name="status" class="form-control" rows="3"></textarea>
+        </div><br>
+        <div class="btn-container">
+            <button class="btn btn-primary">Post Status</button>
+        </div>
+    </form><br>
+    {% else %}
+    
+    {% endif %}
+    <ul class="list-group">
+        {% for status in profile.statuses.all reversed %}
+        <li class="list-group-item">
+          <div class="comment-head">
+              <img src="{% static 'img/default-profiles/3m.png' %}" alt="profile pic" class="comments-user-img">
+              <div>
+                  <a href="/{{status.added_by.id}}"><h5>{{status.added_by.username}}</h5></a>
+                  <small>{{status.created_at}}</small><br>
+              </div>
+          </div>
+          <p>{{status.content}}</p>
+          {% if request.session.userid == status.added_by.id %}
+          <a href="/{{status.id}}/delete_status" class="delete">Delete</a>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
 </div>
 {% endblock %}

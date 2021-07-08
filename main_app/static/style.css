@@ -64,6 +64,12 @@ a {
 .btn-secondary {
     background-color: transparent;
 }
+.btn-profile {
+    margin-top: 20px;
+}
+    a.btn-profile:hover {
+        color: white !important;
+    }
 .main {
     padding: 15px 15px;
     display: flex;
@@ -421,7 +427,51 @@ a {
     .reply:hover {
         color: var(--third);
     }
-
+.edit-profile-modal {
+    padding: 30px;
+    position: absolute;
+    border-radius: .5rem;
+    border: 1px solid var(--secondary);
+    z-index: 99;
+    width: 100%;
+    max-width: 500px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--fourth);
+    box-shadow: 10px 10px 5px var(--secondary);
+}
+    .edit-profile-modal .img-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        row-gap: 20px;
+        column-gap: 20px;
+        text-align: center;
+    }
+    .edit-profile-modal h6 {
+        margin-bottom: 30px;
+    }
+    .edit-profile-modal img {
+        width: 100%;
+        cursor: pointer;
+    }
+    .edit-profile-modal span {
+        cursor: pointer;
+        width: 100%;
+        border-radius: .5rem;
+    }
+        .edit-profile-modal span::after {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+    .modal-head {
+        display: flex;
+        justify-content: space-between;
+    }
+    .edit-profile-modal .form-group {
+        margin-bottom: 20px;
+    }
 
 /*-------------------- At 450px --------------------*/
 @media only screen and (min-width: 450px) {

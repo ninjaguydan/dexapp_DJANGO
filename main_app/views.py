@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Count
 from main_app.models import *
+from django.contrib import messages
 import random
 import requests
 import json
@@ -162,3 +163,20 @@ def delete_status_comment(request, comment_id):
     profile = User.objects.get(id = status.added_by.id)
     comment_to_delete.delete()
     return redirect(f'/{profile.id}')
+
+def update_profile(request, user_id):
+    if request.method == "GET":
+        return redirect(f'/{user_id}')
+    errors = User.objects.update_validator(request.POST)
+    if errors:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect(f'/{user_id}')
+    user = User.objects.get(id = user_id)
+    user.first_name = request.POST['fname']
+    user.last_name = request.POST['lname']
+    user.bio = request.POST['bio']
+    user.default_img = request.POST['img']
+    user.bg_color = request.POST['color']
+    user.save()
+    return redirect(f'/{user_id}')

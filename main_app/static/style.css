@@ -428,18 +428,21 @@ a {
         color: var(--third);
     }
 .edit-profile-modal {
-    padding: 30px;
+    display: none;
     position: absolute;
-    border-radius: .5rem;
-    border: 1px solid var(--secondary);
     z-index: 99;
+    top: 0;
+    /* left: 50%; */
+    transform: translateX(-50%);
     width: 100%;
     max-width: 500px;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
     background-color: var(--fourth);
+    padding: 30px;
+    border-radius: .5rem;
+    border: 1px solid var(--secondary);
     box-shadow: 10px 10px 5px var(--secondary);
+    animation: zoom 0.3s forwards;
+    -webkit-animation: zoom 0.3s forwards;
 }
     .edit-profile-modal .img-container {
         display: grid;
@@ -454,12 +457,20 @@ a {
     .edit-profile-modal img {
         width: 100%;
         cursor: pointer;
+        transition: transform .2s;
     }
+        .edit-profile-modal img:hover {
+            transform: scale(1.0625)
+        }
     .edit-profile-modal span {
         cursor: pointer;
         width: 100%;
         border-radius: .5rem;
+        transition: transform .2s;
     }
+        .edit-profile-modal span:hover {
+            transform: scale(1.0625)
+        }
         .edit-profile-modal span::after {
             content: "";
             display: block;
@@ -472,6 +483,23 @@ a {
     .edit-profile-modal .form-group {
         margin-bottom: 20px;
     }
+    #close {
+        cursor: pointer;
+    }
+@keyframes zoom {
+    from {
+        transform: scale(0);
+    } to {
+        transform: scale(1);
+    }
+}
+@-webkit-keyframes zoom {
+    from {
+        transform: scale(0);
+    } to {
+        transform: scale(1);
+    } 
+}
 
 /*-------------------- At 450px --------------------*/
 @media only screen and (min-width: 450px) {

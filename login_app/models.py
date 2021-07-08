@@ -25,6 +25,14 @@ class UserManager(models.Manager):
             errors['password'] = "Passwords do not match"
         return errors
 
+    def update_validator(self, postData):
+        errors = {}
+        if len(postData['fname']) < 2:
+            errors['first_name'] = "First name must be at least 2 characters"
+        if len(postData['lname']) < 2:
+            errors['last_name'] = "Last name must be at least 2 characters"
+        return errors
+
     def authenticate(self, email, password):
         users = self.filter(email = email)
         if not users:

@@ -12,6 +12,7 @@ urlpatterns = [
     path('pkmn/<int:pkmn_id>/remove_pkmn', views.remove_pkmn),
     path('pkmn/<int:review_id>/delete_review', views.delete_review),
     path('<int:profile_id>', views.profile),
+    path('<int:user_id>/update', views.update_profile),
     path('<int:user_id>/post_status', views.post_status),
     path('<int:status_id>/delete_status', views.delete_status),
     path('<int:status_id>/comment_status', views.comment_status),

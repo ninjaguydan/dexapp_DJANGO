@@ -31,16 +31,16 @@
             <h3>{{profile.first_name}} {{profile.last_name}} <span style="color: gray;">{{profile.username}}</span></h3>
         </li>
         <li class="list-group-item">
-            <img src="{% static '' %}img/default-profiles/{{profile.default_img}}.png" class="list-group-profile-img">
+            <img src="{% static '' %}img/default-profiles/{{profile.default_img}}.png" style="background-color:#{{ profile.bg_color }}" class="list-group-profile-img">
             {% if request.session.userid == profile.id %}
-            <button class="btn btn-secondary btn-profile">Edit Profile</button>
+            <button class="btn btn-secondary btn-profile" id="edit-profile">Edit Profile</button>
             {% elif "userid" not in request.session %}
             {% else %}
             <a href="" class="btn btn-secondary btn-profile">Add Friend</a>
             {% endif %}
         </li>
         {% if profile.bio %}
-        <li class="list-group-item">Yo! I'm a pokemon trainer from Jhoto. I'm OD cold at this pokemon shit fr fr. HMU</li>
+        <li class="list-group-item">{{profile.bio}}</li>
         {% endif %}
         <li class="list-group-item team">
             <h4>Main Team</h4>
@@ -100,13 +100,13 @@
         </div>
     </form><br>
     {% else %}
-    
+    <!--display nothing -->
     {% endif %}
     <ul class="list-group">
         {% for status in profile.statuses.all reversed %}
         <li class="list-group-item">
             <div class="comment-head">
-                <img src="{% static '' %}img/default-profiles/{{status.added_by.default_img}}.png" alt="profile pic" class="comments-user-img">
+                <img src="{% static '' %}img/default-profiles/{{status.added_by.default_img}}.png" style="background-color:#{{ status.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
                 <div>
                     <a href="/{{status.added_by.id}}"><h5>{{status.added_by.username}}</h5></a>
                     <small>{{status.created_at}}</small><br>
@@ -124,7 +124,7 @@
             {% for comment in status.comments.all %}
                 <li class="list-group-item">
                     <div class="comment-head">
-                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="comments-user-img">
+                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" style="background-color:#{{ comment.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
                         <div>
                             <a href="/{{comment.added_by.id}}"><h5>{{comment.added_by.username}}</h5></a>
                             <small>{{comment.created_at}}</small><br>
@@ -151,6 +151,7 @@
                 </form>
             </div><!-- comment -->
             {% else %}
+            <!-- display nothing -->
             {% endif %}
         </li>
         {% endfor %}
@@ -161,10 +162,10 @@
 <div class="edit-profile-modal">
     <div class="modal-head">
         <h4>Edit Profile</h4>
-        <p>&#10005;</p>
+        <p id="close">&#10005;</p>
     </div>
     <hr>
-    <form action="" method="POST">
+    <form action="/{{user.id}}/update" method="POST">
         {% csrf_token %}
         <div class="form-group">
             <label>First Name</label>
@@ -176,32 +177,34 @@
         </div>
         <div class="form-group">
             <label>Bio</label>
-            <textarea name="bio" rows="4" class="form-control"></textarea>
+            <textarea name="bio" rows="4" class="form-control">{{user.bio}}</textarea>
         </div>
+        <hr>
+        <h6>Choose profile photo</h6>
+        <div class="img-container">
+            <img src="{% static 'img/default-profiles/1m.png' %}" id="1m">
+            <img src="{% static 'img/default-profiles/2m.png' %}" id="2m">
+            <img src="{% static 'img/default-profiles/3m.png' %}" id="3m">
+            <img src="{% static 'img/default-profiles/1f.png' %}" id="1f">
+            <img src="{% static 'img/default-profiles/2f.png' %}" id="2f">
+            <img src="{% static 'img/default-profiles/3f.png' %}" id="3f">
+            <input type="hidden" name="img" id="img" value="{{user.default_img}}">
+        </div>
+        <hr>
+        <h6>Choose background color</h6>
+        <div class="img-container">
+            <span style="background-color: #272727;" color="272727"></span>
+            <span style="background-color: #F20C32;" color="F20C32"></span>
+            <span style="background-color: #009DF1;" color="009DF1"></span>
+            <span style="background-color: #198754;" color="198754"></span>
+            <span style="background-color: #ffc107;" color="ffc107"></span>
+            <span style="background-color: #6610f2;" color="6610f2"></span>
+            <input type="hidden" name="color" id="color" value="{{user.bg_color}}">
+        </div>
+        <hr>
+        <br>
         <button class="btn btn-primary">Update</button>
     </form>
-    <hr>
-    <h6>Choose profile photo</h6>
-    <div class="img-container">
-        <img src="{% static 'img/default-profiles/1m.png' %}" id="1m">
-        <img src="{% static 'img/default-profiles/2m.png' %}" id="2m">
-        <img src="{% static 'img/default-profiles/3m.png' %}" id="3m">
-        <img src="{% static 'img/default-profiles/1f.png' %}" id="1f">
-        <img src="{% static 'img/default-profiles/2f.png' %}" id="2f">
-        <img src="{% static 'img/default-profiles/3f.png' %}" id="3f">
-        <input type="hidden" name="img" value="">
-    </div>
-    <hr>
-    <h6>Choose background color</h6>
-    <div class="img-container">
-        <span style="background-color: #272727;" color="272727"></span>
-        <span style="background-color: #F20C32;" color="F20C32"></span>
-        <span style="background-color: #009DF1;" color="009DF1"></span>
-        <span style="background-color: #198754;" color="198754"></span>
-        <span style="background-color: #ffc107;" color="ffc107"></span>
-        <span style="background-color: #6610f2;" color="6610f2"></span>
-        <input type="hidden" name="color" value="">
-    </div>
 
 </div>
 {% endblock %}

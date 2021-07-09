@@ -432,7 +432,7 @@ a {
     position: absolute;
     z-index: 99;
     top: 0;
-    /* left: 50%; */
+    /* left: 5%; */
     transform: translateX(-50%);
     width: 100%;
     max-width: 500px;

@@ -129,7 +129,7 @@
       {% for review in pokemon.reviews.all reversed %}
       <li class="list-group-item">
         <div class="comment-head">
-            <img src="{% static '' %}img/default-profiles/{{review.added_by.default_img}}.png" style="background-color: #{{ review.added_by.bg_color }};" alt="profile pic" class="comments-user-img">
+            <img src="{% static '' %}img/default-profiles/{{review.added_by.default_img}}.png" style="background-color: #{{ review.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
             <div>
                 <a href="/{{review.added_by.id}}"><h5>{{review.added_by.username}}</h5></a>
                 <small>{{review.created_at}}</small><br>

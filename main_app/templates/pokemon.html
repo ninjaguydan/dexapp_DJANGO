@@ -95,9 +95,11 @@
       </div>    
   </div>
 </div>
-<!-- Review Section -->  
+
+<!---- Review Section ---->  
 <br><br><br>
 <div class="column review">
+    <!-- Review Form -->
     {% if "userid" in request.session %}
     <form action="/pkmn/{{pokemon.id}}/post_review" method="POST">
         {% csrf_token %}
@@ -125,23 +127,62 @@
     {% else %}
     <h3 style="margin-bottom: 30px; text-align: center;">Log in or create an account<br>to leave a review!</h3>
     {% endif %}
+    <!-- Reviews List -->
     <ul class="list-group">
-      {% for review in pokemon.reviews.all reversed %}
-      <li class="list-group-item">
-        <div class="comment-head">
-            <img src="{% static '' %}img/default-profiles/{{review.added_by.default_img}}.png" style="background-color: #{{ review.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
-            <div>
-                <a href="/{{review.added_by.id}}"><h5>{{review.added_by.username}}</h5></a>
-                <small>{{review.created_at}}</small><br>
+        {% for review in pokemon.reviews.all reversed %}
+        <li class="list-group-item">
+            <div class="comment-head">
+                <img src="{% static '' %}img/default-profiles/{{review.added_by.default_img}}.png" style="background-color: #{{ review.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
+                <div>
+                    <a href="/{{review.added_by.id}}"><h5>{{review.added_by.username}}</h5></a>
+                    <small>{{review.created_at}}</small><br>
+                </div>
             </div>
-        </div>
-        <span class="n{{review.rating}} star">{{review.rating}}</span>
-        <p>{{review.content}}</p>
-        {% if request.session.userid == review.added_by.id %}
-        <a href="/pkmn/{{review.id}}/delete_review" class="delete">Delete</a>
-        {% endif %}
-      </li>
-      {% endfor %}
+            <span class="n{{review.rating}} star">{{review.rating}}</span>
+            <p>{{review.content}}</p>
+            <div class="list-group-row">
+                {% if "userid" in request.session %}<p class="reply">Reply</p>{% endif %}
+                {% if request.session.userid == review.added_by.id %}
+                <a href="/pkmn/{{review.id}}/delete_review" class="delete">Delete</a>
+                {% endif %}
+            </div>
+            <!--- Review Comments --->
+            {% if review.comments.all %}
+            <ul class="list-group">
+            {% for comment in review.comments.all %}
+                <li class="list-group-item comment-list">
+                    <div class="comment-head">
+                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" style="background-color:#{{ comment.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
+                        <div>
+                            <a href="/{{comment.added_by.id}}"><h5>{{comment.added_by.username}}</h5></a>
+                            <small>{{comment.created_at}}</small><br>
+                        </div>
+                    </div>
+                    <p>{{comment.content}}</p>
+                    {% if request.session.userid == comment.added_by.id %}
+                    <a href="/pkmn/{{comment.id}}/delete_review_comment" class="delete">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            {% if request.session.userid %}
+            <div class="comment"><br><br>
+                <form action="/pkmn/{{review.id}}/comment_review" method="POST">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <textarea name="comment" class="form-control" rows="2"></textarea>
+                    </div><br>
+                    <div class="btn-container">
+                        <button class="btn btn-primary">Leave Reply</button>
+                    </div>
+                </form>
+            </div><!-- comment -->
+            {% else %}
+            <!-- display nothing -->
+            {% endif %}
+        </li>
+        {% endfor %}
     </ul>
 </div>
 {% endblock %}

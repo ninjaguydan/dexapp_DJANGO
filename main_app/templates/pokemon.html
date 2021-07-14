@@ -16,7 +16,7 @@
 
 {% block mobile_nav %}
 {% if request.session.userid %}
-<li class="list-group-item bold"><a href="/{{user.id}}">{{user.username}}</a></li>
+    <li class="list-group-item bold"><a href="/{{user.id}}">{{user.username}}</a></li>
     <li class="list-group-item bold"><a href="/logout">Logout</a></li> 
     {% else %}
     <li class="list-group-item bold"><a href="/login/">Login</a></li> 
@@ -29,7 +29,7 @@
 <div class="column">
     <div class="profile-card-head">
         <h3>{{pokemon.name | title}}</h3>
-    </div><!-- profile-card-head -->
+    </div>
     <div class="profile-card">
         <img src="{{pokemon.art_url}}" alt="{{pokemon.name}}'s game sprite">
     </div>
@@ -37,63 +37,63 @@
         <!-- append types here -->
     </div>
     <forjs id = "{{pokemon.id}}"></forjs>
-  <div class="profile-card">
-      <table class="table">
-          <tbody>
-              <tr>
-                  <th scope="row" class="bold">ID:</th>
-                  <td>{{pokemon.id}}</td>
-              </tr>
-              <tr>
-                  <th scope="row" class="bold">Height:</th>
-                  <td>{{pokemon.height}}</td>
-              </tr>
-              <tr>
-                  <th scope="row" class="bold">Weight:</th>
-                  <td>{{pokemon.weight}}</td>
-              </tr>
-              <tr>
-                  <th scope="row" class="bold">Avg Rating:</th>
-                  <td><span class="star">&#x2605;</span> {{average}}</td>
-              </tr>
-              <tr>
-                  <th scope="row" class="bold">Favorites:</th>
-                  <td><span class="heart">&hearts;</span> {{pokemon.favorited_by.all | length}}</td>
-              </tr>
-          </tbody>
-      </table>
-      {% if pokemon not in user.favorites.all %}
-      <a href="/pkmn/{{pokemon.id}}/fav" class="profile-card-item">Add to Favorites</a>
-      {% elif "userid" not in request.session %}
-      <span class="profile-card-item">Log in to Favorite!</span>
-      {% else %}
-      <a href="/pkmn/{{pokemon.id}}/unfav" class="profile-card-item">Remove from Favorites</a>
-      {% endif %}
-      
-      {% if pokemon not in user.team.all %}
-      <a href="/pkmn/{{pokemon.id}}/add_pkmn" class="profile-card-item">Add to Team</a>
-      {% elif "userid" not in request.session %}
-      <span class="profile-card-item">Log in to create your team!</span>
-      {% else %}
-      <a href="/pkmn/{{pokemon.id}}/remove_pkmn" class="profile-card-item">Remove from Team</a>
-      {% endif %}
-  </div>
+    <div class="profile-card">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row" class="bold">ID:</th>
+                    <td>{{pokemon.id}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bold">Height:</th>
+                    <td>{{pokemon.height}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bold">Weight:</th>
+                    <td>{{pokemon.weight}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bold">Avg Rating:</th>
+                    <td><span class="star">&#x2605;</span> {{average}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="bold">Favorites:</th>
+                    <td><span>&#10084;</span> <span>{{pokemon.favorited_by.all | length}}</span></td>
+                </tr>
+            </tbody>
+        </table>
+        {% if pokemon not in user.favorites.all %}
+        <a href="/pkmn/{{pokemon.id}}/fav" class="profile-card-item">Add to Favorites</a>
+        {% elif "userid" not in request.session %}
+        <span class="profile-card-item">Log in to Favorite!</span>
+        {% else %}
+        <a href="/pkmn/{{pokemon.id}}/unfav" class="profile-card-item">Remove from Favorites</a>
+        {% endif %}
+        
+        {% if pokemon not in user.team.all %}
+        <a href="/pkmn/{{pokemon.id}}/add_pkmn" class="profile-card-item">Add to Team</a>
+        {% elif "userid" not in request.session %}
+        <span class="profile-card-item">Log in to create your team!</span>
+        {% else %}
+        <a href="/pkmn/{{pokemon.id}}/remove_pkmn" class="profile-card-item">Remove from Team</a>
+        {% endif %}
+    </div>
 
-  <div class="profile-card-item profile-card-bottom">
-      <div>
+    <div class="profile-card-item profile-card-bottom">
+        <div>
         <a href="/pkmn/{{prev_num}}" class="reverse">
-          <img src="{{prev}}">
-          <p><span class="flip" style="display: inline-block;">&#10141;</span> Previous</p>
+            <img src="{{prev}}">
+            <p><span class="flip" style="display: inline-block;">&#10141;</span> Previous</p>
         </a>
-      </div> 
+        </div> 
 
-      <div>
+        <div>
         <a href="/pkmn/{{next_num}}">
-          <img src="{{next}}">
-          <p>Next <span>&#10141;</span></p>
+            <img src="{{next}}">
+            <p>Next <span>&#10141;</span></p>
         </a>
-      </div>    
-  </div>
+        </div>    
+    </div>
 </div>
 
 <!---- Review Section ---->  
@@ -137,37 +137,27 @@
                     <a href="/{{review.added_by.id}}"><h5>{{review.added_by.username}}</h5></a>
                     <small>{{review.created_at}}</small><br>
                 </div>
+                <!-- Likes and Like Counter -->
+                {% if "userid" not in request.session %}
+                <span class="likes">&#10084; {{review.likes.all|length}}</span>
+                {% elif user not in review.likes.all %}
+                <a href="/pkmn/{{review.id}}/like" class="likes">&#10084; {{review.likes.all|length}}</a>
+                {% else %}
+                <a href="/pkmn/{{review.id}}/unlike" class="likes" style="color: #009DF1;">&#10084; {{review.likes.all|length}}</a>
+                {% endif %}
             </div>
             <span class="n{{review.rating}} star">{{review.rating}}</span>
             <p>{{review.content}}</p>
+            <!-- reply/ delete -->
             <div class="list-group-row">
-                {% if "userid" in request.session %}<p class="reply">Reply</p>{% endif %}
+                {% if "userid" in request.session %}<p class="reply" review_id="{{review.id}}">Reply</p>{% endif %}
                 {% if request.session.userid == review.added_by.id %}
                 <a href="/pkmn/{{review.id}}/delete_review" class="delete">Delete</a>
                 {% endif %}
             </div>
-            <!--- Review Comments --->
-            {% if review.comments.all %}
-            <ul class="list-group">
-            {% for comment in review.comments.all %}
-                <li class="list-group-item comment-list">
-                    <div class="comment-head">
-                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" style="background-color:#{{ comment.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
-                        <div>
-                            <a href="/{{comment.added_by.id}}"><h5>{{comment.added_by.username}}</h5></a>
-                            <small>{{comment.created_at}}</small><br>
-                        </div>
-                    </div>
-                    <p>{{comment.content}}</p>
-                    {% if request.session.userid == comment.added_by.id %}
-                    <a href="/pkmn/{{comment.id}}/delete_review_comment" class="delete">Delete</a>
-                    {% endif %}
-                </li>
-            {% endfor %}
-            </ul>
-            {% endif %}
+            <!-- Review Comment Form -->
             {% if request.session.userid %}
-            <div class="comment"><br><br>
+            <div class="comment comment_{{review.id}}">
                 <form action="/pkmn/{{review.id}}/comment_review" method="POST">
                     {% csrf_token %}
                     <div class="form-row">
@@ -180,6 +170,36 @@
             </div><!-- comment -->
             {% else %}
             <!-- display nothing -->
+            {% endif %}
+            <!--- Review Comments --->
+            {% if review.comments.all %}
+            <ul class="list-group">
+            {% for comment in review.comments.all %}
+                <li class="list-group-item comment-list">
+                    <div class="comment-head">
+                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" style="background-color:#{{ comment.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
+                        <div>
+                            <a href="/{{comment.added_by.id}}"><h5>{{comment.added_by.username}}</h5></a>
+                            <small>{{comment.created_at}}</small><br>
+                        </div>
+                        <!-- Likes and Like Counter -->
+                        {% if "userid" not in request.session %}
+                        <span class="likes">&#10084; {{comment.likes.all|length}}</span>
+                        {% elif user not in comment.likes.all %}
+                        <a href="/pkmn/{{comment.id}}/like_review_comment" class="likes">&#10084; {{comment.likes.all|length}}</a>
+                        {% else %}
+                        <a href="/pkmn/{{comment.id}}/unlike_review_comment" class="likes" style="color: #009DF1;">&#10084; {{comment.likes.all|length}}</a>
+                        {% endif %}
+                    </div>
+                    <p>{{comment.content}}</p>
+                    {% if request.session.userid == comment.added_by.id %}
+                    <div class="list-group-row">
+                        <a href="/pkmn/{{comment.id}}/delete_review_comment" class="delete">Delete</a>
+                    </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
             {% endif %}
         </li>
         {% endfor %}

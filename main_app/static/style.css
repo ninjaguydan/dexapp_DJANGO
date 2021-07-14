@@ -24,6 +24,10 @@ a {
 .bold {
     font-weight: 700;
 }
+.btn-container {
+    margin-top: 30px;
+    text-align: right;
+}
 .btn {
     padding: .5rem 1rem;
     width: 100%;
@@ -36,15 +40,13 @@ a {
     display: flex;
     justify-content: space-between;
 }
-.heart, .star {
-    font-size: 1.5em;
+.heart {
+    color: var(--primary);
 }
-    .heart {
-        color: var(--primary);
-    }
-    .star {
-        color: var(--third);
-        margin-bottom: -20px;
+.star {
+    font-size: 1.5em;
+    color: var(--third);
+    margin-bottom: -20px;
     }
 .rating p {
     margin: 0;
@@ -168,8 +170,7 @@ a {
     }
     .list-group-item a.delete {
         color: lightgrey;
-        display: block;
-        text-align: right;
+        margin-left: auto;
     }
         .list-group-item a:hover {
             color: var(--third);
@@ -203,9 +204,6 @@ a {
 .form-control:focus {
     border-color: #e58494;
     box-shadow: 0 0 0 0.25rem rgb(253 49 88 / 25%);
-}
-.btn-container {
-    margin-top: 30px;
 }
 .card {
     background-color: var(--fourth);
@@ -266,7 +264,7 @@ a {
     max-width: 500px;
 }
 .profile-card-item {
-    padding: .5rem;
+    padding: .5rem 1.5rem;
     display: flex;
     justify-content: space-between;
     background-color: var(--fourth);
@@ -289,6 +287,9 @@ a {
 .table {
     color: white;
 }
+    .table>:not(caption)>*>*{
+        padding-left: 1.5rem;        
+    }
 .types {
     margin: 0 auto;
     text-transform: capitalize;
@@ -409,7 +410,8 @@ a {
     background-color: var(--secondary);
 }
 .comment-list {
-    border-left: 2px solid var(--primary);
+    /* border-left: 2px solid var(--primary); */
+    background-color: rgb(59, 59, 59);
 }
 .team {
     display: grid;
@@ -423,7 +425,7 @@ a {
         width: 80%;
     }
 .timeline {
-    max-width: 500px;
+    max-width: 700px;
     margin: 0 auto;
 }
     .timeline .btn-container {
@@ -508,6 +510,14 @@ a {
         transform: scale(1);
     } 
 }
+.likes {
+    margin-left: auto;
+    margin-bottom: auto;
+    color: gray;
+}
+    a.likes:hover {
+        color: var(--primary);
+    }
 
 /*-------------------- At 450px --------------------*/
 @media only screen and (min-width: 450px) {
@@ -562,6 +572,9 @@ a {
         .team img {
             width: 80%;
         }
+    .timeline .btn, .review .btn {
+        max-width: 250px;
+    }
 }
 
 /*-------------------- At 700px --------------------*/
@@ -637,7 +650,7 @@ a {
         margin: 0;
     }
     .wrapper {
-        width: 1080px;
+        width: 1200px;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;

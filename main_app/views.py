@@ -119,6 +119,18 @@ def delete_review(request, review_id):
     review_to_delete.delete()
     return redirect(f'/pkmn/{pkmn_id}')
 
+def like_review(request, review_id):
+    user = User.objects.get(id = request.session['userid'])
+    review = Review.objects.get(id = review_id)
+    review.likes.add(user)
+    return redirect(f'/pkmn/{review.pkmn.id}')
+
+def unlike_review(request, review_id):
+    user = User.objects.get(id = request.session['userid'])
+    review = Review.objects.get(id = review_id)
+    review.likes.remove(user)
+    return redirect(f'/pkmn/{review.pkmn.id}')
+
 def comment_review(request, review_id):
     review = Review.objects.get(id = review_id)
     pkmn = Pokemon.objects.get(id = review.pkmn.id)
@@ -135,6 +147,19 @@ def delete_review_comment(request, comment_id):
     pkmn = Pokemon.objects.get(id = comment_to_delete.review.pkmn.id)
     comment_to_delete.delete()
     return redirect(f'/pkmn/{pkmn.id}')
+
+def like_review_comment(request, comment_id):
+    user = User.objects.get(id = request.session['userid'])
+    comment = Comment.objects.get(id = comment_id)
+    comment.likes.add(user)
+    print(comment_id)
+    return redirect(f'/pkmn/{comment.review.pkmn.id}')
+
+def unlike_review_comment(request, comment_id):
+    user = User.objects.get(id = request.session['userid'])
+    comment = Comment.objects.get(id = comment_id)
+    comment.likes.remove(user)
+    return redirect(f'/pkmn/{comment.review.pkmn.id}')
 
 def profile(request, profile_id):
     if "userid" in request.session:

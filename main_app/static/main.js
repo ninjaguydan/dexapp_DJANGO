@@ -16,8 +16,9 @@ function openMenu() {
 }
 
 // display reply form
-$('.list-group-item').click(function(){
-    $(this).find('.comment').css("display", "block");
+$('.reply').click(function(){
+    let review_id = $(this).attr('review_id');
+    $(".comment_" + review_id).css("display", "block");
 })
 
 //display "edit Profile" modal

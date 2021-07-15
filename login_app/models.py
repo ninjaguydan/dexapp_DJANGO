@@ -57,7 +57,7 @@ class User(models.Model):
     username = models.CharField(max_length = 50)
     email = models.CharField(max_length = 50)
     password = models.CharField(max_length = 60)
-    friends = models.ManyToManyField('self', related_name = "friends")
+    following = models.ManyToManyField('self', related_name = "followers")
     bio = models.TextField(null = True)
     default_img = models.CharField(max_length = 2, default = 0)
     bg_color = models.CharField(max_length = 6, default = 272727)

@@ -91,6 +91,7 @@
 
 <!-- Profile Posts -->
 <div class="column timeline">
+    <!-- Post Form -->
     {% if request.session.userid == profile.id %}
     <form action="/{{user.id}}/post_status" method="POST">
         {% csrf_token %}
@@ -105,6 +106,7 @@
     {% else %}
     <!--display nothing -->
     {% endif %}
+    <!-- All Posts -->
     <ul class="list-group">
         {% for status in profile.statuses.all reversed %}
         <li class="list-group-item">
@@ -114,35 +116,25 @@
                     <a href="/{{status.added_by.id}}"><h5>{{status.added_by.username}}</h5></a>
                     <small>{{status.created_at}}</small><br>
                 </div>
+                <!-- Likes and Like Counter -->
+                {% if "userid" not in request.session %}
+                <span class="likes">&#10084; {{status.likes.all|length}}</span>
+                {% elif user not in status.likes.all %}
+                <a href="/{{status.id}}/like_status" class="likes">&#10084; {{status.likes.all|length}}</a>
+                {% else %}
+                <a href="/{{status.id}}/unlike_status" class="likes" style="color: #009DF1;">&#10084; {{status.likes.all|length}}</a>
+                {% endif %}
             </div>
             <p>{{status.content}}</p>
             <div class="list-group-row">
-                {% if "userid" in request.session %}<p class="reply">Reply</p>{% endif %}
+                {% if "userid" in request.session %}<p class="reply" status_id="{{status.id}}">Reply</p>{% endif %}
                 {% if request.session.userid == status.added_by.id %}
                 <a href="/{{status.id}}/delete_status" class="delete">Delete</a>
                 {% endif %}
             </div>
-            {% if status.comments.all %}
-            <ul class="list-group">
-            {% for comment in status.comments.all %}
-                <li class="list-group-item comment-list">
-                    <div class="comment-head">
-                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" style="background-color:#{{ comment.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
-                        <div>
-                            <a href="/{{comment.added_by.id}}"><h5>{{comment.added_by.username}}</h5></a>
-                            <small>{{comment.created_at}}</small><br>
-                        </div>
-                    </div>
-                    <p>{{comment.content}}</p>
-                    {% if request.session.userid == comment.added_by.id %}
-                    <a href="/{{comment.id}}/delete_status_comment" class="delete">Delete</a>
-                    {% endif %}
-                </li>
-            {% endfor %}
-            </ul>
-            {% endif %}
+            <!-- Post Comment Form -->
             {% if request.session.userid %}
-            <div class="comment"><br><br>
+            <div class="comment comment_{{status.id}}">
                 <form action="/{{status.id}}/comment_status" method="POST">
                     {% csrf_token %}
                     <div class="form-row">
@@ -155,6 +147,34 @@
             </div><!-- comment -->
             {% else %}
             <!-- display nothing -->
+            {% endif %}
+            <!-- Post Replies -->
+            {% if status.comments.all %}
+            <ul class="list-group">
+            {% for comment in status.comments.all %}
+                <li class="list-group-item comment-list">
+                    <div class="comment-head">
+                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" style="background-color:#{{ comment.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
+                        <div>
+                            <a href="/{{comment.added_by.id}}"><h5>{{comment.added_by.username}}</h5></a>
+                            <small>{{comment.created_at}}</small><br>
+                        </div>
+                        <!-- Likes and Like Counter -->
+                        {% if "userid" not in request.session %}
+                        <span class="likes">&#10084; {{comment.likes.all|length}}</span>
+                        {% elif user not in comment.likes.all %}
+                        <a href="/{{comment.id}}/like_status_comment" class="likes">&#10084; {{comment.likes.all|length}}</a>
+                        {% else %}
+                        <a href="/{{comment.id}}/unlike_status_comment" class="likes" style="color: #009DF1;">&#10084; {{comment.likes.all|length}}</a>
+                        {% endif %}
+                    </div>
+                    <p>{{comment.content}}</p>
+                    {% if request.session.userid == comment.added_by.id %}
+                    <a href="/{{comment.id}}/delete_status_comment" class="delete">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
             {% endif %}
         </li>
         {% endfor %}

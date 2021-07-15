@@ -15,10 +15,16 @@ function openMenu() {
     }
 }
 
-// display reply form
+// display review reply form
 $('.reply').click(function(){
     let review_id = $(this).attr('review_id');
     $(".comment_" + review_id).css("display", "block");
+})
+
+// display status reply form
+$('.reply').click(function(){
+    let status_id = $(this).attr('status_id');
+    $(".comment_" + status_id).css("display", "block");
 })
 
 //display "edit Profile" modal

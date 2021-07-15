@@ -141,9 +141,9 @@
                 {% if "userid" not in request.session %}
                 <span class="likes">&#10084; {{review.likes.all|length}}</span>
                 {% elif user not in review.likes.all %}
-                <a href="/pkmn/{{review.id}}/like" class="likes">&#10084; {{review.likes.all|length}}</a>
+                <a href="/pkmn/{{review.id}}/like_review" class="likes">&#10084; {{review.likes.all|length}}</a>
                 {% else %}
-                <a href="/pkmn/{{review.id}}/unlike" class="likes" style="color: #009DF1;">&#10084; {{review.likes.all|length}}</a>
+                <a href="/pkmn/{{review.id}}/unlike_review" class="likes" style="color: #009DF1;">&#10084; {{review.likes.all|length}}</a>
                 {% endif %}
             </div>
             <span class="n{{review.rating}} star">{{review.rating}}</span>

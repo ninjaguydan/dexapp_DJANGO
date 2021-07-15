@@ -152,7 +152,6 @@ def like_review_comment(request, comment_id):
     user = User.objects.get(id = request.session['userid'])
     comment = Comment.objects.get(id = comment_id)
     comment.likes.add(user)
-    print(comment_id)
     return redirect(f'/pkmn/{comment.review.pkmn.id}')
 
 def unlike_review_comment(request, comment_id):
@@ -172,6 +171,23 @@ def profile(request, profile_id):
     }
     return render(request, "profile.html", context)
 
+def update_profile(request, user_id):
+    if request.method == "GET":
+        return redirect(f'/{user_id}')
+    errors = User.objects.update_validator(request.POST)
+    if errors:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect(f'/{user_id}')
+    user = User.objects.get(id = user_id)
+    user.first_name = request.POST['fname']
+    user.last_name = request.POST['lname']
+    user.bio = request.POST['bio']
+    user.default_img = request.POST['img']
+    user.bg_color = request.POST['color']
+    user.save()
+    return redirect(f'/{user_id}')
+
 def post_status(request, user_id):
     if request.method == "GET":
         return redirect(f'/{user_id}')
@@ -187,6 +203,18 @@ def delete_status(request, status_id):
     user_id = status_to_delete.added_by.id
     status_to_delete.delete()
     return redirect(f'/{user_id}')
+
+def like_status(request, status_id):
+    user = User.objects.get(id = request.session['userid'])
+    status = Status.objects.get(id = status_id)
+    status.likes.add(user)
+    return redirect(f'/{status.added_by.id}')
+
+def unlike_status(request, status_id):
+    user = User.objects.get(id = request.session['userid'])
+    status = Status.objects.get(id = status_id)
+    status.likes.remove(user)
+    return redirect(f'/{status.added_by.id}')
 
 def comment_status(request, status_id):
     status = Status.objects.get(id = status_id)
@@ -206,19 +234,14 @@ def delete_status_comment(request, comment_id):
     comment_to_delete.delete()
     return redirect(f'/{profile.id}')
 
-def update_profile(request, user_id):
-    if request.method == "GET":
-        return redirect(f'/{user_id}')
-    errors = User.objects.update_validator(request.POST)
-    if errors:
-        for key, value in errors.items():
-            messages.error(request, value)
-        return redirect(f'/{user_id}')
-    user = User.objects.get(id = user_id)
-    user.first_name = request.POST['fname']
-    user.last_name = request.POST['lname']
-    user.bio = request.POST['bio']
-    user.default_img = request.POST['img']
-    user.bg_color = request.POST['color']
-    user.save()
-    return redirect(f'/{user_id}')
+def like_status_comment(request, comment_id):
+    user = User.objects.get(id = request.session['userid'])
+    comment = Comment.objects.get(id = comment_id)
+    comment.likes.add(user)
+    return redirect(f'/{comment.status.added_by.id}')
+
+def unlike_status_comment(request, comment_id):
+    user = User.objects.get(id = request.session['userid'])
+    comment = Comment.objects.get(id = comment_id)
+    comment.likes.remove(user)
+    return redirect(f'/{comment.status.added_by.id}')

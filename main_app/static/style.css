@@ -165,7 +165,7 @@ a {
         font-size: 0.75em;
     }
     .list-group-item p {
-        margin-bottom: 1rem;
+        margin-bottom: .5rem;
         margin-top: .5rem;
     }
     .list-group-item a.delete {
@@ -410,8 +410,11 @@ a {
     background-color: var(--secondary);
 }
 .comment-list {
-    /* border-left: 2px solid var(--primary); */
     background-color: rgb(59, 59, 59);
+}
+.comment-count {
+    font-size: 0.75em;
+    color: gray;
 }
 .team {
     display: grid;

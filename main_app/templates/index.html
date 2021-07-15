@@ -61,8 +61,25 @@
                     <a href="/{{status.added_by.id}}"><h5>{{status.added_by.username}}</h5></a>
                     <small>{{status.created_at | timesince}} ago</small>
                 </div>
+                <!-- Likes and Like Counter -->
+                {% if "userid" not in request.session %}
+                <span class="likes">&#10084; {{status.likes.all|length}}</span>
+                {% elif user not in status.likes.all %}
+                <a href="/{{status.id}}/like_status" class="likes">&#10084; {{status.likes.all|length}}</a>
+                {% else %}
+                <a href="/{{status.id}}/unlike_status" class="likes" style="color: #009DF1;">&#10084; {{status.likes.all|length}}</a>
+                {% endif %}
             </div>
             <p>{{status.content}}</p>
+            <span class="comment-count"> 
+                {% if not status.comments.all|length %} 
+                    <!-- Display Nothing -->
+                {% elif status.comments.all|length == 1 %}
+                    {{status.comments.all|length}} Comment
+                {% else %} 
+                {{status.comments.all|length}} Comments 
+                {% endif %}
+            </span>
         </li>
         {% endfor %}
     </ul>

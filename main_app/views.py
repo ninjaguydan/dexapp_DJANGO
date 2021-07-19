@@ -188,6 +188,17 @@ def update_profile(request, user_id):
     user.save()
     return redirect(f'/{user_id}')
 
+def follow(request, profile_id):
+    user = User.objects.get(id = request.session['userid'])
+    profile = User.objects.get(id = profile_id)
+    return redirect(f'/{profile.id}')
+
+def unfollow(request, profile_id):
+    user = User.objects.get(id = request.session['userid'])
+    profile_user = User.objects.get(id = profile_id)
+    user.followers.remove(profile_user)
+    return redirect(f'/{profile_user.id}')
+
 def post_status(request, user_id):
     if request.method == "GET":
         return redirect(f'/{user_id}')

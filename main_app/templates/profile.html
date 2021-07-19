@@ -36,8 +36,11 @@
             {% if request.session.userid == profile.id %}
             <button class="btn btn-secondary btn-profile" id="edit-profile">Edit Profile</button>
             {% elif "userid" not in request.session %}
+            <!-- Display Nothing if not logged in -->
+            {% elif user in profile.followers.all %}
+            <a href="/{{profile.id}}/unfollow" class="btn btn-secondary btn-profile">Unfollow</a>
             {% else %}
-            <a href="" class="btn btn-secondary btn-profile">Add Friend</a>
+            <a href="/{{profile.id}}/follow" class="btn btn-secondary btn-profile">Follow</a>
             {% endif %}
         </li>
         {% if profile.bio %}
@@ -53,18 +56,18 @@
         </li>
         <li class="list-group-item ">
             <div class="list-group-row">
-                <h5>Friends</h5>
-                <a href="">All ({{profile.friends.all | length}})</a>
+                <h5>Followers</h5>
+                <a href="">All ({{profile.following.all|length}})</a>
             </div>
             <hr>
             <ul>
-                {% for friend in profile.friends.all %}
+                {% for follower in profile.followers.all %}
                 <li class="comment-head">
-                    <img src="{% static 'img/default-profile/0.png' %}">
-                    <p>{{friend.username}}</p>
+                    <img src="{% static '' %}img/default-profiles/{{follower.default_img}}.png" style="background-color: #{{ follower.bg_color }}" alt="profile pic" class="comments-user-img">
+                    <a href="/{{follower.id}}"><p>{{follower.username}}</p></a>
                 </li>
                 {% empty %}
-                <li>No friends yet!</li>
+                <li>No followers yet!</li>
                 {% endfor %}
             </ul>
         </li>

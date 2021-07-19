@@ -19,6 +19,8 @@ urlpatterns = [
     path('pkmn/<int:comment_id>/unlike_review_comment', views.unlike_review_comment),
     path('<int:profile_id>', views.profile),
     path('<int:user_id>/update', views.update_profile),
+    path('<int:profile_id>/follow', views.follow),
+    path('<int:profile_id>/unfollow', views.unfollow),
     path('<int:user_id>/post_status', views.post_status),
     path('<int:status_id>/delete_status', views.delete_status),
     path('<int:status_id>/like_status', views.like_status),

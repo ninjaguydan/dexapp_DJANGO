@@ -80,6 +80,10 @@
                 {% endif %}
             </span>
         </li>
+        {% empty %}
+        <li class="list-group-item">
+            <h5>No updates yet!</h5>
+        </li>
         {% endfor %}
     </ul>
 

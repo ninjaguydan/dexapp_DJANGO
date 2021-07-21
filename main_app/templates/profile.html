@@ -37,10 +37,20 @@
             <button class="btn btn-secondary btn-profile" id="edit-profile">Edit Profile</button>
             {% elif "userid" not in request.session %}
             <!-- Display Nothing if not logged in -->
-            {% elif user in profile.followers.all %}
-            <a href="/{{profile.id}}/unfollow" class="btn btn-secondary btn-profile">Unfollow</a>
+            {% elif profile not in user.profile.following.all %}
+            <form action="/follow" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="follow" value="{{profile.id}}">
+                <button class="btn btn-secondary btn-profile">Follow</button>
+            </form>
+            <!-- <a href="/{{profile.id}}/unfollow" class="btn btn-secondary btn-profile">Unfollow</a> -->
             {% else %}
-            <a href="/{{profile.id}}/follow" class="btn btn-secondary btn-profile">Follow</a>
+            <form action="/follow" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="follow" value="{{profile.id}}">
+                <button class="btn btn-secondary btn-profile">Unfollow</button>
+            </form>
+            <!-- <a href="" class="btn btn-secondary btn-profile">Follow</a> -->
             {% endif %}
         </li>
         {% if profile.bio %}
@@ -54,6 +64,7 @@
             </a>
             {% endfor %}
         </li>
+        <!-- List of followers -->
         <li class="list-group-item ">
             <div class="list-group-row">
                 <h5>Followers</h5>
@@ -61,13 +72,31 @@
             </div>
             <hr>
             <ul>
-                {% for follower in profile.followers.all %}
+                {% for u in profile.following.all %}
                 <li class="comment-head">
-                    <img src="{% static '' %}img/default-profiles/{{follower.default_img}}.png" style="background-color: #{{ follower.bg_color }}" alt="profile pic" class="comments-user-img">
-                    <a href="/{{follower.id}}"><p>{{follower.username}}</p></a>
+                    <img src="{% static '' %}img/default-profiles/{{u.user.default_img}}.png" style="background-color: #{{ u.user.bg_color }}" alt="profile pic" class="comments-user-img">
+                    <a href="/{{u.id}}"><p>{{u.username}}</p></a>
                 </li>
                 {% empty %}
                 <li>No followers yet!</li>
+                {% endfor %}
+            </ul>
+        </li>
+        <!-- List of follows -->
+        <li class="list-group-item ">
+            <div class="list-group-row">
+                <h5>Following</h5>
+                <a href="">All ({{profile.profile.following.all|length}})</a>
+            </div>
+            <hr>
+            <ul>
+                {% for u in profile.profile.following.all %}
+                <li class="comment-head">
+                    <img src="{% static '' %}img/default-profiles/{{u.default_img}}.png" style="background-color: #{{ u.bg_color }}" alt="profile pic" class="comments-user-img">
+                    <a href="/{{u.id}}"><p>{{u.username}}</p></a>
+                </li><br>
+                {% empty %}
+                <li>Not following anyone yet!</li>
                 {% endfor %}
             </ul>
         </li>

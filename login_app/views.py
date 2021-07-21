@@ -41,5 +41,6 @@ def signup(request):
     # ...Otherwise, create new user with 'register' method
     else:
         new_user = User.objects.register(request.POST)
+        Profile.objects.create(user = new_user)
         request.session['userid'] = new_user.id
         return redirect("/")

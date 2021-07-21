@@ -64,14 +64,14 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now = True)
     objects = UserManager()
 
-    def __str__(self):
-        return str(self.first_name, self.last_name)
+    # def __str__(self):
+    #     return str(self.first_name, self.last_name)
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name = "profile", on_delete=models.CASCADE)
     following = models.ManyToManyField(User, related_name = "following", blank = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
-    def __str__(self):
-        return str(self.user.username)
+    # def __str__(self):
+    #     return str(self.user.username)

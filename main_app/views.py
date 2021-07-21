@@ -9,6 +9,7 @@ import json
 # Create your views here.
 
 def index(request):
+    # request.session.clear()
     if len(Pokemon.objects.all()) == 0:
         for i in range(1,899):
             response = requests.get(f"https://pokeapi.co/api/v2/pokemon/{i}/")
@@ -188,16 +189,17 @@ def update_profile(request, user_id):
     user.save()
     return redirect(f'/{user_id}')
 
-def follow(request, profile_id):
-    user = User.objects.get(id = request.session['userid'])
-    profile = User.objects.get(id = profile_id)
-    return redirect(f'/{profile.id}')
-
-def unfollow(request, profile_id):
-    user = User.objects.get(id = request.session['userid'])
-    profile_user = User.objects.get(id = profile_id)
-    user.followers.remove(profile_user)
-    return redirect(f'/{profile_user.id}')
+def follow(request):
+    if request.method == "GET":
+        return redirect('/')
+    else:
+        user = User.objects.get(id = request.session['userid'])
+        user_to_follow = User.objects.get(id = request.POST['follow'])
+        if user_to_follow in user.profile.following.all():
+            user.profile.following.remove(user_to_follow)
+        else:
+            user.profile.following.add(user_to_follow)
+        return redirect(f'/{user_to_follow.id}')
 
 def post_status(request, user_id):
     if request.method == "GET":

@@ -21,10 +21,10 @@ $('.reply').click(function(){
     $(".comment_" + review_id).css("display", "block");
 })
 
-// display status reply form
+// display post reply form
 $('.reply').click(function(){
-    let status_id = $(this).attr('status_id');
-    $(".comment_" + status_id).css("display", "block");
+    let post_id = $(this).attr('post_id');
+    $(".comment_" + post_id).css("display", "block");
 })
 
 //display "edit Profile" modal

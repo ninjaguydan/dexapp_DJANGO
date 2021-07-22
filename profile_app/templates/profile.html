@@ -6,7 +6,7 @@
 {% block main_nav %}
 {% if request.session.userid %}
     <li class="bold"><a href="/profile/{{user.id}}">{{user.username}}</a></li>
-    <li class="bold"><a href="/logout">Logout</a></li>
+    <li class="bold"><a href="/login/logout">Logout</a></li>
     {% else %}
     <li class="bold"><a href="/login/register">Sign Up</a></li>
     <li class="bold"><a href="/login/">Login</a></li>  
@@ -16,7 +16,7 @@
 {% block mobile_nav %}
 {% if request.session.userid %}
 <li class="list-group-item bold"><a href="/profile/{{user.id}}">{{user.username}}</a></li>
-    <li class="list-group-item bold"><a href="/logout">Logout</a></li> 
+    <li class="list-group-item bold"><a href="/login/logout">Logout</a></li> 
     {% else %}
     <li class="list-group-item bold"><a href="/login/">Login</a></li> 
     <li class="list-group-item bold"><a href="/login/register">Sign Up</a></li>
@@ -51,8 +51,8 @@
             </form>
             {% endif %}
         </li>
-        {% if profile.bio %}
-        <li class="list-group-item">{{profile.bio}}</li>
+        {% if profile.profile.bio %}
+        <li class="list-group-item">{{profile.profile.bio}}</li>
         {% endif %}
         <li class="list-group-item team">
             <h4>Main Team</h4>
@@ -62,6 +62,7 @@
             </a>
             {% endfor %}
         </li>
+        <!-- List of Followers -->
         <li class="list-group-item ">
             <div class="list-group-row">
                 <h5>Followers</h5>
@@ -69,7 +70,7 @@
             </div>
             <hr>
             <ul>
-                {% for u in profile.followers.all %}
+                {% for u in profile.following.all %}
                 <li class="comment-head">
                     <img src="{% static '' %}img/default-profiles/{{u.user.default_img}}.png" style="background-color: #{{ u.user.bg_color }}" alt="profile pic" class="comments-user-img">
                     <a href="/profile/{{u.user.id}}"><p>{{u.user.username}}</p></a>
@@ -122,14 +123,14 @@
 <div class="column timeline">
     <!-- Post Form -->
     {% if request.session.userid == profile.id %}
-    <form action="/profile/{{user.id}}/post_status" method="POST">
+    <form action="/profile/{{user.id}}/create_post" method="POST">
         {% csrf_token %}
         <div class="form-row">
             <label>What's on your mind?</label><br><br>
-            <textarea name="status" class="form-control" rows="3"></textarea>
+            <textarea name="post" class="form-control" rows="3"></textarea>
         </div><br>
         <div class="btn-container">
-            <button class="btn btn-primary">Post Status</button>
+            <button class="btn btn-primary">Post</button>
         </div>
     </form><br>
     {% else %}
@@ -137,34 +138,42 @@
     {% endif %}
     <!-- All Posts -->
     <ul class="list-group">
-        {% for status in profile.statuses.all reversed %}
+        {% for post in profile.posts.all reversed %}
         <li class="list-group-item">
             <div class="comment-head">
-                <img src="{% static '' %}img/default-profiles/{{status.added_by.default_img}}.png" style="background-color:#{{ status.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
+                <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" style="background-color:#{{ post.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
                 <div>
-                    <a href="/profile/{{status.added_by.id}}"><h5>{{status.added_by.username}}</h5></a>
-                    <small>{{status.created_at}}</small><br>
+                    <a href="/profile/{{post.added_by.id}}"><h5>{{post.added_by.username}}</h5></a>
+                    <small>{{post.created_at}}</small><br>
                 </div>
                 <!-- Likes and Like Counter -->
                 {% if "userid" not in request.session %}
-                <span class="likes">&#10084; {{status.likes.all|length}}</span>
-                {% elif user not in status.likes.all %}
-                <a href="/profile/{{status.id}}/like_status" class="likes">&#10084; {{status.likes.all|length}}</a>
+                <span class="likes">&#10084; {{post.likes.all|length}}</span>
+                {% elif user not in post.likes.all %}
+                <form action="/profile/like_post" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="like" value="{{post.id}}">
+                    <button class="likes">&#10084; {{post.likes.all|length}}</button>
+                </form>
                 {% else %}
-                <a href="/profile/{{status.id}}/unlike_status" class="likes" style="color: #009DF1;">&#10084; {{status.likes.all|length}}</a>
+                <form action="/profile/like_post" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="like" value="{{post.id}}">
+                    <button class="likes" style="color: #009DF1;">&#10084; {{post.likes.all|length}}</button>
+                </form>
                 {% endif %}
             </div>
-            <p>{{status.content}}</p>
+            <p>{{post.content}}</p>
             <div class="list-group-row">
-                {% if "userid" in request.session %}<p class="reply" status_id="{{status.id}}">Reply</p>{% endif %}
-                {% if request.session.userid == status.added_by.id %}
-                <a href="/profile/{{status.id}}/delete_status" class="delete">Delete</a>
+                {% if "userid" in request.session %}<p class="reply" post_id="{{post.id}}">Reply</p>{% endif %}
+                {% if request.session.userid == post.added_by.id %}
+                <a href="/profile/{{post.id}}/delete_post" class="delete">Delete</a>
                 {% endif %}
             </div>
             <!-- Post Comment Form -->
             {% if request.session.userid %}
-            <div class="comment comment_{{status.id}}">
-                <form action="/profile/{{status.id}}/comment_status" method="POST">
+            <div class="comment comment_{{post.id}}">
+                <form action="/profile/{{post.id}}/comment_post" method="POST">
                     {% csrf_token %}
                     <div class="form-row">
                         <textarea name="comment" class="form-control" rows="2"></textarea>
@@ -178,9 +187,9 @@
             <!-- display nothing if no one is logged in -->
             {% endif %}
             <!-- Post Replies -->
-            {% if status.comments.all %}
+            {% if post.comments.all %}
             <ul class="list-group">
-            {% for comment in status.comments.all %}
+            {% for comment in post.comments.all %}
                 <li class="list-group-item comment-list">
                     <div class="comment-head">
                         <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" style="background-color:#{{ comment.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
@@ -192,14 +201,18 @@
                         {% if "userid" not in request.session %}
                         <span class="likes">&#10084; {{comment.likes.all|length}}</span>
                         {% elif user not in comment.likes.all %}
-                        <a href="/profile/{{comment.id}}/like_status_comment" class="likes">&#10084; {{comment.likes.all|length}}</a>
+                        <form action="">
+                            {% csrf_token %}
+                            <input type="hidden" name="like" value="{{comment.id}}">
+                        </form>
+                        <!-- <a href="/profile/{{comment.id}}/like_post_comment" class="likes">&#10084; {{comment.likes.all|length}}</a> -->
                         {% else %}
-                        <a href="/profile/{{comment.id}}/unlike_status_comment" class="likes" style="color: #009DF1;">&#10084; {{comment.likes.all|length}}</a>
+                        <a href="/profile/{{comment.id}}/unlike_post_comment" class="likes" style="color: #009DF1;">&#10084; {{comment.likes.all|length}}</a>
                         {% endif %}
                     </div>
                     <p>{{comment.content}}</p>
                     {% if request.session.userid == comment.added_by.id %}
-                    <a href="/profile/{{comment.id}}/delete_status_comment" class="delete">Delete</a>
+                    <a href="/profile/{{comment.id}}/delete_post_comment" class="delete">Delete</a>
                     {% endif %}
                 </li>
             {% endfor %}
@@ -229,7 +242,7 @@
         </div>
         <div class="form-group">
             <label>Bio</label>
-            <textarea name="bio" rows="4" class="form-control">{{user.bio}}</textarea>
+            <textarea name="bio" rows="4" class="form-control">{{user.profile.bio}}</textarea>
         </div>
         <hr>
         <h6>Choose profile photo</h6>

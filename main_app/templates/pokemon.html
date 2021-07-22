@@ -101,7 +101,7 @@
 <div class="column review">
     <!-- Review Form -->
     {% if "userid" in request.session %}
-    <form action="/{{pokemon.id}}/post_review" method="POST">
+    <form action="/{{pokemon.id}}/create_review" method="POST">
         {% csrf_token %}
         <div class="form-row">
             <label>What do you think of {{pokemon.name | title}}?</label><br><br>
@@ -141,7 +141,11 @@
                 {% if "userid" not in request.session %}
                 <span class="likes">&#10084; {{review.likes.all|length}}</span>
                 {% elif user not in review.likes.all %}
-                <a href="/{{review.id}}/like_review" class="likes">&#10084; {{review.likes.all|length}}</a>
+                <form action="">
+                    {% csrf_token %}
+                    <input type="hidden" name="like" value="{{review.id}}">
+                </form>
+                <!-- <a href="/{{review.id}}/like_review" class="likes">&#10084; {{review.likes.all|length}}</a> -->
                 {% else %}
                 <a href="/{{review.id}}/unlike_review" class="likes" style="color: #009DF1;">&#10084; {{review.likes.all|length}}</a>
                 {% endif %}

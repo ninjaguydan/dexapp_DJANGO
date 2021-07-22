@@ -62,4 +62,20 @@ class User(models.Model):
     bg_color = models.CharField(max_length = 6, default = 272727)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+<<<<<<< HEAD
     objects = UserManager()
+=======
+    objects = UserManager()
+
+    def __str__(self):
+        return str(self.first_name, self.last_name)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    following = models.ManyToManyField(User, related_name = "following", blank = True)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
+    def __str__(self):
+        return str(self.user.username)
+>>>>>>> parent of 1f6f66a (replaced friend functionality with follow functionality)

@@ -37,6 +37,7 @@
             <button class="btn btn-secondary btn-profile" id="edit-profile">Edit Profile</button>
             {% elif "userid" not in request.session %}
             <!-- Display Nothing if not logged in -->
+<<<<<<< HEAD:profile_app/templates/profile.html
             {% elif profile not in user.profile.following.all %}
             <form action="/profile/follow" method="POST">
                 {% csrf_token %}
@@ -51,6 +52,12 @@
                 <button class="btn btn-secondary btn-profile">Unfollow</button>
             </form>
             <!-- <a href="" class="btn btn-secondary btn-profile">Follow</a> -->
+=======
+            {% elif user in profile.followers.all %}
+            <a href="/{{profile.id}}/unfollow" class="btn btn-secondary btn-profile">Unfollow</a>
+            {% else %}
+            <a href="/{{profile.id}}/follow" class="btn btn-secondary btn-profile">Follow</a>
+>>>>>>> parent of 1f6f66a (replaced friend functionality with follow functionality):main_app/templates/profile.html
             {% endif %}
         </li>
         {% if profile.bio %}
@@ -64,7 +71,6 @@
             </a>
             {% endfor %}
         </li>
-        <!-- List of followers -->
         <li class="list-group-item ">
             <div class="list-group-row">
                 <h5>Followers</h5>
@@ -72,16 +78,22 @@
             </div>
             <hr>
             <ul>
-                {% for u in profile.following.all %}
+                {% for follower in profile.followers.all %}
                 <li class="comment-head">
+<<<<<<< HEAD:profile_app/templates/profile.html
                     <img src="{% static '' %}img/default-profiles/{{u.user.default_img}}.png" style="background-color: #{{ u.user.bg_color }}" alt="profile pic" class="comments-user-img">
                     <a href="/profile/{{u.user.id}}"><p>{{u.user.username}}</p></a>
+=======
+                    <img src="{% static '' %}img/default-profiles/{{follower.default_img}}.png" style="background-color: #{{ follower.bg_color }}" alt="profile pic" class="comments-user-img">
+                    <a href="/{{follower.id}}"><p>{{follower.username}}</p></a>
+>>>>>>> parent of 1f6f66a (replaced friend functionality with follow functionality):main_app/templates/profile.html
                 </li>
                 {% empty %}
                 <li>No followers yet!</li>
                 {% endfor %}
             </ul>
         </li>
+<<<<<<< HEAD:profile_app/templates/profile.html
         <!-- List of follows -->
         <li class="list-group-item ">
             <div class="list-group-row">
@@ -100,6 +112,8 @@
                 {% endfor %}
             </ul>
         </li>
+=======
+>>>>>>> parent of 1f6f66a (replaced friend functionality with follow functionality):main_app/templates/profile.html
         <li class="list-group-item ">
             <div class="list-group-row">
                 <h5>Favorites</h5>

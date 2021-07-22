@@ -1,6 +1,8 @@
+from profile_app.models import Post
 from django.db import models
 from django.db.models.fields.related import ForeignKey, ManyToManyField
-from login_app.models import *
+# from django.apps import apps
+# User = apps.get_model("login_app", "User")
 
 # Create your models here.
 class Pokemon(models.Model):
@@ -21,25 +23,3 @@ class Review(models.Model):
     likes = models.ManyToManyField(User, related_name = "liked_reviews")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-
-class Status(models.Model):
-    content = models.TextField()
-    added_by = models.ForeignKey(User, related_name = "statuses", null = True, on_delete = models.CASCADE)
-    likes = models.ManyToManyField(User, related_name = "liked_statuses")
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
-
-class Comment(models.Model):
-    content = models.TextField()
-    added_by = models.ForeignKey(User, related_name = "comments_added", null = True, on_delete = models.CASCADE)
-    likes = models.ManyToManyField(User, related_name = "liked_comments")
-    status = models.ForeignKey(Status, related_name = "comments", on_delete = models.CASCADE, null = True)
-    review = models.ForeignKey(Review, related_name = "comments", on_delete = models.CASCADE, null = True)
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
-
-# class Team(models.Model):
-#     user = ForeignKey(User, related_name = "team", on_delete = models.CASCADE)
-#     pkmn = ManyToManyField(Pokemon, related_name = "teams")
-#     created_at = models.DateTimeField(auto_now_add = True)
-#     updated_at = models.DateTimeField(auto_now = True)

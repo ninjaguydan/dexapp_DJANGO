@@ -10,6 +10,7 @@ body {
     font-family: 'Poppins', sans-serif;
     color: white;
     background-color: var(--secondary);
+    position: relative;
 
 }
 ol, ul {
@@ -496,15 +497,6 @@ a {
     .types {
         flex-direction: row;
     }
-    .team {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-        .team h4 {
-            grid-column: 1 / 4;
-        }
-        .team img {
-            width: 80%;
-        }
     .timeline .btn, .review .btn {
         max-width: 250px;
     }
@@ -535,7 +527,7 @@ a {
     .main-nav {
         display: flex;
         justify-content: space-between;
-        width: 600px;
+        width: 500px;
         margin: 0;
         align-items: center;
     }
@@ -545,16 +537,58 @@ a {
             .main-nav a:hover {
                 color: var(--third);
             }
-    .main-nav .comments-user-img {
-        width: 40px;
-        margin-right: 10px;
+        .main-nav .comments-user-img {
+            width: 40px;
+            margin-right: 10px;
+        }
+        .main-nav .material-icons {
+            margin-top: 10px;
+        }
+        .main-nav span .material-icons {
+            margin-top: 0;
+            position: relative;
+            top: 6px;
+            right: 6px;
+        }
+        .main-nav span {
+            cursor: pointer;
+        }
+            .main-nav span.active, .main-nav span:hover {
+                color: var(--third);
+            }
+            
+    /* Dropdown menu styles */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 4.25rem;
+        right: 2.2rem;
+        box-shadow: -4px 4px 8px rgba(39, 39, 39, 0.6);
     }
-    .main-nav .material-icons {
-        margin-top: 10px;
+        .dropdown-item {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+        .dropdown-item i {
+            position: relative;
+            top: 6px;
+            margin-right: 5px;
+        }
+        .dropdown-item img {
+            width: 20px;
+            margin-right: 3px;
+            margin-left: 2px;
+        }
+    .dropdown-menu-dark {
+        background-color: var(--fourth);
     }
-    .main-nav span .material-icons {
-        margin-top: 0;
-    }
+
+
+
+
+
+
+
     .card-grid {
         grid-template-columns: 1fr 1fr 1fr;
         column-gap: 10px;

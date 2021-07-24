@@ -14,6 +14,12 @@ function openMenu() {
         nav.style.display = "block";
     }
 }
+//display main nav dropdown menu
+$('.main-nav span').click(function(){
+    $('.dropdown-menu').toggle();
+    $('.main-nav span').toggleClass('active');
+})
+
 
 // display review reply form
 $('.reply').click(function(){

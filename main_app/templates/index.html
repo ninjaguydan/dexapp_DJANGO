@@ -8,23 +8,18 @@
 {% block title %}| Home{% endblock %}
 
 {% block main_nav %}
-{% if request.session.userid %}
-    <li class="bold"><a href="/profile/{{user.id}}">{{user.username}}</a></li>
-    <li class="bold"><a href="/login/logout">Logout</a></li>
+    {% if request.session.userid %}
+    <!-- <li class="bold"><a href="/login/logout">Logout</a></li> -->
+    <li><a href=""><i class="material-icons">mail</i></a></li>
+    <li><a href=""><i class="material-icons">notifications</i></a></li>
+    <li class="bold">
+        <a href="/profile/{{user.id}}"><img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="comments-user-img"></a>
+        <span>{{user.username}} <i class="material-icons">	arrow_drop_down</i></span>
+    </li>
     {% else %}
     <li class="bold"><a href="/login/register">Sign Up</a></li>
     <li class="bold"><a href="/login/">Login</a></li>  
-{% endif %}
-{% endblock %}
-
-{% block mobile_nav %}
-{% if request.session.userid %}
-<li class="list-group-item bold"><a href="/profile/{{user.id}}">{{user.username}}</a></li>
-    <li class="list-group-item bold"><a href="/login/logout">Logout</a></li> 
-    {% else %}
-    <li class="list-group-item bold"><a href="/login/">Login</a></li> 
-    <li class="list-group-item bold"><a href="/login/register">Sign Up</a></li>
-{% endif %}
+    {% endif %}
 {% endblock %}
 
 
@@ -55,7 +50,7 @@
         {% for post in posts reversed %}
         <li class="list-group-item">
             <div class="comment-head">
-                <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" style="background-color: #{{post.added_by.bg_color}};" alt="profile pic" class="comments-user-img">
+                <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="comments-user-img">
                 <div>
                     <a href="/profile/{{post.added_by.id}}"><h5>{{post.added_by.username}}</h5></a>
                     <small>{{post.created_at | timesince}} ago</small>

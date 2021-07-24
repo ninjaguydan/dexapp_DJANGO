@@ -12,13 +12,14 @@
     <!-- Google Fonts (Poppins) -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- Google Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% block style %}{% endblock %}
     <!--Bootstrap JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"defer></script>
-    <!-- Bootstrap Form Validation -->
-
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Custom JS -->
@@ -29,12 +30,14 @@
 
 <body>
     <header class="main">
+        <!-- DexApp Logo -->
         <a href="/" class="header-logo"></a>
+        <!-- Menu Hamburger -->
         <div onclick="openMenu()" id="menu-btn" class="menu-btn">
 			<div class="menu-btn_burger"></div>
 		</div>
-        <ul class="main-nav">
-            <li><a href="/">Home</a></li> 
+        <!-- Desktop Navigation -->
+        <ul class="main-nav"> 
             <li><a href="">Pokedex</a></li> 
             <li><a href="">Community</a></li>
             {% block main_nav %}
@@ -44,15 +47,7 @@
         </ul>
     </header><!-- main nav -->
     
-    <ul class="list-group list-group-flush mobile-nav">
-        {% block mobile_nav %}
-        <li class="list-group-item bold"><a href="/login/">Login</a></li> 
-        <li class="list-group-item bold"><a href="/login/register">Sign Up</a></li>
-        {% endblock %}
-        <li class="list-group-item"><a href="/">Home</a></li> 
-        <li class="list-group-item"><a href="">Pokemon</a></li> 
-        <li class="list-group-item"><a href="">Community</a></li> 
-    </ul>
+
 
     <div class="wrapper">
         {% block content %}

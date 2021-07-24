@@ -1,3 +1,4 @@
+/*------ Universal styles ------*/
 * {
     /* outline: 1px dotted magenta; */
     --primary: #F20C32;
@@ -33,25 +34,6 @@ a {
     width: 100%;
     margin-bottom: 15px;
 }
-.table {
-    margin-bottom: 0;
-}
-.rating {
-    display: flex;
-    justify-content: space-between;
-}
-.heart {
-    color: var(--primary);
-}
-.star {
-    font-size: 1.5em;
-    color: var(--third);
-    margin-bottom: -20px;
-    }
-.rating p {
-    margin: 0;
-    justify-content: center;
-}
 .btn-primary {
     background-color: var(--primary);
     border-color: var(--primary);
@@ -66,12 +48,8 @@ a {
 .btn-secondary {
     background-color: transparent;
 }
-.btn-profile {
-    margin-top: 20px;
-}
-    a.btn-profile:hover {
-        color: white !important;
-    }
+
+/*------ Top Navigation Styles ------*/
 .main {
     padding: 15px 15px;
     display: flex;
@@ -85,48 +63,50 @@ a {
         width: 40px;
         height: 40px;
     }
-    .menu-btn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-        transition: all .1s ease-in-out;
+/* Menu hamburger */
+.menu-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+}
+.menu-btn_burger {
+    width: 30px;
+    height: 2px;
+    background: white;
+    transition: all .1s ease-in-out;
+}
+.menu-btn_burger::before, .menu-btn_burger::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 2px;
+    background: white;
+    transition: all .1s ease-in-out;
+}
+.menu-btn_burger::before {
+    transform: translateY(-10px);
+    transform-origin: left, top;
+}  
+.menu-btn_burger::after {
+    transform: translateY(10px);
+    transform-origin: left, bottom;
+}
+    .menu-btn.open .menu-btn_burger {
+        background: transparent;
     }
-    .menu-btn_burger {
-        width: 30px;
-        height: 2px;
-        background: white;
-        transition: all .1s ease-in-out;
+    .menu-btn.open .menu-btn_burger::before {
+        background-color: var(--third);
+        transform: rotate(45deg);
     }
-    .menu-btn_burger::before, .menu-btn_burger::after {
-        content: '';
-        position: absolute;
-        width: 30px;
-        height: 2px;
-        background: white;
-        transition: all .1s ease-in-out;
+    .menu-btn.open .menu-btn_burger::after {
+        background-color: var(--third);
+        transform: rotate(-45deg);
     }
-    .menu-btn_burger::before {
-        transform: translateY(-10px);
-        transform-origin: left, top;
-    }  
-    .menu-btn_burger::after {
-        transform: translateY(10px);
-        transform-origin: left, bottom;
-    }
-        .menu-btn.open .menu-btn_burger {
-            background: transparent;
-        }
-        .menu-btn.open .menu-btn_burger::before {
-            background-color: var(--third);
-            transform: rotate(45deg);
-        }
-        .menu-btn.open .menu-btn_burger::after {
-            background-color: var(--third);
-            transform: rotate(-45deg);
-        }
+/* Mobile menu animation */
 @keyframes overlay {
     from {
         opacity: 0;
@@ -135,9 +115,7 @@ a {
         opacity: 1;
     }
 }
-.main-nav {
-    display: none;
-}
+/* Mobile navigation menu */
 .mobile-nav {
     display: none;
     position: absolute;
@@ -145,6 +123,12 @@ a {
     width: 100%;
     animation: overlay .5s forwards;
 }
+/* Hide desktop navigation */
+.main-nav {
+    display: none;
+}
+
+/*---------- List Styles ----------*/
 .list-group-profile {
     max-width: 500px;
     margin: 0 auto;
@@ -305,78 +289,24 @@ a {
     text-align: center;
     width: 200px;
 }
-    .bug {
-        background-color: rgb(133, 163, 24);
-        color: white;
-    }
-    .dark {
-        background-color: rgb(43, 13, 36);
-        color: white;
-    }
-    .dragon {
-        background-color: rgb(97, 0, 253);
-        color: white;
-    }
-    .electric {
-        background-color: rgb(228, 225, 21);
-        color: black;
-    }
-    .fairy {
-        background-color: rgb(255, 151, 151);
-        color: rgb(82, 27, 27);
-    }
-    .fighting {
-        background-color: rgb(128, 30, 0);
-        color: white;
-    }
-    .fire {
-        background-color: rgb(228, 69, 21);
-        color: white;
-    }
-    .flying {
-        background-color: rgb(127, 221, 238);
-        color: rgb(0, 0, 0);
-    }
-    .ghost {
-        background-color: rgb(108, 72, 124);
-        color: white;
-    }
-    .grass {
-        background-color: green;
-        color: white;
-    }
-    .ground {
-        background-color: rgb(112, 56, 18);
-        color: white;
-    }
-    .ice {
-        background-color: rgb(7, 231, 247);
-        color: rgb(0, 0, 0);
-    }
-    .normal {
-        background-color: rgb(128, 128, 128);
-        color: white;
-    }
-    .psychic {
-        background-color: rgb(214, 70, 190);
-        color: white;
-    }
-    .poison {
-        background-color: rgb(176, 44, 209);
-        color: white;
-    }
-    .rock {
-        background-color: rgb(92, 64, 27);
-        color: white;
-    }
-    .water {
-        background-color: rgb(11, 125, 190);
-        color: white;
-    }
-    .steel {
-        background-color: rgb(93, 110, 119);
-        color: white;
-    }
+    .bug { background-color: rgb(133, 163, 24); color: white;}
+    .dark { background-color: rgb(43, 13, 36); color: white;}
+    .dragon { background-color: rgb(97, 0, 253); color: white;}
+    .electric { background-color: rgb(228, 225, 21); color: black;}
+    .fairy { background-color: rgb(255, 151, 151); color: rgb(82, 27, 27);}
+    .fighting { background-color: rgb(128, 30, 0); color: white;}
+    .fire { background-color: rgb(228, 69, 21); color: white;}
+    .flying { background-color: rgb(127, 221, 238); color: rgb(0, 0, 0);}
+    .ghost { background-color: rgb(108, 72, 124); color: white;}
+    .grass { background-color: green; color: white;}
+    .ground { background-color: rgb(112, 56, 18); color: white;}
+    .ice { background-color: rgb(7, 231, 247); color: rgb(0, 0, 0);}
+    .normal { background-color: rgb(128, 128, 128); color: white;}
+    .psychic { background-color: rgb(214, 70, 190); color: white;}
+    .poison { background-color: rgb(176, 44, 209); color: white;}
+    .rock { background-color: rgb(92, 64, 27); color: white;}
+    .water { background-color: rgb(11, 125, 190); color: white;}
+    .steel { background-color: rgb(93, 110, 119); color: white;}
 .review {
     max-width: 500px;
     margin: 0 auto;
@@ -590,12 +520,15 @@ a {
 
 /*-------------------- At 1080px --------------------*/
 @media only screen and (min-width: 1080px) {
+    /* Hide menu button hamburger */
     #menu-btn {
         display: none;
     }
+    /* Hide mobile menu if open */
     .mobile-nav {
         display: none !important;
     }
+    /* Desktop Navigation Styles */
     .main {
         padding: 15px 30px;
     }
@@ -604,6 +537,7 @@ a {
         justify-content: space-between;
         width: 600px;
         margin: 0;
+        align-items: center;
     }
         .main-nav a {
             color: white;
@@ -611,6 +545,16 @@ a {
             .main-nav a:hover {
                 color: var(--third);
             }
+    .main-nav .comments-user-img {
+        width: 40px;
+        margin-right: 10px;
+    }
+    .main-nav .material-icons {
+        margin-top: 10px;
+    }
+    .main-nav span .material-icons {
+        margin-top: 0;
+    }
     .card-grid {
         grid-template-columns: 1fr 1fr 1fr;
         column-gap: 10px;

@@ -9,6 +9,8 @@ class TeamManager(models.Manager):
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name = "profile", on_delete=models.CASCADE)
     bio = models.TextField(null = True)
+    location = models.CharField(max_length=100, null = True)
+    pronouns = models.CharField(max_length=20, null = True)
     following = models.ManyToManyField(User, related_name = "following", blank = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)

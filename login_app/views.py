@@ -10,6 +10,8 @@ from profile_app.models import Profile
 
 #render login page
 def login(request):
+    if "userid" in request.session:
+        return redirect('/')
     return render(request, "login.html")
 
 #log in the user
@@ -28,6 +30,8 @@ def user_login(request):
 
 #render registration poage
 def register(request):
+    if "userid" in request.session:
+        return redirect('/')
     return render(request, "register.html")
 
 #add new user to database

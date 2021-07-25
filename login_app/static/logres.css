@@ -1,0 +1,64 @@
+body {
+    position: initial;
+}
+.logres {
+    width: 100%;
+    margin: 0 auto;
+    padding: 15px;
+    border-radius: .5rem;
+    background-color: var(--fourth);
+}
+.logres .form-row, .logres .form-group {
+    margin-bottom: 15px;
+}
+.tag {
+    display: none;    
+}
+/*-------------------- At 550px --------------------*/
+@media only screen and (min-width: 550px) {
+    .logres {
+        position: absolute;
+        top: 53%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 500px;
+    }
+}
+
+/*-------------------- At 1080px --------------------*/
+@media only screen and (min-width: 1080px) {
+    .log-wrapper {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        top: 53%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 1200px;
+    }
+    .logres {
+        position: initial;
+        -ms-transform: none;
+        transform: none;
+        margin: 0;
+    }
+    .tag {
+        display: block;
+        width: 500px;
+    }
+        .tag h3 {
+            font-size: 2.25em;
+            line-height: 1.25em;
+            font-weight: 300;
+        }
+        .tag h3 span {
+            color: var(--third);
+            font-weight: 700;
+        }
+        .tag img {
+            width: 500px;
+        }
+}

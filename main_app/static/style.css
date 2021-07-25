@@ -130,7 +130,7 @@ a {
 }
 
 /*---------- List Styles ----------*/
-.list-group-profile {
+/* .list-group-profile {
     max-width: 500px;
     margin: 0 auto;
 }
@@ -167,7 +167,7 @@ a {
     width: 100%;
     background-color: var(--secondary);
     border-radius: 50%;
-}
+} */
 .wrapper {
     padding: 15px;
 }
@@ -176,21 +176,12 @@ a {
     margin-bottom: 30px;
     text-align: center;
 }
-.logres {
-    width: 100%;
-    margin: 0 auto;
-    padding: 15px;
-    border-radius: .5rem;
-    background-color: var(--fourth);
-}
-.logres .form-row, .logres .form-group {
-    margin-bottom: 15px;
-}
 .form-control:focus {
     border-color: #e58494;
     box-shadow: 0 0 0 0.25rem rgb(253 49 88 / 25%);
 }
-.card {
+
+/* .card {
     background-color: var(--fourth);
     border-radius: .5rem;
     padding: 15px;
@@ -213,8 +204,10 @@ a {
     text-align: center;
     font-weight: bold;
     font-size: 1.25em;
-}
-.profile-card {
+} */
+
+
+/* .profile-card {
     margin: 0 auto;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -307,12 +300,14 @@ a {
     .poison { background-color: rgb(176, 44, 209); color: white;}
     .rock { background-color: rgb(92, 64, 27); color: white;}
     .water { background-color: rgb(11, 125, 190); color: white;}
-    .steel { background-color: rgb(93, 110, 119); color: white;}
-.review {
+    .steel { background-color: rgb(93, 110, 119); color: white;} */
+
+
+/* .review {
     max-width: 500px;
     margin: 0 auto;
 }
-.tag, .feed {
+.feed {
     display: none;    
 }
 .comment {
@@ -346,7 +341,9 @@ a {
 .comment-count {
     font-size: 0.75em;
     color: gray;
-}
+} */
+
+
 .team {
     display: grid;
     text-align: center;
@@ -464,14 +461,6 @@ a {
 
 /*-------------------- At 550px --------------------*/
 @media only screen and (min-width: 550px) {
-    .logres {
-        position: absolute;
-        top: 53%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        width: 500px;
-    }
     .main .header-logo {
         background: url('img/dex-logo-w.svg') no-repeat center center;
         background-size: contain;
@@ -602,8 +591,6 @@ a {
 
 
 
-
-
     .card-grid {
         grid-template-columns: 1fr 1fr 1fr;
         column-gap: 10px;
@@ -628,45 +615,12 @@ a {
         .list-group-item small {
             color: grey;
         }
-    .log-wrapper {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        top: 53%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        width: 1200px;
-    }
-    .logres {
-        position: initial;
-        -ms-transform: none;
-        transform: none;
-        margin: 0;
-    }
     .wrapper {
         width: 1200px;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
     }
-    .tag {
-        display: block;
-        width: 500px;
-    }
-        .tag h3 {
-            font-size: 2.25em;
-            line-height: 1.25em;
-            font-weight: 300;
-        }
-        .tag h3 span {
-            color: var(--third);
-            font-weight: 700;
-        }
-        .tag img {
-            width: 500px;
-        }
     .column {
         width: 55%;
     }
@@ -678,5 +632,4 @@ a {
     .feed h6 {
         display: inline;
     }
-
 }

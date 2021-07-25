@@ -41,8 +41,8 @@
             <li><a href="">Pokedex</a></li> 
             <li><a href="">Community</a></li>
             {% if request.session.userid %}
-                <li><a href=""><i class="material-icons">mail</i></a></li>
-                <li><a href=""><i class="material-icons">notifications</i></a></li>
+                <li><a href=""><i class="material-icons">mail</i></a><div class="notification">4</div></li>
+                <li><a href=""><i class="material-icons">notifications</i></a><div class="notification">10</div></li>
                 <li class="bold">
                     <a href="/profile/{{user.id}}"><img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="comments-user-img"></a>
                     <span>{{user.username}} <i class="material-icons">arrow_drop_down</i></span>

@@ -556,6 +556,21 @@ a {
             .main-nav span.active, .main-nav span:hover {
                 color: var(--third);
             }
+        .main-nav li {
+            position: relative;
+        }
+        .notification {
+            background-color: var(--primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            font-weight: 500;
+            font-size: .75em;
+            position: absolute;
+            right: -12px;
+            top: 1px;
+        }
             
     /* Dropdown menu styles */
     .dropdown-menu {

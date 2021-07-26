@@ -79,6 +79,37 @@ a {
         border-color: none;
         background-color: transparent;
     }
+.search-form {
+    display: flex;
+    flex-direction: row;
+}
+    .search-form input {
+        border-radius: 1rem 0 0 1rem;
+        background-color: var(--fourth);
+        color: var(--fifth);
+        border: none;
+    }
+        .search-form input:focus {
+            box-shadow: none;
+            background-color: var(--fourth);
+            color: var(--fifth);
+        }
+    .search-form button {
+        all: unset;
+        width: 40px;
+        border-radius: 0 1rem 1rem 0;
+        background-color: var(--fourth);
+        color: var(--fifth);
+        position: relative;
+        cursor: pointer;
+    }
+        .search-form button i {
+            position: absolute;
+            top: 6px;
+        }
+        .search-form button i:hover {
+            color: var(--third);
+        }
 
 
 /*------ Top Navigation Styles ------*/
@@ -493,11 +524,8 @@ a {
         width: 150px;
         height: 50px;
     }
-    .wrapper h2 {
+    /* .wrapper h2 {
         text-align: left;
-    }
-    .card h2 {
-        text-align: center;
     }
     .profile-card-item div a {
         flex-direction: row;
@@ -514,7 +542,7 @@ a {
     }
     .timeline .btn, .review .btn {
         max-width: 250px;
-    }
+    } */
 }
 
 /*-------------------- At 700px --------------------*/
@@ -628,6 +656,9 @@ a {
             display: flex;
             flex-direction: column;
         }
+        .card-item-content {
+            width: 439px;
+        }
         .card-item p {
             margin-bottom: 10px;
             flex-wrap: wrap;
@@ -647,6 +678,9 @@ a {
             text-align: center;
             margin-left: auto;
         }
+            .card-item-icons p:last-child {
+                margin-bottom: 0;
+            }
             .card-item-icons .material-icons {
                 font-size: 18px;
             }
@@ -690,7 +724,7 @@ a {
             color: grey;
         }
     .wrapper {
-        width: 1200px;
+        width: 1080px;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
@@ -698,11 +732,7 @@ a {
     .column {
         width: 55%;
     }
-    .feed {
-        display: block;
-        width: 40%;
-        margin-top: 80px;
-    }
+
     .feed h6 {
         display: inline;
     }

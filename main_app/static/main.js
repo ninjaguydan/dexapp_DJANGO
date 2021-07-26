@@ -19,6 +19,8 @@ $('.main-nav span').click(function(){
     $('.dropdown-menu').toggle();
     $('.main-nav span').toggleClass('active');
 })
+//Close dropdown menu when clicking anywhere outside of it
+
 
 
 // display review reply form

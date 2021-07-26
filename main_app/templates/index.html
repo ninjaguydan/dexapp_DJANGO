@@ -31,9 +31,9 @@
     <!-- Timeline Feed -->
     <div class="card">
         <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img">
-        <div class="card-item">
+        <div class="card-item card-item-content">
             <p class="bold">John Doe <span>PKMaster</span></p>
-            <p>Charizard sucks!! fdghkdfgjkd fgjkdfgjkdfhgjkdfghhdfjkghdfgjkhgjkhdfgjkhjkghdfjkghgjkhjkhjk</p>
+            <p>Charizard sucks!!</p>
             <p class="time">3 minutes ago</p>
         </div>
         <div class="card-item-icons">
@@ -45,19 +45,36 @@
     </div>
 </div>
 
+<!-- Right column content -->
+<div class="column rank">
+    <!-- Search bar -->
+    <form action="" method="" role="search" class="search-form">
+        {% csrf_token %}
+        <input type="search" name="search" class="form-control" placeholder="Search DexApp">
+        <button id="search"><i class="material-icons">search</i></button>
+    </form>
 
-<div class="column feed">
-    <ul class="list-group">
-        <li class="list-group-head">
-            <h3>Recent Posts</h3>
+    <ol class="list-group">
+        <li class="list-group-item">
+            <h5 class="bold">Top Pokemon</h5>
         </li>
-        
-    </ul>
+        {% for pokemon in all_pokemon %}
+        <li class="list-group-item">
+            <h3 class="bold">1</h3>
+            <img src="{{pokemon.art_url}}" alt="{{pokemon.name}}'s official art">
+            <div class="info">
+                <h6 class="bold">{{pokemon.name|title}}</h6>
+                <div class="icons">
+                    <h6><i class="material-icons">favorite</i> 66</h6>
+                    <h6><i class="material-icons">star</i> 66</h6>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
 
     <ul class="list-group">
-        <li class="list-group-head">
-            <h3>Recent Reviews</h3>
-        </li>
+
         
     </ul>
 </div>

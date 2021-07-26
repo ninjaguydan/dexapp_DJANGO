@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+{% endblock %}
+
 {% block js %}
     <script src="{% static 'pkmn.js' %}" defer></script>
 {% endblock %}
@@ -10,80 +14,51 @@
 
 <!------------------------ Body ------------------------>
 {% block content %}
+
+<!-- Left column content -->
 <div class="column">
-    <h2>Popular Pokemon</h2>
-    <div class="card-grid">
-        {% for pkmn in all_pokemon %}
-        <a href="/{{pkmn.id}}">
-            <div class="card">
-                <h3>#{{pkmn.id}}</h3>
-                <img src="{{pkmn.art_url}}" alt="{{pkmn.name}}'s official art">
-                <h2>{{pkmn.name}}</h2>
+    <!-- Post Form -->
+    <div class="card">
+        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
+            <div class="btn-container">
+                <button class="btn btn-primary btn-post">Post</button>
             </div>
-        </a>
-        {% endfor %}
-    </div><!-- card-grid -->
-</div><!-- column -->
+        </form>
+    </div>
+    <!-- Timeline Feed -->
+    <div class="card">
+        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img">
+        <div class="card-item">
+            <p class="bold">John Doe <span>PKMaster</span></p>
+            <p>Charizard sucks!! fdghkdfgjkd fgjkdfgjkdfhgjkdfghhdfjkghdfgjkhgjkhdfgjkhjkghdfjkghgjkhjkhjk</p>
+            <p class="time">3 minutes ago</p>
+        </div>
+        <div class="card-item-icons">
+            <a href=""><i class="material-icons">favorite_border</i></a>
+            <p>12</p>
+            <a href=""><i class="material-icons">chat_bubble_outline</i></a>
+            <p>345</p>
+        </div>
+    </div>
+</div>
 
 
-<!-- Recent Posts -->
 <div class="column feed">
     <ul class="list-group">
         <li class="list-group-head">
             <h3>Recent Posts</h3>
         </li>
-        {% for post in posts reversed %}
-        <li class="list-group-item">
-            <div class="comment-head">
-                <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="comments-user-img">
-                <div>
-                    <a href="/profile/{{post.added_by.id}}"><h5>{{post.added_by.username}}</h5></a>
-                    <small>{{post.created_at | timesince}} ago</small>
-                </div>
-                <!-- Likes and Like Counter -->
-                {% if "userid" not in request.session %}
-                <span class="likes">&#10084; {{post.likes.all|length}}</span>
-                {% elif user not in post.likes.all %}
-                <a href="/profile/{{post.id}}/like_post" class="likes">&#10084; {{post.likes.all|length}}</a>
-                {% else %}
-                <a href="/profile/{{post.id}}/unlike_post" class="likes" style="color: #009DF1;">&#10084; {{post.likes.all|length}}</a>
-                {% endif %}
-            </div>
-            <p>{{post.content}}</p>
-            <span class="comment-count"> 
-                {% if not post.comments.all|length %} 
-                    <!-- Display Nothing -->
-                {% elif post.comments.all|length == 1 %}
-                    {{post.comments.all|length}} Comment
-                {% else %} 
-                {{post.comments.all|length}} Comments 
-                {% endif %}
-            </span>
-        </li>
-        {% empty %}
-        <li class="list-group-item">
-            <h5>No updates yet!</h5>
-        </li>
-        {% endfor %}
+        
     </ul>
 
     <ul class="list-group">
         <li class="list-group-head">
             <h3>Recent Reviews</h3>
         </li>
-        {% for review in reviews reversed %}
-        <li class="list-group-item">
-            <a href="/{{review.pkmn.id}}"><h5>{{review.pkmn.name | title}}</h5></a>
-            <span class="n{{review.rating}} star"></span>
-            <p>{{review.content}}
-            </p>
-            <p><a href="/profile/{{review.added_by.id}}">{{review.added_by.username}}</a>  <small>{{review.created_at | timesince}} ago</small></p>
-        </li>
-        {% empty %}
-        <li class="list-group-item">
-            <h5>No reviews yet!</h5>
-        </li>
-        {% endfor %}
+        
     </ul>
 </div>
 

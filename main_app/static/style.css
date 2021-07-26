@@ -2,13 +2,14 @@
 * {
     /* outline: 1px dotted magenta; */
     --primary: #F20C32;
-    --secondary: #272727;
+    --secondary: #191919;
     --third: #009DF1;
-    --fourth:#444444;
+    --fourth:#353535;
+    --fifth: #ced4da;
 }
 body {
     font-family: 'Poppins', sans-serif;
-    color: white;
+    color: var(--fifth);
     background-color: var(--secondary);
     position: relative;
 
@@ -26,14 +27,27 @@ a {
 .bold {
     font-weight: 700;
 }
+.time {
+    color: gray;
+    font-size: .75rem;
+}
+.wrapper {
+    padding: 15px;
+}
+/* Button Styles */
 .btn-container {
-    margin-top: 30px;
+    margin-top: 15px;
     text-align: right;
 }
 .btn {
-    padding: .5rem 1rem;
+    padding: .25rem 1rem;
     width: 100%;
     margin-bottom: 15px;
+    text-align: center;
+}
+.btn-post {
+    margin: 0;
+    max-width: 150px;
 }
 .btn-primary {
     background-color: var(--primary);
@@ -49,6 +63,23 @@ a {
 .btn-secondary {
     background-color: transparent;
 }
+/* Form Styles */
+.form-control:focus {
+    border-color: #e58494;
+    box-shadow: 0 0 0 0.25rem rgb(253 49 88 / 25%);
+}
+.form-control-custom {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--fifth);
+}
+    .form-control-custom:focus {
+        color: var(--fifth);
+        box-shadow: none;
+        border-color: none;
+        background-color: transparent;
+    }
+
 
 /*------ Top Navigation Styles ------*/
 .main {
@@ -168,18 +199,13 @@ a {
     background-color: var(--secondary);
     border-radius: 50%;
 } */
-.wrapper {
-    padding: 15px;
-}
-.wrapper h2 {
+
+/* .wrapper h2 {
     margin-top: 15px;
     margin-bottom: 30px;
     text-align: center;
-}
-.form-control:focus {
-    border-color: #e58494;
-    box-shadow: 0 0 0 0.25rem rgb(253 49 88 / 25%);
-}
+} */
+
 
 /* .card {
     background-color: var(--fourth);
@@ -344,7 +370,7 @@ a {
 } */
 
 
-.team {
+/* .team {
     display: grid;
     text-align: center;
     grid-template-columns: 1fr 1fr;
@@ -373,7 +399,7 @@ a {
     position: absolute;
     z-index: 99;
     top: 0;
-    /* left: 5%; */
+    left: 5%;
     transform: translateX(-50%);
     width: 100%;
     max-width: 500px;
@@ -448,7 +474,7 @@ a {
 }
     a.likes:hover {
         color: var(--primary);
-    }
+    } */
 
 /*-------------------- At 450px --------------------*/
 @media only screen and (min-width: 450px) {
@@ -526,8 +552,9 @@ a {
             .main-nav a:hover {
                 color: var(--third);
             }
-        .main-nav .comments-user-img {
+        .main-nav .user-img {
             width: 40px;
+            height: 40px;
             margin-right: 10px;
         }
         .main-nav .material-icons {
@@ -550,6 +577,7 @@ a {
         }
         .notification {
             background-color: var(--primary);
+            color: white;
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -585,6 +613,52 @@ a {
         }
     .dropdown-menu-dark {
         background-color: var(--fourth);
+    }
+    /* Card Styles */
+    .card {
+        display: flex;
+        flex-direction: row;
+        background-color: var(--fourth);
+        border-radius: .25rem;
+        padding: 30px;
+        margin-bottom: 3px;
+    }
+        .card-item {
+            margin-right: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-item p {
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            /* hyphens: auto; */
+            }
+            .card-item p:last-child {
+                margin-bottom: 0;
+            }
+            .card-item span {
+                font-weight: 300;
+                color: gray;
+            }
+        .card-item-icons {
+            font-size: 0.75em;
+            text-align: center;
+            margin-left: auto;
+        }
+            .card-item-icons .material-icons {
+                font-size: 18px;
+            }
+        .card form {
+            width: 100%;
+        }
+
+    .user-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: var(--secondary);
     }
 
 

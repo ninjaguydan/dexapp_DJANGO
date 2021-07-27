@@ -54,7 +54,9 @@ def create_post(request, user_id):
         content = request.POST['post'],
         added_by = user,
     )
+    print(f"We got here from {request.path_info}!!")
     return redirect(f'/profile/{user_id}')
+    # return HttpResponseRedirect(request.path_info)
 
 def delete_post(request, post_id):
     post_to_delete = Post.objects.get(id = post_id)

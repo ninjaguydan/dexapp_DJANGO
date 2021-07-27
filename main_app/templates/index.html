@@ -20,7 +20,7 @@
     <!-- Post Form -->
     <div class="card">
         <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img">
-        <form action="" method="POST">
+        <form action="/profile/{{user.id}}/create_post" method="POST">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
             <div class="btn-container">
@@ -29,7 +29,7 @@
         </form>
     </div>
     <!-- Timeline Feed -->
-    <div class="card">
+    <!-- <div class="card">
         <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img">
         <div class="card-item card-item-content">
             <p class="bold">John Doe <span>PKMaster</span></p>
@@ -42,7 +42,23 @@
             <a href=""><i class="material-icons">chat_bubble_outline</i></a>
             <p>345</p>
         </div>
+    </div> -->
+    {% for post in posts reversed %}
+    <div class="card">
+        <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="card-item user-img">
+        <div class="card-item card-item-content">
+            <a href="/profile/{{post.added_by.id}}"><p class="bold">{{post.added_by.first_name}} {{post.added_by.last_name}} </a><span>{{post.added_by.username}}</span></p>
+            <p>{{post.content}}</p>
+            <p class="time">{{post.created_at|timesince}} ago</p>
+        </div>
+        <div class="card-item-icons">
+            <a href=""><i class="material-icons">favorite_border</i></a>
+            <p>{{post.likes.all|length}}</p>
+            <a href=""><i class="material-icons">chat_bubble_outline</i></a>
+            <p>{{post.comments.all|length}}</p>
+        </div>
     </div>
+    {% endfor %}
 </div>
 
 <!-- Right column content -->
@@ -53,17 +69,17 @@
         <input type="search" name="search" class="form-control" placeholder="Search DexApp">
         <button id="search"><i class="material-icons">search</i></button>
     </form>
-
+    <!-- Top 10 Pokemon ordered by "Likes" -->
     <ol class="list-group">
         <li class="list-group-item">
             <h5 class="bold">Top Pokemon</h5>
         </li>
         {% for pokemon in all_pokemon %}
         <li class="list-group-item">
-            <h3 class="bold">1</h3>
-            <img src="{{pokemon.art_url}}" alt="{{pokemon.name}}'s official art">
+            <!-- Rank number here from CSS -->
+            <a href="/{{pokemon.id}}"><img src="{{pokemon.art_url}}" alt="{{pokemon.name}}'s official art"></a>
             <div class="info">
-                <h6 class="bold">{{pokemon.name|title}}</h6>
+                <a href="/{{pokemon.id}}"><h6 class="bold">{{pokemon.name|title}}</h6></a>
                 <div class="icons">
                     <h6><i class="material-icons">favorite</i> 66</h6>
                     <h6><i class="material-icons">star</i> 66</h6>
@@ -73,10 +89,6 @@
         {% endfor %}
     </ol>
 
-    <ul class="list-group">
-
-        
-    </ul>
 </div>
 
 

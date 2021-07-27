@@ -17,9 +17,12 @@
 
 <!-- Left column content -->
 <div class="column">
+    {% if "userid" not in request.session %}
+    <!-- If no one is logged in, don't display post form -->
+    {% else %}
     <!-- Post Form -->
     <div class="card">
-        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img">
+        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}}">
         <form action="/profile/{{user.id}}/create_post" method="POST">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
@@ -28,33 +31,37 @@
             </div>
         </form>
     </div>
+    {% endif %}
     <!-- Timeline Feed -->
-    <!-- <div class="card">
-        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img">
-        <div class="card-item card-item-content">
-            <p class="bold">John Doe <span>PKMaster</span></p>
-            <p>Charizard sucks!!</p>
-            <p class="time">3 minutes ago</p>
-        </div>
-        <div class="card-item-icons">
-            <a href=""><i class="material-icons">favorite_border</i></a>
-            <p>12</p>
-            <a href=""><i class="material-icons">chat_bubble_outline</i></a>
-            <p>345</p>
-        </div>
-    </div> -->
     {% for post in posts reversed %}
     <div class="card">
-        <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="card-item user-img">
+        <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
         <div class="card-item card-item-content">
             <a href="/profile/{{post.added_by.id}}"><p class="bold">{{post.added_by.first_name}} {{post.added_by.last_name}} </a><span>{{post.added_by.username}}</span></p>
             <p>{{post.content}}</p>
             <p class="time">{{post.created_at|timesince}} ago</p>
         </div>
         <div class="card-item-icons">
-            <a href=""><i class="material-icons">favorite_border</i></a>
+            {% if "userid" not in request.session %}
+            <!-- If no one is logged in, non-clickable heart is displayed -->
+            <i class="material-icons">favorite_border</i>
+            {% elif user not in post.likes.all %}
+            <!-- "Like Post" form -->
+            <form action="/profile/like_post" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="like" value="{{post.id}}">
+                <button><i class="material-icons">favorite_border</i></button>
+            </form>
+            {% else %}
+            <!-- "Unlike Post" form -->
+            <form action="/profile/like_post" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="like" value="{{post.id}}">
+                <button><i class="material-icons active">favorite</i></button>
+            </form>
+            {% endif %}
             <p>{{post.likes.all|length}}</p>
-            <a href=""><i class="material-icons">chat_bubble_outline</i></a>
+            <i class="material-icons reply">chat_bubble_outline</i>
             <p>{{post.comments.all|length}}</p>
         </div>
     </div>

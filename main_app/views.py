@@ -26,7 +26,7 @@ def index(request):
         user = None
     context = {
         "user" : user,
-        "posts" : Post.objects.all().order_by("created_at")[:10],
+        "posts" : Post.objects.all().order_by("created_at"),
         "reviews" : Review.objects.all().order_by("created_at")[:10],
         "all_pokemon" : Pokemon.objects.annotate(count = Count('favorited_by')).order_by('-count')[:10],
     }

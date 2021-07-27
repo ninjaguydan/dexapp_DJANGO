@@ -37,12 +37,12 @@ $('.reply').click(function(){
 
 //display "edit Profile" modal
 $('#edit-profile').click(function(){
-    $('.edit-profile-modal').css("display", "block");
+    $('.modal-bg').css("display", "block");
 })
 
 //close "Edit Profile" modal
 $('#close').click(function(){
-    $('.edit-profile-modal').css("display", "none");
+    $('.modal-bg').css("display", "none");
 })
 
 // select profile image

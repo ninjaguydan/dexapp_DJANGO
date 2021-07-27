@@ -57,7 +57,7 @@ class User(models.Model):
     email = models.CharField(max_length = 50)
     password = models.CharField(max_length = 60)
     default_img = models.CharField(max_length = 2, default = 0)
-    bg_color = models.CharField(max_length = 6, default = 272727)
+    bg_color = models.CharField(max_length = 20, default = "gray")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     objects = UserManager()

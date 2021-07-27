@@ -1,126 +1,67 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'profile.css' %}">
+{% endblock %}
+
 {% block title %}| {{user.username}}{% endblock %}
-
-{% block main_nav %}
-{% if request.session.userid %}
-    <li class="bold"><a href="/profile/{{user.id}}">{{user.username}}</a></li>
-    <li class="bold"><a href="/login/logout">Logout</a></li>
-    {% else %}
-    <li class="bold"><a href="/login/register">Sign Up</a></li>
-    <li class="bold"><a href="/login/">Login</a></li>  
-{% endif %}
-{% endblock %}
-
-{% block mobile_nav %}
-{% if request.session.userid %}
-<li class="list-group-item bold"><a href="/profile/{{user.id}}">{{user.username}}</a></li>
-    <li class="list-group-item bold"><a href="/login/logout">Logout</a></li> 
-    {% else %}
-    <li class="list-group-item bold"><a href="/login/">Login</a></li> 
-    <li class="list-group-item bold"><a href="/login/register">Sign Up</a></li>
-{% endif %}
-{% endblock %}
 
 <!------------------------ Body ------------------------>
 {% block content %}
-<!-- Main Info -->
-<div class="column">
-    <ul class="list-group list-group-profile">
+
+<!-- Left column content -->
+<div class="column profile">
+    <ul class="list-group">
         <li class="list-group-item">
-            <h3>{{profile.first_name}} {{profile.last_name}} <span style="color: gray;">{{profile.username}}</span></h3>
-        </li>
-        <li class="list-group-item">
-            <img src="{% static '' %}img/default-profiles/{{profile.default_img}}.png" style="background-color:#{{ profile.bg_color }}" class="list-group-profile-img">
-            {% if request.session.userid == profile.id %}
-            <button class="btn btn-secondary btn-profile" id="edit-profile">Edit Profile</button>
-            {% elif "userid" not in request.session %}
-            <!-- Display Nothing if not logged in -->
-            {% elif profile not in user.profile.following.all %}
-            <form action="/profile/follow" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="follow" value="{{profile.id}}">
-                <button class="btn btn-secondary btn-profile">Follow</button>
-            </form>
-            {% else %}
-            <form action="/profile/follow" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="follow" value="{{profile.id}}">
-                <button class="btn btn-secondary btn-profile">Unfollow</button>
-            </form>
+            <h4>{{profile.first_name}} {{profile.last_name}}</h4>
+            <h6>{{profile.username}}</h6>
+            <img src="{% static '' %}img/default-profiles/{{profile.default_img}}.png" class="{{profile.bg_color}}">
+            <!-- Display bio if one exists -->
+            {% if profile.profile.bio %}
+            <p>{{profile.profile.bio}}</p>
             {% endif %}
+            <div class="follow-cnt">
+                <p><span class="bold">{{profile.profile.following.all|length}}</span> Following</p>
+                <p><span class="bold">{{profile.following.all|length}}</span> {% if profile.following.all|length == 1 %}Follower{% else %}Followers{% endif %}</p>
+            </div>
         </li>
-        {% if profile.profile.bio %}
-        <li class="list-group-item">{{profile.profile.bio}}</li>
+        {% if request.session.userid == profile.id %}
+        <!-- Display "Edit profile" button if Profile belongs to user -->
+        <li class="list-group-item interact">
+            <button class="btn btn-secondary btn-profile" id="edit-profile">Edit Profile</button>
+        </li>
+        {% elif "userid" not in request.session %}
+        <!-- Display nothing if no one is logged in -->
+        {% else %}
+        <!-- Display "follow" and "message" buttons -->
+        <li class="list-group-item interact">
+            {% if profile not in user.profile.following.all %}
+                <!-- Follow profile if not already -->
+                <form action="/profile/follow" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="follow" value="{{profile.id}}">
+                    <button><i class="material-icons">group_add</i> Follow</button>
+                </form>
+            {% else %}
+                <!-- Unfollow profile -->
+                <form action="/profile/follow" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="follow" value="{{profile.id}}">
+                    <button class="active"><i class="material-icons">group_add</i> Following</button>
+                </form>
+            {% endif %}
+                <p><i class="material-icons">mail_outline</i> Message</p>
+        </li>
         {% endif %}
-        <li class="list-group-item team">
-            <h4>Main Team</h4>
-            {% for pkmn in profile.team.all %}
-            <a href="/{{pkmn.id}}">
-                <img src="{{pkmn.sprite_url}}" alt="{{pkmn.name}}'s sprite">
-            </a>
-            {% endfor %}
-        </li>
-        <!-- List of Followers -->
-        <li class="list-group-item ">
-            <div class="list-group-row">
-                <h5>Followers</h5>
-                <a href="">All ({{profile.following.all|length}})</a>
-            </div>
-            <hr>
-            <ul>
-                {% for u in profile.following.all %}
-                <li class="comment-head">
-                    <img src="{% static '' %}img/default-profiles/{{u.user.default_img}}.png" style="background-color: #{{ u.user.bg_color }}" alt="profile pic" class="comments-user-img">
-                    <a href="/profile/{{u.user.id}}"><p>{{u.user.username}}</p></a>
-                </li>
-                {% empty %}
-                <li>No followers yet!</li>
-                {% endfor %}
-            </ul>
-        </li>
-        <!-- List of follows -->
-        <li class="list-group-item ">
-            <div class="list-group-row">
-                <h5>Following</h5>
-                <a href="">All ({{profile.profile.following.all|length}})</a>
-            </div>
-            <hr>
-            <ul>
-                {% for u in profile.profile.following.all %}
-                <li class="comment-head">
-                    <img src="{% static '' %}img/default-profiles/{{u.default_img}}.png" style="background-color: #{{ u.bg_color }}" alt="profile pic" class="comments-user-img">
-                    <a href="/profile/{{u.id}}"><p>{{u.username}}</p></a>
-                </li><br>
-                {% empty %}
-                <li>Not following anyone yet!</li>
-                {% endfor %}
-            </ul>
-        </li>
-        <li class="list-group-item ">
-            <div class="list-group-row">
-                <h5>Favorites</h5>
-                <a href="">All ({{profile.favorites.all | length}})</a>
-            </div>
-            <hr>
-            <ul style="margin: 0;">
-                {% for fav in profile.favorites.all %}
-                <li class="comment-head">
-                    <img src="{{fav.sprite_url}}">
-                    <a href="/{{fav.id}}"><p>{{fav.name|title}}</p></a>
-                </li>
-                {% empty %}
-                <li>No favorites yet!</li>
-                {% endfor %}
-            </ul>
-        </li>
+
     </ul>
 </div>
+
 <br><br><br>
 
 <!-- Profile Posts -->
-<div class="column timeline">
+<div class="column">
     <!-- Post Form -->
     {% if request.session.userid == profile.id %}
     <form action="/profile/{{user.id}}/create_post" method="POST">
@@ -141,7 +82,7 @@
         {% for post in profile.posts.all reversed %}
         <li class="list-group-item">
             <div class="comment-head">
-                <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" style="background-color:#{{ post.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
+                <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="comments-user-img {{post.added_by.bg_color}}">
                 <div>
                     <a href="/profile/{{post.added_by.id}}"><h5>{{post.added_by.username}}</h5></a>
                     <small>{{post.created_at}}</small><br>
@@ -192,7 +133,7 @@
             {% for comment in post.comments.all %}
                 <li class="list-group-item comment-list">
                     <div class="comment-head">
-                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" style="background-color:#{{ comment.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
+                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="comments-user-img {{comment.added_by.bg_color}}">
                         <div>
                             <a href="/profile/{{comment.added_by.id}}"><h5>{{comment.added_by.username}}</h5></a>
                             <small>{{comment.created_at}}</small><br>
@@ -224,52 +165,53 @@
 </div>
 
 <!-- edit profile modal --->
-<div class="edit-profile-modal">
-    <div class="modal-head">
-        <h4>Edit Profile</h4>
-        <p id="close">&#10005;</p>
+<div class="modal-bg">
+    <div class="edit-profile-modal">
+        <div class="modal-head">
+            <h4>Edit Profile</h4>
+            <p id="close">&#10005;</p>
+        </div>
+        <hr>
+        <form action="/profile/{{user.id}}/update" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" name="fname" value="{{user.first_name}}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" name="lname" value="{{user.last_name}}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Bio</label>
+                <textarea name="bio" rows="4" class="form-control">{{user.profile.bio}}</textarea>
+            </div>
+            <hr>
+            <h6>Choose profile photo</h6>
+            <div class="img-container">
+                <img src="{% static 'img/default-profiles/1m.png' %}" id="1m">
+                <img src="{% static 'img/default-profiles/2m.png' %}" id="2m">
+                <img src="{% static 'img/default-profiles/3m.png' %}" id="3m">
+                <img src="{% static 'img/default-profiles/1f.png' %}" id="1f">
+                <img src="{% static 'img/default-profiles/2f.png' %}" id="2f">
+                <img src="{% static 'img/default-profiles/3f.png' %}" id="3f">
+                <input type="hidden" name="img" id="img" value="{{user.default_img}}">
+            </div>
+            <hr>
+            <h6>Choose background color</h6>
+            <div class="img-container">
+                <span style="background-color: #272727;" color="gray"></span>
+                <span style="background-color: #F20C32;" color="red"></span>
+                <span style="background-color: #009DF1;" color="blue"></span>
+                <span style="background-color: #198754;" color="green"></span>
+                <span style="background-color: #ffc107;" color="yellow"></span>
+                <span style="background-color: #6610f2;" color="purple"></span>
+                <input type="hidden" name="color" id="color" value="{{user.bg_color}}">
+            </div>
+            <hr>
+            <br>
+            <button class="btn btn-primary">Update</button>
+        </form>
     </div>
-    <hr>
-    <form action="/profile/{{user.id}}/update" method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <label>First Name</label>
-            <input type="text" name="fname" value="{{user.first_name}}" class="form-control">
-        </div>
-        <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" name="lname" value="{{user.last_name}}" class="form-control">
-        </div>
-        <div class="form-group">
-            <label>Bio</label>
-            <textarea name="bio" rows="4" class="form-control">{{user.profile.bio}}</textarea>
-        </div>
-        <hr>
-        <h6>Choose profile photo</h6>
-        <div class="img-container">
-            <img src="{% static 'img/default-profiles/1m.png' %}" id="1m">
-            <img src="{% static 'img/default-profiles/2m.png' %}" id="2m">
-            <img src="{% static 'img/default-profiles/3m.png' %}" id="3m">
-            <img src="{% static 'img/default-profiles/1f.png' %}" id="1f">
-            <img src="{% static 'img/default-profiles/2f.png' %}" id="2f">
-            <img src="{% static 'img/default-profiles/3f.png' %}" id="3f">
-            <input type="hidden" name="img" id="img" value="{{user.default_img}}">
-        </div>
-        <hr>
-        <h6>Choose background color</h6>
-        <div class="img-container">
-            <span style="background-color: #272727;" color="272727"></span>
-            <span style="background-color: #F20C32;" color="F20C32"></span>
-            <span style="background-color: #009DF1;" color="009DF1"></span>
-            <span style="background-color: #198754;" color="198754"></span>
-            <span style="background-color: #ffc107;" color="ffc107"></span>
-            <span style="background-color: #6610f2;" color="6610f2"></span>
-            <input type="hidden" name="color" id="color" value="{{user.bg_color}}">
-        </div>
-        <hr>
-        <br>
-        <button class="btn btn-primary">Update</button>
-    </form>
-
 </div>
 {% endblock %}

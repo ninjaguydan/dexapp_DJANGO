@@ -54,9 +54,9 @@ def create_post(request, user_id):
         content = request.POST['post'],
         added_by = user,
     )
-    print(f"We got here from {request.path_info}!!")
-    return redirect(f'/profile/{user_id}')
-    # return HttpResponseRedirect(request.path_info)
+    print(f"We got here from {request.META.get('HTTP_REFERER')}!!")
+    #redirect to the page we came from
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_post(request, post_id):
     post_to_delete = Post.objects.get(id = post_id)
@@ -65,7 +65,8 @@ def delete_post(request, post_id):
     if request.session['userid'] != user_id:
         return redirect('/')
     post_to_delete.delete()
-    return redirect(f'/profile/{user_id}')
+    #redirect to the page we came from
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def like_post(request):
     #if GET request, redirect 
@@ -78,7 +79,8 @@ def like_post(request):
         post.likes.remove(user)
     else:
         post.likes.add(user)
-    return redirect(f'/profile/{post.added_by.id}')
+    #redirect to the page we came from
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def comment_post(request, post_id):
     post = Post.objects.get(id = post_id)

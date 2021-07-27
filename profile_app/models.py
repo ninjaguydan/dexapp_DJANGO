@@ -40,7 +40,7 @@ class Comment(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length = 100)
-    user = models.ForeignKey(User, related_name = "team", on_delete = models.CASCADE)
+    user = models.ForeignKey(User, related_name = "teams", on_delete = models.CASCADE)
     pkmn = models.ManyToManyField('main_app.Pokemon', related_name = "teams")
     likes = models.ManyToManyField(User, related_name = "liked_teams")
     created_at = models.DateTimeField(auto_now_add = True)

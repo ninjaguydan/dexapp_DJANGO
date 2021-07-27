@@ -32,7 +32,7 @@ $('.reply').click(function(){
 // display post reply form
 $('.reply').click(function(){
     let post_id = $(this).attr('post_id');
-    $(".comment_" + post_id).css("display", "block");
+    $(".comment_" + post_id).toggle();
 })
 
 //display "edit Profile" modal

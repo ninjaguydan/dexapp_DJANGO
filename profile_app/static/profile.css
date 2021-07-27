@@ -4,7 +4,7 @@ body {
 .profile {
     max-width: 500px;
 }
-/* Profile info styles */
+/* Profile info/ Left column styles */
 .list-group-item:not(:first-child) {
     display: flex;
     justify-content: space-between;
@@ -64,6 +64,18 @@ body {
         .interact .btn {
             margin: 0;
         }
+    .striped {
+        padding: .6rem 2.5rem;
+    }
+        .striped p, .striped span {
+            margin-bottom: 0;
+            font-size: .8em;
+        }
+        .striped:nth-of-type(odd) {
+            background-color: #444444;
+        }
+    
+/* "Edit profile" modal styles */
 .modal-bg {
     display: none;
     background-color: rgb(0, 0, 0, 0.8);
@@ -93,6 +105,9 @@ body {
         column-gap: 20px;
         text-align: center;
     }
+        .edit-profile-modal .colors {
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        }
     .edit-profile-modal h6 {
         margin-bottom: 30px;
     }
@@ -125,9 +140,13 @@ body {
     .edit-profile-modal .form-group {
         margin-bottom: 20px;
     }
+
+/* Modal "X" */
 #close {
     cursor: pointer;
 }
+
+/* Modal animation */
 @keyframes zoom {
     from {
         transform: scale(0);

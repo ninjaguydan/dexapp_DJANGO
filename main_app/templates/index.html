@@ -39,7 +39,7 @@
         <div class="card-item card-item-content">
             <a href="/profile/{{post.added_by.id}}"><p class="bold">{{post.added_by.first_name}} {{post.added_by.last_name}} </a><span>{{post.added_by.username}}</span></p>
             <p>{{post.content}}</p>
-            <p class="time">{{post.created_at|timesince}} ago</p>
+            <p class="time">{{post.created_at|timesince}} ago {% if request.session.userid == post.added_by.id %}| <a href="/profile/{{post.id}}/delete_post"><i class="material-icons">delete</i></a>{% endif %}</p>
         </div>
         <div class="card-item-icons">
             {% if "userid" not in request.session %}

@@ -28,6 +28,8 @@ def update_profile(request, user_id):
     user.first_name = request.POST['fname']
     user.last_name = request.POST['lname']
     profile.bio = request.POST['bio']
+    profile.location = request.POST['location']
+    profile.pronouns = request.POST['pronouns']
     user.default_img = request.POST['img']
     user.bg_color = request.POST['color']
     user.save()
@@ -92,7 +94,7 @@ def comment_post(request, post_id):
         added_by = user,
         post = post
     )
-    return redirect(f'/profile/{post.added_by.id}')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_post_comment(request, comment_id):
     comment_to_delete = Comment.objects.get(id = comment_id)
@@ -101,10 +103,18 @@ def delete_post_comment(request, comment_id):
         return redirect('/')
     post = Post.objects.get(id = comment_to_delete.post.id)
     comment_to_delete.delete()
-    return redirect(f'/profile/{post.added_by.id}')
+    return redirect(request.META.get('HTTP_REFERER'))
 
-def like_post_comment(request, comment_id):
+def like_post_comment(request):
     #if GET request, redirect
+    if request.method == "GET":
+        return redirect('/')
+    user = User.objects.get(id = request.session['userid'])
+    comment = Comment.objects.get(id = request.POST['like'])
     #if user already likes post comment, unlike post comment
+    if user in comment.likes.all():
+        comment.likes.remove(user)
+    else:
     #otherwise, like post comment
-    pass
+        comment.likes.add(user)
+    return redirect(request.META.get('HTTP_REFERER'))

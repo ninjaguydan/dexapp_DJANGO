@@ -41,130 +41,165 @@
                 <form action="/profile/follow" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="follow" value="{{profile.id}}">
-                    <button><i class="material-icons">group_add</i> Follow</button>
+                    <button class="bold"><i class="material-icons">group_add</i> Follow</button>
                 </form>
             {% else %}
                 <!-- Unfollow profile -->
                 <form action="/profile/follow" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="follow" value="{{profile.id}}">
-                    <button class="active"><i class="material-icons">group_add</i> Following</button>
+                    <button class="active bold"><i class="material-icons">group_add</i> Following</button>
                 </form>
             {% endif %}
-                <p><i class="material-icons">mail_outline</i> Message</p>
+                <p class="bold"><i class="material-icons">mail_outline</i> Message</p>
         </li>
         {% endif %}
-
-    </ul>
-</div>
-
-<br><br><br>
-
-<!-- Profile Posts -->
-<div class="column">
-    <!-- Post Form -->
-    {% if request.session.userid == profile.id %}
-    <form action="/profile/{{user.id}}/create_post" method="POST">
-        {% csrf_token %}
-        <div class="form-row">
-            <label>What's on your mind?</label><br><br>
-            <textarea name="post" class="form-control" rows="3"></textarea>
-        </div><br>
-        <div class="btn-container">
-            <button class="btn btn-primary">Post</button>
-        </div>
-    </form><br>
-    {% else %}
-    <!--display nothing if this isn't the logged in user's profile -->
-    {% endif %}
-    <!-- All Posts -->
-    <ul class="list-group">
-        {% for post in profile.posts.all reversed %}
-        <li class="list-group-item">
-            <div class="comment-head">
-                <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="comments-user-img {{post.added_by.bg_color}}">
-                <div>
-                    <a href="/profile/{{post.added_by.id}}"><h5>{{post.added_by.username}}</h5></a>
-                    <small>{{post.created_at}}</small><br>
-                </div>
-                <!-- Likes and Like Counter -->
-                {% if "userid" not in request.session %}
-                <span class="likes">&#10084; {{post.likes.all|length}}</span>
-                {% elif user not in post.likes.all %}
-                <form action="/profile/like_post" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="like" value="{{post.id}}">
-                    <button class="likes">&#10084; {{post.likes.all|length}}</button>
-                </form>
-                {% else %}
-                <form action="/profile/like_post" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="like" value="{{post.id}}">
-                    <button class="likes" style="color: #009DF1;">&#10084; {{post.likes.all|length}}</button>
-                </form>
-                {% endif %}
-            </div>
-            <p>{{post.content}}</p>
-            <div class="list-group-row">
-                {% if "userid" in request.session %}<p class="reply" post_id="{{post.id}}">Reply</p>{% endif %}
-                {% if request.session.userid == post.added_by.id %}
-                <a href="/profile/{{post.id}}/delete_post" class="delete">Delete</a>
-                {% endif %}
-            </div>
-            <!-- Post Comment Form -->
-            {% if request.session.userid %}
-            <div class="comment comment_{{post.id}}">
-                <form action="/profile/{{post.id}}/comment_post" method="POST">
-                    {% csrf_token %}
-                    <div class="form-row">
-                        <textarea name="comment" class="form-control" rows="2"></textarea>
-                    </div><br>
-                    <div class="btn-container">
-                        <button class="btn btn-primary">Leave Reply</button>
-                    </div>
-                </form>
-            </div><!-- comment -->
-            {% else %}
-            <!-- display nothing if no one is logged in -->
-            {% endif %}
-            <!-- Post Replies -->
-            {% if post.comments.all %}
-            <ul class="list-group">
-            {% for comment in post.comments.all %}
-                <li class="list-group-item comment-list">
-                    <div class="comment-head">
-                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="comments-user-img {{comment.added_by.bg_color}}">
-                        <div>
-                            <a href="/profile/{{comment.added_by.id}}"><h5>{{comment.added_by.username}}</h5></a>
-                            <small>{{comment.created_at}}</small><br>
-                        </div>
-                        <!-- Likes and Like Counter -->
-                        {% if "userid" not in request.session %}
-                        <span class="likes">&#10084; {{comment.likes.all|length}}</span>
-                        {% elif user not in comment.likes.all %}
-                        <form action="">
-                            {% csrf_token %}
-                            <input type="hidden" name="like" value="{{comment.id}}">
-                        </form>
-                        <!-- <a href="/profile/{{comment.id}}/like_post_comment" class="likes">&#10084; {{comment.likes.all|length}}</a> -->
-                        {% else %}
-                        <a href="/profile/{{comment.id}}/unlike_post_comment" class="likes" style="color: #009DF1;">&#10084; {{comment.likes.all|length}}</a>
-                        {% endif %}
-                    </div>
-                    <p>{{comment.content}}</p>
-                    {% if request.session.userid == comment.added_by.id %}
-                    <a href="/profile/{{comment.id}}/delete_post_comment" class="delete">Delete</a>
-                    {% endif %}
-                </li>
-            {% endfor %}
-            </ul>
-            {% endif %}
+        {% if profile.profile.location %}
+        <!-- Display Location if one was given -->
+        <li class="list-group-item striped">
+            <p class="bold">Location</p>
+            <span>{{profile.profile.location}}</span>
         </li>
-        {% endfor %}
-      </ul>
+        {% endif %}
+        <li class="list-group-item striped">
+            <p class="bold">Joined</p>
+            <span>{{profile.created_at|date:"F Y"}}</span>
+        </li>
+        {% if profile.profile.pronouns %}
+        <!-- Display pronouns if they were given -->
+        <li class="list-group-item striped">
+            <p class="bold">Pronouns</p>
+            <span>{{profile.profile.pronouns}}</span>
+        </li>
+        {% endif %}
+        <li class="list-group-item striped">
+            <p class="bold">Posts</p>
+            <span>{{profile.posts.all|length}}</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Reviews</p>
+            <span>{{profile.reviews_added.all|length}}</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Favorites</p>
+            <span>{{profile.favorites.all|length}}</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Teams</p>
+            <span>{{profile.teams.all|length}}</span>
+        </li>
+    </ul>
+</div><br><br><br>
+
+
+
+<!-- Right Column content -->
+<div class="column">
+    {% if request.session.userid != profile.id  %}
+    <!-- If profile doesn't belong to user, don't display post form -->
+    {% else %}
+    <!-- Post Form -->
+    <div class="card">
+        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}}">
+        <form action="/profile/{{user.id}}/create_post" method="POST">
+            {% csrf_token %}
+            <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
+            <div class="btn-container">
+                <button class="btn btn-primary btn-post">Post</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- Profile's Feed -->
+    {% for post in profile.posts.all reversed %}
+    <div class="card">
+        <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
+        <div class="card-item card-item-content">
+            <a href="/profile/{{post.added_by.id}}"><p class="bold">{{post.added_by.first_name}} {{post.added_by.last_name}} </a><span>{{post.added_by.username}}</span></p>
+            <p>{{post.content}}</p>
+            <p class="time">{{post.created_at}} {% if request.session.userid == post.added_by.id %}| <a href="/profile/{{post.id}}/delete_post"><i class="material-icons">delete</i></a>{% endif %}</p>
+        </div>
+        <!-- Side icons -->
+        <div class="card-item-icons">
+            {% if "userid" not in request.session %}
+            <!-- If no one is logged in, non-clickable heart is displayed -->
+            <i class="material-icons">favorite_border</i>
+            {% elif user not in post.likes.all %}
+            <!-- "Like Post" form -->
+            <form action="/profile/like_post" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="like" value="{{post.id}}">
+                <button><i class="material-icons">favorite_border</i></button>
+            </form>
+            {% else %}
+            <!-- "Unlike Post" form -->
+            <form action="/profile/like_post" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="like" value="{{post.id}}">
+                <button><i class="material-icons active">favorite</i></button>
+            </form>
+            {% endif %}
+            <p>{{post.likes.all|length}}</p>
+            <i class="material-icons reply" post_id="{{post.id}}">chat_bubble_outline</i>
+            <p>{{post.comments.all|length}}</p>
+        </div>
+        <!-- Display following Div when chat bubble is clicked -->
+        <div class="comment comment_{{post.id}}">
+            {% if request.session.userid %}
+            <!-- Display Reply Form if a user is logged in -->
+            <form action="/profile/{{post.id}}/comment_post" method="POST" class="comment_form">
+                {% csrf_token %}
+                <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
+                <div class="btn-container">
+                    <button class="btn btn-primary btn-post">Reply</button>
+                </div>
+            </form>
+            {% else %}
+            <!-- don't display the form if no one is logged in -->
+            {% endif %}
+            <!-- All reply comments -->
+            {% if post.comments.all %}
+            <!-- If any comments exist, dispaly them -->
+            {% for comment in post.comments.all %}
+            <div class="card card-reply">
+                <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+                <div class="card-item card-item-content">
+                    <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
+                    <p>{{comment.content}}</p>
+                    <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/profile/{{comment.id}}/delete_post_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
+                </div>
+                <!-- Side icons -->
+                <div class="card-item-icons">
+                    {% if "userid" not in request.session %}
+                    <!-- If no one is logged in, non-clickable heart is displayed -->
+                    <i class="material-icons">favorite_border</i>
+                    {% elif user not in comment.likes.all %}
+                    <!-- "Like Comment" form -->
+                    <form action="/profile/like_post_comment" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="like" value="{{comment.id}}">
+                        <button><i class="material-icons">favorite_border</i></button>
+                    </form>
+                    {% else %}
+                    <!-- "Unlike Comment" form -->
+                    <form action="/profile/like_post_comment" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="like" value="{{comment.id}}">
+                        <button><i class="material-icons active">favorite</i></button>
+                    </form>
+                    {% endif %}
+                    <p>{{comment.likes.all|length}}</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
-<!-- edit profile modal --->
+<!---------------- "Edit Profile" popup modal ---------------->
 <div class="modal-bg">
     <div class="edit-profile-modal">
         <div class="modal-head">
@@ -186,6 +221,14 @@
                 <label>Bio</label>
                 <textarea name="bio" rows="4" class="form-control">{{user.profile.bio}}</textarea>
             </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" name="location" value="{{user.profile.location}}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Pronouns</label>
+                <input type="text" name="pronouns" value="{{user.profile.pronouns}}" class="form-control">
+            </div>
             <hr>
             <h6>Choose profile photo</h6>
             <div class="img-container">
@@ -199,7 +242,7 @@
             </div>
             <hr>
             <h6>Choose background color</h6>
-            <div class="img-container">
+            <div class="img-container colors">
                 <span style="background-color: #272727;" color="gray"></span>
                 <span style="background-color: #F20C32;" color="red"></span>
                 <span style="background-color: #009DF1;" color="blue"></span>

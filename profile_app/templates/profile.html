@@ -54,7 +54,7 @@
                 <p class="bold"><i class="material-icons">mail_outline</i> Message</p>
         </li>
         {% endif %}
-        {% if profile.profile.location %}
+        {% if profile.profile.location != "None" %}
         <!-- Display Location if one was given -->
         <li class="list-group-item striped">
             <p class="bold">Location</p>
@@ -65,7 +65,7 @@
             <p class="bold">Joined</p>
             <span>{{profile.created_at|date:"F Y"}}</span>
         </li>
-        {% if profile.profile.pronouns %}
+        {% if profile.profile.pronouns != "None" %}
         <!-- Display pronouns if they were given -->
         <li class="list-group-item striped">
             <p class="bold">Pronouns</p>
@@ -94,7 +94,7 @@
 
 
 <!-- Right Column content -->
-<div class="column">
+<div class="column posts">
     {% if request.session.userid != profile.id  %}
     <!-- If profile doesn't belong to user, don't display post form -->
     {% else %}

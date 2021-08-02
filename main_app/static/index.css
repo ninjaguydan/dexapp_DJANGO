@@ -1,7 +1,17 @@
+.column {
+    max-width: 700px;
+    margin: 0 auto;
+}
+.rank {
+    display: none;
+}
 /*-------------------- At 1080px --------------------*/
 @media only screen and (min-width: 1080px) {
     body {
         counter-reset: rank-counter;
+    }
+    .column {
+        margin: 0;
     }
     .rank {
     display: block;

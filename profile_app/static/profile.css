@@ -1,10 +1,11 @@
 body {
     position: relative;
 }
+/* Profile info/ Left column styles */
 .profile {
     max-width: 500px;
+    margin: 0 auto;
 }
-/* Profile info/ Left column styles */
 .list-group-item:not(:first-child) {
     display: flex;
     justify-content: space-between;
@@ -74,6 +75,11 @@ body {
         .striped:nth-of-type(odd) {
             background-color: #444444;
         }
+/* Posts/ Right comlumn styles */
+.posts {
+    max-width: 500px;
+    margin: 0 auto;
+}
     
 /* "Edit profile" modal styles */
 .modal-bg {
@@ -89,6 +95,7 @@ body {
 }
 .edit-profile-modal {
     margin: auto;
+    margin-top: 30px;
     width: 100%;
     max-width: 500px;
     background-color: var(--fourth);
@@ -165,5 +172,10 @@ body {
 @media only screen and (min-width: 1080px) {
     .profile {
         width: 39%;
+        margin: 0;
+    }
+    .posts {
+        max-width: none;
+        width: 58%;
     }
 }

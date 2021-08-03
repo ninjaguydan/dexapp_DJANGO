@@ -1,212 +1,230 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block js %}<script src="{% static 'pkmn.js' %}" defer></script>{% endblock %}
+{% block js %}
+    <script src="{% static 'pkmn.js' %}" defer></script>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'profile.css' %}">
+    <link rel="stylesheet" href="{% static 'pkmn.css' %}">
+{% endblock %}
+
 {% block title %}| {{pokemon.name | title}}{% endblock %}
 
-{% block main_nav %}
-{% if request.session.userid %}
-    <li class="bold"><a href="/profile/{{user.id}}">{{user.username}}</a></li>
-    <li class="bold"><a href="/login/logout">Logout</a></li>
-    {% else %}
-    <li class="bold"><a href="/login/register">Sign Up</a></li>
-    <li class="bold"><a href="/login/">Login</a></li>  
-{% endif %}
-{% endblock %}
-
-{% block mobile_nav %}
-{% if request.session.userid %}
-    <li class="list-group-item bold"><a href="/profile/{{user.id}}">{{user.username}}</a></li>
-    <li class="list-group-item bold"><a href="/login/logout">Logout</a></li> 
-    {% else %}
-    <li class="list-group-item bold"><a href="/login/">Login</a></li> 
-    <li class="list-group-item bold"><a href="/login/register">Sign Up</a></li>
-{% endif %}
-{% endblock %}
 
 <!------------------------ Body ------------------------>
 {% block content %}
-<div class="column">
-    <div class="profile-card-head">
-        <h3>{{pokemon.name | title}}</h3>
-    </div>
-    <div class="profile-card">
-        <img src="{{pokemon.art_url}}" alt="{{pokemon.name}}'s game sprite">
-    </div>
-    <div class="types profile-card-item">
-        <!-- append types here -->
-    </div>
-    <forjs id = "{{pokemon.id}}"></forjs>
-    <div class="profile-card">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th scope="row" class="bold">ID:</th>
-                    <td>{{pokemon.id}}</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="bold">Height:</th>
-                    <td>{{pokemon.height}}</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="bold">Weight:</th>
-                    <td>{{pokemon.weight}}</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="bold">Avg Rating:</th>
-                    <td><span class="star">&#x2605;</span> {{average}}</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="bold">Favorites:</th>
-                    <td><span>&#10084;</span> <span>{{pokemon.favorited_by.all | length}}</span></td>
-                </tr>
-            </tbody>
-        </table>
-        {% if pokemon not in user.favorites.all %}
-        <a href="/{{pokemon.id}}/fav" class="profile-card-item">Add to Favorites</a>
-        {% elif "userid" not in request.session %}
-        <span class="profile-card-item">Log in to Favorite!</span>
-        {% else %}
-        <a href="/{{pokemon.id}}/unfav" class="profile-card-item">Remove from Favorites</a>
-        {% endif %}
-        
-        {% if pokemon not in user.team.all %}
-        <a href="/{{pokemon.id}}/add_pkmn" class="profile-card-item">Add to Team</a>
-        {% elif "userid" not in request.session %}
-        <span class="profile-card-item">Log in to create your team!</span>
-        {% else %}
-        <a href="/{{pokemon.id}}/remove_pkmn" class="profile-card-item">Remove from Team</a>
-        {% endif %}
-    </div>
 
-    <div class="profile-card-item profile-card-bottom">
-        <div>
-        <a href="/{{prev_num}}" class="reverse">
-            <img src="{{prev}}">
-            <p><span class="flip" style="display: inline-block;">&#10141;</span> Previous</p>
-        </a>
-        </div> 
-
-        <div>
-        <a href="/{{next_num}}">
-            <img src="{{next}}">
-            <p>Next <span>&#10141;</span></p>
-        </a>
-        </div>    
-    </div>
-</div>
-
-<!---- Review Section ---->  
-<br><br><br>
-<div class="column review">
-    <!-- Review Form -->
-    {% if "userid" in request.session %}
-    <form action="/{{pokemon.id}}/create_review" method="POST">
-        {% csrf_token %}
-        <div class="form-row">
-            <label>What do you think of {{pokemon.name | title}}?</label><br><br>
-            <textarea name="review" class="form-control" rows="5"></textarea>
-        </div><br>
-        <label>Rating</label>
-            <select name="rating"  class="form-control">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
-        <div class="btn-container">
-            <button class="btn btn-primary">Post review</button>
-        </div>
-    </form><br>
-    {% else %}
-    <h3 style="margin-bottom: 30px; text-align: center;">Log in or create an account<br>to leave a review!</h3>
-    {% endif %}
-    <!-- Reviews List -->
+<!-- Left Column Content -->
+<div class="column profile">
     <ul class="list-group">
-        {% for review in pokemon.reviews.all reversed %}
         <li class="list-group-item">
-            <div class="comment-head">
-                <img src="{% static '' %}img/default-profiles/{{review.added_by.default_img}}.png" style="background-color: #{{ review.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
-                <div>
-                    <a href="/profile/{{review.added_by.id}}"><h5>{{review.added_by.username}}</h5></a>
-                    <small>{{review.created_at}}</small><br>
-                </div>
-                <!-- Likes and Like Counter -->
-                {% if "userid" not in request.session %}
-                <span class="likes">&#10084; {{review.likes.all|length}}</span>
-                {% elif user not in review.likes.all %}
-                <form action="">
-                    {% csrf_token %}
-                    <input type="hidden" name="like" value="{{review.id}}">
-                </form>
-                <!-- <a href="/{{review.id}}/like_review" class="likes">&#10084; {{review.likes.all|length}}</a> -->
+            <h4>{{pokemon.name|title}}</h4>
+            {% if pokemon.id < 10 %}
+                <h6>#00{{pokemon.id}}</h6>
+                {% elif pokemon.id < 100 %}
+                <h6>#0{{pokemon.id}}</h6>
                 {% else %}
-                <a href="/{{review.id}}/unlike_review" class="likes" style="color: #009DF1;">&#10084; {{review.likes.all|length}}</a>
-                {% endif %}
-            </div>
-            <span class="n{{review.rating}} star">{{review.rating}}</span>
-            <p>{{review.content}}</p>
-            <!-- reply/ delete -->
-            <div class="list-group-row">
-                {% if "userid" in request.session %}<p class="reply" review_id="{{review.id}}">Reply</p>{% endif %}
-                {% if request.session.userid == review.added_by.id %}
-                <a href="/{{review.id}}/delete_review" class="delete">Delete</a>
-                {% endif %}
-            </div>
-            <!-- Review Comment Form -->
-            {% if request.session.userid %}
-            <div class="comment comment_{{review.id}}">
-                <form action="/{{review.id}}/comment_review" method="POST">
-                    {% csrf_token %}
-                    <div class="form-row">
-                        <textarea name="comment" class="form-control" rows="2"></textarea>
-                    </div><br>
-                    <div class="btn-container">
-                        <button class="btn btn-primary">Leave Reply</button>
-                    </div>
-                </form>
-            </div><!-- comment -->
-            {% else %}
-            <!-- display nothing -->
+                <h6>#{{pokemon.id}}</h6>
             {% endif %}
-            <!--- Review Comments --->
-            {% if review.comments.all %}
-            <ul class="list-group">
-            {% for comment in review.comments.all %}
-                <li class="list-group-item comment-list">
-                    <div class="comment-head">
-                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" style="background-color:#{{ comment.added_by.bg_color }}" alt="profile pic" class="comments-user-img">
-                        <div>
-                            <a href="/profile/{{comment.added_by.id}}"><h5>{{comment.added_by.username}}</h5></a>
-                            <small>{{comment.created_at}}</small><br>
-                        </div>
-                        <!-- Likes and Like Counter -->
-                        {% if "userid" not in request.session %}
-                        <span class="likes">&#10084; {{comment.likes.all|length}}</span>
-                        {% elif user not in comment.likes.all %}
-                        <a href="/{{comment.id}}/like_review_comment" class="likes">&#10084; {{comment.likes.all|length}}</a>
-                        {% else %}
-                        <a href="/{{comment.id}}/unlike_review_comment" class="likes" style="color: #009DF1;">&#10084; {{comment.likes.all|length}}</a>
-                        {% endif %}
-                    </div>
-                    <p>{{comment.content}}</p>
-                    {% if request.session.userid == comment.added_by.id %}
-                    <div class="list-group-row">
-                        <a href="/{{comment.id}}/delete_review_comment" class="delete">Delete</a>
-                    </div>
-                    {% endif %}
-                </li>
-            {% endfor %}
-            </ul>
+            <img src="{{pokemon.art_url}}" alt="{{pokemon.name}}'s game sprite">
+            <!-- Rankings/ Favorites -->
+            <div class="icons">
+                <h5 class="bold"><i class="material-icons">favorite</i> {{pokemon.favorited_by.all | length}}</h5>
+                <h5 class="bold"><i class="material-icons">star</i> {{average}}</h5>
+            </div>
+        </li>
+        <li class="list-group-item types bold">
+            <!-- append types here -->
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Base Stat Total</p>
+            <span>00</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Height</p>
+            <span>{{pokemon.height}}</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Weight</p>
+            <span>{{pokemon.weight}}</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Reviews</p>
+            <span>{{pokemon.reviews.all|length}}</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Featured on {{pokemon.teams.all|length}} team{{pokemon.teams.all|length|pluralize}}!</p>
+            <a href="">See all <i class="material-icons">chevron_right</i></a>
+        </li>
+        <!-- If no one is logged in, following row is not displayed -->
+        <li class="list-group-item striped">
+            {% if "userid" in request.session %}
+            <button class="btn btn-secondary"><i class="material-icons">add</i> Add to Team</button>
+                {% if user not in pokemon.favorited_by.all %}
+                <!-- Add Pokemon to favorites if user has not favorited -->
+                <form action="/favorite" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="pokemon" value="{{pokemon.id}}">
+                    <button class="btn btn-secondary"><i class="material-icons">favorite_border</i> Favorite</button>
+                </form>
+                {% else %}
+                <!-- Remove Pokemon from favorites -->
+                <form action="/favorite" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="pokemon" value="{{pokemon.id}}">
+                    <button class="btn btn-secondary"><i class="material-icons">favorite</i> Unfavorite</button>
+                </form>
+                {% endif %}
+            {% else %}
+            <p class="bold">Log in to create a team!</p>
             {% endif %}
         </li>
-        {% endfor %}
+        <li class="list-group-item striped">
+            <div class="pokenav">
+                <a href="/{{prev_num}}">
+                    <i class="material-icons">arrow_back</i>
+                    <img src="{{prev}}">
+                </a>
+            </div>
+            <div class="pokenav">
+                <a href="/{{next_num}}">
+                    <img src="{{next}}">
+                    <i class="material-icons">arrow_forward</i>
+                </a>
+            </div>
+        </li>
     </ul>
+    <!-- Passing Pokemon's ID to javascript -->
+    <forjs id = "{{pokemon.id}}"></forjs>
+</div><br><br><br>
+
+
+<!---- Right column content ---->  
+<div class="column posts">
+    {% if "userid" not in request.session %}
+    <!-- If profile doesn't belong to user, don't display post form -->
+    <div class="card">
+        <h5>Log in or create an account to leave a review!</h5>
+    </div>
+    {% else %}
+    <!-- Review Form -->
+    <div class="card">
+        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}}">
+        <form action="/profile/{{user.id}}/create_post" method="POST">
+            {% csrf_token %}
+            <textarea class="form-control form-control-custom" name="post" rows="2" placeholder="What do you think of {{pokemon.name | title}}?"></textarea>
+            <div class="btn-container">
+                <div class="form-row">
+                    <label>Rating</label>
+                    <select name="rating"  class="form-control form-control-custom">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-post">Post</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+
+    <!-------- Reviews List -------->
+    {% for review in pokemon.reviews.all reversed %}
+    <div class="card">
+        <img src="{% static '' %}img/default-profiles/{{review.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{review.added_by.bg_color}}">
+        <div class="card-item card-item-content">
+            <a href="/profile/{{review.added_by.id}}"><p class="bold">{{review.added_by.first_name}} {{review.added_by.last_name}} </a><span>{{review.added_by.username}}</span></p>
+            <span class="n{{review.rating}} star">{{review.rating}}</span>
+            <p>{{review.content}}</p>
+            <p class="time">{{review.created_at}} {% if request.session.userid == review.added_by.id %}| <a href="/profile/{{review.id}}/delete_review"><i class="material-icons">delete</i></a>{% endif %}</p>
+        </div>
+        <!-- Side icons -->
+        <div class="card-item-icons">
+            {% if "userid" not in request.session %}
+            <!-- If no one is logged in, non-clickable heart is displayed -->
+            <i class="material-icons">favorite_border</i>
+            {% elif user not in review.likes.all %}
+            <!-- "Like Post" form -->
+            <form action="/like_review" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="like" value="{{review.id}}">
+                <button><i class="material-icons">favorite_border</i></button>
+            </form>
+            {% else %}
+            <!-- "Unlike Post" form -->
+            <form action="/like_review" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="like" value="{{review.id}}">
+                <button><i class="material-icons active">favorite</i></button>
+            </form>
+            {% endif %}
+            <!-- reply icon -->
+            <p>{{review.likes.all|length}}</p>
+            <i class="material-icons reply" review_id="{{review.id}}">chat_bubble_outline</i>
+            <p>{{review.comments.all|length}}</p>
+        </div>
+        <!-- Display following Div when chat bubble is clicked -->
+        <div class="comment comment_{{review.id}}">
+            {% if request.session.userid %}
+            <!-- Display Reply Form if a user is logged in -->
+            <form action="/{{review.id}}/comment_review" method="POST" class="comment_form">
+                {% csrf_token %}
+                <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
+                <div class="btn-container">
+                    <button class="btn btn-primary btn-review">Reply</button>
+                </div>
+            </form>
+            {% else %}
+            <!-- don't display the form if no one is logged in -->
+            {% endif %}
+            <!-- All reply comments -->
+            {% if review.comments.all %}
+            <!-- If any comments exist, dispaly them -->
+            {% for comment in review.comments.all %}
+            <div class="card card-reply">
+                <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+                <div class="card-item card-item-content">
+                    <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
+                    <p>{{comment.content}}</p>
+                    <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/profile/{{comment.id}}/delete_review_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
+                </div>
+                <!-- Side icons -->
+                <div class="card-item-icons">
+                    {% if "userid" not in request.session %}
+                    <!-- If no one is logged in, non-clickable heart is displayed -->
+                    <i class="material-icons">favorite_border</i>
+                    {% elif user not in comment.likes.all %}
+                    <!-- "Like Comment" form -->
+                    <form action="/like_review_comment" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="like" value="{{comment.id}}">
+                        <button><i class="material-icons">favorite_border</i></button>
+                    </form>
+                    {% else %}
+                    <!-- "Unlike Comment" form -->
+                    <form action="/like_review_comment" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="like" value="{{comment.id}}">
+                        <button><i class="material-icons active">favorite</i></button>
+                    </form>
+                    {% endif %}
+                    <p>{{comment.likes.all|length}}</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

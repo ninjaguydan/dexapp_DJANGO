@@ -1,0 +1,129 @@
+/* List group styles */
+.list-group-item img {
+    border-radius:unset;
+    margin: 30px 0;
+}
+.list-group-item button {
+    font-size: .8em;
+    margin: 0;
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+    .list-group-item button i {
+        font-size: 18px;
+        margin-right: 5px;
+    }
+.list-group-item form {
+    width: 45%;
+}
+    .list-group-item form button {
+        width: 100%;
+    }
+.striped {
+    align-items: center;
+}
+.striped a {
+    margin-bottom: 0;
+    font-size: .8em;
+    position: relative;
+}
+    .striped a i {
+        position: relative;
+        font-size: 18px;
+        top: 4px;
+        transition: transform .2s;
+    }
+.list-group-item .pokenav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    .list-group-item .pokenav a img {
+        width: 50%;
+        margin: 0 10px;
+        border-radius: 50%;
+        background-color: var(--fourth);
+        transition: transform .2s;
+    }
+        .list-group-item .pokenav a img:hover {
+            transform: scale(1.0625)
+        }
+.card h5 {
+    margin: 0;
+}
+
+
+/* Favorites/ Rating Styles */
+.icons {
+    display: flex;
+    position: relative;
+    margin: 0 auto;
+    width: 60%;
+    align-items: center;
+    justify-content: space-around;
+}
+    .icons h5 {
+        margin: 0;
+    }
+    .icons i {
+        position: relative;
+        top: 4px;
+    }
+/* Type block and type styles */
+.types {
+    text-transform: capitalize;
+    display: flex;
+}
+.type {
+    border-radius: 1rem;
+    padding: 5px;
+    margin: 0 auto;
+    text-align: center;
+    width: 150px;
+}
+.bug { background-color: rgb(146, 158, 101); color: rgb(58, 66, 58);}
+.dark { background-color: rgb(54, 33, 49); color: rgb(250, 229, 241);}
+.dragon { background-color: rgb(131, 55, 255); color: var(--fifth);}
+.electric { background-color: rgb(224, 223, 117); color: rgb(61, 56, 27);}
+.fairy { background-color: rgb(255, 151, 151); color: rgb(82, 27, 27);}
+.fighting { background-color: rgb(129, 54, 32); color: var(--fifth);}
+.fire { background-color: rgb(228, 99, 60); color: rgb(58, 34, 25);}
+.flying { background-color: rgb(127, 221, 238); color: rgb(35, 36, 51);}
+.ghost { background-color: rgb(108, 72, 124); color: var(--fifth);}
+.grass { background-color: rgb(84, 121, 84); color: var(--fifth);}
+.ground { background-color: rgb(110, 67, 38); color: var(--fifth);}
+.ice { background-color: rgb(101, 245, 255); color: rgb(0, 0, 0);}
+.normal { background-color: rgb(128, 128, 128); color: var(--fifth);}
+.psychic { background-color: rgb(218, 94, 197); color: rgb(53, 36, 52);}
+.poison { background-color: rgb(187, 94, 211); color: rgb(44, 26, 40);}
+.rock { background-color: rgb(92, 64, 27); color: rgb(253, 232, 212);}
+.water { background-color: rgb(45, 138, 192); color: var(--fifth);}
+.steel { background-color: rgb(93, 110, 119); color: var(--fifth);}
+
+
+/* Right column styles */
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+}
+.form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+    .form-row label {
+        margin-right: 15px;
+        color: var(--fifth);
+    }
+    .form-row select {
+        width: 50%;
+    }
+.form-control {
+    color: #6c7379;
+}
+.card-item span.star {
+    font-size: 1.25em;
+}

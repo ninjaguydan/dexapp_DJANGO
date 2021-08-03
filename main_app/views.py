@@ -68,11 +68,20 @@ def pokemon(request, pkmn_id):
     }
     return render(request, "pokemon.html", context)
 
-def favorite(request, pkmn_id):
+def favorite(request):
     #if GET request, redirect
+    if request.method == "GET":
+        return redirect('/')
+    user = User.objects.get(id = request.session['userid'])
+    pokemon = Pokemon.objects.get(id = request.POST['pokemon'])
     #if pokemon in user's favorites, remove them
+    if pokemon in user.favorites.all():
+        user.favorites.remove(pokemon)
     #otherwise, add them
-    return redirect(f'/{pkmn_id}')
+    else:
+        user.favorites.add(pokemon)
+    #redirect to the page we came from
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def create_review(request, pkmn_id):
     if request.method == "GET":
@@ -93,7 +102,7 @@ def delete_review(request, review_id):
     review_to_delete.delete()
     return redirect(f'/{pkmn_id}')
 
-def like_review(request, review_id):
+def like_review(request):
     #if GET request, redirect
     #if user in review's likes, remove them
     #otherwise, add them
@@ -116,7 +125,7 @@ def delete_review_comment(request, comment_id):
     comment_to_delete.delete()
     return redirect(f'/{pkmn.id}')
 
-def like_review_comment(request, comment_id):
+def like_review_comment(request):
     #if GET request, redirect
     #if user in review comment's likes, remove them
     #otherwise, add them

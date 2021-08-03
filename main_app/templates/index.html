@@ -139,7 +139,7 @@
             <div class="info">
                 <a href="/{{pokemon.id}}"><h6 class="bold">{{pokemon.name|title}}</h6></a>
                 <div class="icons">
-                    <h6><i class="material-icons">favorite</i> 66</h6>
+                    <h6><i class="material-icons">favorite</i> {{pokemon.favorited_by.all|length}}</h6>
                     <h6><i class="material-icons">star</i> 66</h6>
                 </div>
             </div>

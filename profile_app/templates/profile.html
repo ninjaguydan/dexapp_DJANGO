@@ -23,7 +23,7 @@
             {% endif %}
             <div class="follow-cnt">
                 <p><span class="bold">{{profile.profile.following.all|length}}</span> Following</p>
-                <p><span class="bold">{{profile.following.all|length}}</span> {% if profile.following.all|length == 1 %}Follower{% else %}Followers{% endif %}</p>
+                <p><span class="bold">{{profile.following.all|length}}</span> Follower{{profile.following.all|length|pluralize}}</p>
             </div>
         </li>
         {% if request.session.userid == profile.id %}
@@ -93,7 +93,7 @@
 
 
 
-<!-- Right Column content -->
+<!---------- Right Column content ---------->
 <div class="column posts">
     {% if request.session.userid != profile.id  %}
     <!-- If profile doesn't belong to user, don't display post form -->

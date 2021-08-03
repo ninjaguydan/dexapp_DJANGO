@@ -1,3 +1,6 @@
+body {
+    counter-reset: rank-counter;
+}
 .column {
     max-width: 700px;
     margin: 0 auto;
@@ -5,19 +8,7 @@
 .rank {
     display: none;
 }
-/*-------------------- At 1080px --------------------*/
-@media only screen and (min-width: 1080px) {
-    body {
-        counter-reset: rank-counter;
-    }
-    .column {
-        margin: 0;
-    }
-    .rank {
-    display: block;
-    width: 39%;
-    }
-    .list-group {
+.list-group {
         margin-top: 30px;
     }
     .list-group-item {
@@ -78,4 +69,44 @@
             top: 3px;
             color: gray;
         }
+/*-------------------- At 960px --------------------*/
+@media only screen and (min-width: 900px) {
+    .wrapper {
+        width: 100%;
+        margin: 0 auto;
+        padding-top: 30px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .column {
+        width: 58%;
+    }
+    .rank {
+        display: block;
+        width: 39%;
+    }
+}
+/*-------------------- At 1080px --------------------*/
+@media only screen and (min-width: 1080px) {
+    .wrapper {
+        width: 1080px;
+        margin: 0 auto;
+        padding-top: 30px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .column {
+        width: 58%;
+    }
+    .rank {
+        display: block;
+        width: 39%;
+    }
+    .column {
+        margin: 0;
+    }
+    .rank {
+        display: block;
+        width: 39%;
+    }
 }

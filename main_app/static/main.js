@@ -26,7 +26,7 @@ $('.main-nav span').click(function(){
 // display review reply form
 $('.reply').click(function(){
     let review_id = $(this).attr('review_id');
-    $(".comment_" + review_id).css("display", "block");
+    $(".comment_" + review_id).toggle();
 })
 
 // display post reply form

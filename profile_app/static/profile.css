@@ -168,6 +168,28 @@ body {
         transform: scale(1);
     } 
 }
+
+/* Tab Styles */
+.tab-nav {
+    display: flex;
+    margin-bottom: 0;
+    justify-content: space-between;
+    width: 100%;
+}
+    .tab-nav li {
+        flex: 1 0 25%;
+        text-align: center;
+    }
+        .tab-nav li a {
+            padding: 10px;
+            display: block;
+            background-color: var(--fourth);
+            border-radius: .25rem .25rem 0 0;
+        }
+        .tab-nav li a.active {
+            border-bottom: 2px solid var(--third);
+        }
+
 /*-------------------- At 1080px --------------------*/
 @media only screen and (min-width: 1080px) {
     .profile {

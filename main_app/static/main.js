@@ -60,3 +60,14 @@ $('.img-container span').click(function(){
     let color = $(this).attr('color');
     $('#color').val(color);
 })
+
+//profile tabs
+$( function() {
+    $( "#tabs" ).tabs();
+})
+
+//Switch active tabs
+$('.tab-nav li a').click(function(){
+    $('.tab-nav li a').removeClass('active');
+    $(this).addClass('active');
+})

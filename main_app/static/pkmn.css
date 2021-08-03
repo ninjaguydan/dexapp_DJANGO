@@ -54,6 +54,9 @@
 .card h5 {
     margin: 0;
 }
+.btn-post {
+    margin-left: auto;
+}
 
 
 /* Favorites/ Rating Styles */
@@ -126,4 +129,11 @@
 }
 .card-item span.star {
     font-size: 1.25em;
+}
+
+/*-------------------- At 1080px --------------------*/
+@media only screen and (min-width: 1080px) {
+    .posts {
+        margin: 0;
+    }
 }

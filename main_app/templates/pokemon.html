@@ -112,9 +112,9 @@
     <!-- Review Form -->
     <div class="card">
         <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}}">
-        <form action="/profile/{{user.id}}/create_post" method="POST">
+        <form action="/{{pokemon.id}}/create_review" method="POST">
             {% csrf_token %}
-            <textarea class="form-control form-control-custom" name="post" rows="2" placeholder="What do you think of {{pokemon.name | title}}?"></textarea>
+            <textarea class="form-control form-control-custom" name="review" rows="2" placeholder="What do you think of {{pokemon.name | title}}?"></textarea>
             <div class="btn-container">
                 <div class="form-row">
                     <label>Rating</label>
@@ -146,7 +146,7 @@
             <a href="/profile/{{review.added_by.id}}"><p class="bold">{{review.added_by.first_name}} {{review.added_by.last_name}} </a><span>{{review.added_by.username}}</span></p>
             <span class="n{{review.rating}} star">{{review.rating}}</span>
             <p>{{review.content}}</p>
-            <p class="time">{{review.created_at}} {% if request.session.userid == review.added_by.id %}| <a href="/profile/{{review.id}}/delete_review"><i class="material-icons">delete</i></a>{% endif %}</p>
+            <p class="time">{{review.created_at}} {% if request.session.userid == review.added_by.id %}| <a href="/{{review.id}}/delete_review"><i class="material-icons">delete</i></a>{% endif %}</p>
         </div>
         <!-- Side icons -->
         <div class="card-item-icons">
@@ -181,7 +181,7 @@
                 {% csrf_token %}
                 <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
                 <div class="btn-container">
-                    <button class="btn btn-primary btn-review">Reply</button>
+                    <button class="btn btn-primary btn-post">Reply</button>
                 </div>
             </form>
             {% else %}
@@ -196,7 +196,7 @@
                 <div class="card-item card-item-content">
                     <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
                     <p>{{comment.content}}</p>
-                    <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/profile/{{comment.id}}/delete_review_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
+                    <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/{{comment.id}}/delete_review_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
                 </div>
                 <!-- Side icons -->
                 <div class="card-item-icons">

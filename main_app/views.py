@@ -38,6 +38,7 @@ def pokemon(request, pkmn_id):
     else:
         user = None
     pokemon = Pokemon.objects.get(id = pkmn_id)
+    
     #get average of all review ratings..
     all_reviews = pokemon.reviews.all()
     if all_reviews:
@@ -98,15 +99,24 @@ def create_review(request, pkmn_id):
 
 def delete_review(request, review_id):
     review_to_delete = Review.objects.get(id = review_id)
-    pkmn_id = review_to_delete.pkmn.id
+    if request.session["userid"] != review_to_delete.added_by.id:
+        return redirect('/')
     review_to_delete.delete()
-    return redirect(f'/{pkmn_id}')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def like_review(request):
     #if GET request, redirect
+    if request.method == "GET":
+        return redirect('/')
+    user = User.objects.get(id = request.session['userid'])
+    review = Review.objects.get(id = request.POST['like'])
     #if user in review's likes, remove them
+    if user in review.likes.all():
+        review.likes.remove(user)
+    else:
     #otherwise, add them
-    pass
+        review.likes.add(user)
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def comment_review(request, review_id):
     review = Review.objects.get(id = review_id)
@@ -127,9 +137,17 @@ def delete_review_comment(request, comment_id):
 
 def like_review_comment(request):
     #if GET request, redirect
+    if request.method == "GET":
+        return redirect('/')
+    user = User.objects.get(id = request.session['userid'])
+    comment = Comment.objects.get(id = request.POST['like'])
     #if user in review comment's likes, remove them
-    #otherwise, add them
-    pass
+    if user in comment.likes.all():
+        comment.likes.remove(user)
+    else:
+    #otherwise, like post comment
+        comment.likes.add(user)
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def create_team(request):
     pass

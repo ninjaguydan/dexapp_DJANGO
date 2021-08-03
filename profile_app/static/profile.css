@@ -80,6 +80,15 @@ body {
     max-width: 500px;
     margin: 0 auto;
 }
+.card-item span.star {
+    font-size: 1.25em;
+}
+.pkmn-img {
+    width: 15%;
+    height: 15%;
+    border-radius: 50%;
+    background-color: #424242;
+}
     
 /* "Edit profile" modal styles */
 .modal-bg {

@@ -95,7 +95,7 @@ def create_review(request, pkmn_id):
         added_by = user,
         pkmn = pkmn
     )
-    return redirect(f'/{pkmn_id}')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_review(request, review_id):
     review_to_delete = Review.objects.get(id = review_id)
@@ -127,13 +127,13 @@ def comment_review(request, review_id):
         added_by = user,
         review = review
     )
-    return redirect(f'/{pkmn.id}')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_review_comment(request, comment_id):
     comment_to_delete = Comment.objects.get(id = comment_id)
     pkmn = Pokemon.objects.get(id = comment_to_delete.review.pkmn.id)
     comment_to_delete.delete()
-    return redirect(f'/{pkmn.id}')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def like_review_comment(request):
     #if GET request, redirect

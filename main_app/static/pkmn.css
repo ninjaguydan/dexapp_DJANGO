@@ -130,7 +130,9 @@
 .card-item span.star {
     font-size: 1.25em;
 }
-
+.active {
+    background-color: transparent !important;
+}
 /*-------------------- At 1080px --------------------*/
 @media only screen and (min-width: 1080px) {
     .posts {

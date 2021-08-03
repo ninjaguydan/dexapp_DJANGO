@@ -36,6 +36,12 @@ def update_profile(request, user_id):
     profile.save()
     return redirect(f'/profile/{user_id}')
 
+def delete_profile(request):
+    user = User.objects.get(id = request.session['userid'])
+    request.session.clear()
+    user.delete()
+    return redirect('/login/register')
+
 def follow(request):
     if request.method == "GET":
         return redirect('/')

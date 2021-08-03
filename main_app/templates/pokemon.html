@@ -74,7 +74,7 @@
                 <form action="/favorite" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="pokemon" value="{{pokemon.id}}">
-                    <button class="btn btn-secondary"><i class="material-icons">favorite</i> Unfavorite</button>
+                    <button class="btn btn-secondary active"><i class="material-icons">favorite</i> Unfavorite</button>
                 </form>
                 {% endif %}
             {% else %}

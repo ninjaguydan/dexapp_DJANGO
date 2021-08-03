@@ -46,6 +46,7 @@ body {
         margin: 0;
     }
     .tag {
+        margin: 0 auto;
         display: block;
         width: 500px;
     }

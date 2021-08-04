@@ -303,6 +303,8 @@ margin-bottom: 3px;
     }
     .comment .card {
         border-top: 2px solid rgb(255 255 255 / 13%);
+        border-left: 2px solid rgb(255 255 255 / 13%);
+        border-right: 2px solid rgb(255 255 255 / 13%);
     }
     .comment .card-item {
         margin-right: 15px;
@@ -311,20 +313,6 @@ margin-bottom: 3px;
         width: 347px;
     }
 
-
-
-
-/* .team {
-    display: grid;
-    text-align: center;
-    grid-template-columns: 1fr 1fr;
-}
-    .team h4 {
-        grid-column: 1 / 3;
-    }
-    .team img {
-        width: 80%;
-    }
 
 
 /*-------------------- At 550px --------------------*/

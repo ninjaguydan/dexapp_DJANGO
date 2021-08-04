@@ -61,7 +61,7 @@
         <!-- If no one is logged in, following row is not displayed -->
         <li class="list-group-item striped">
             {% if "userid" in request.session %}
-            <button class="btn btn-secondary"><i class="material-icons">add</i> Add to Team</button>
+            <button class="btn btn-secondary" id="add-to-team"><i class="material-icons">add</i> Add to Team</button>
                 {% if user not in pokemon.favorited_by.all %}
                 <!-- Add Pokemon to favorites if user has not favorited -->
                 <form action="/favorite" method="POST">
@@ -226,5 +226,46 @@
         </div>
     </div>
     {% endfor %}
+</div>
+
+
+<!------------ Add to Team Modal ------------>
+<div class="modal-bg">
+    <!-- Add to team -->
+    <div class="edit-profile-modal">
+        <div class="modal-head">
+            <h4>Add to...</h4>
+            <p id="close">&#10005;</p>
+        </div>
+        <hr>
+        <form action="/{{pokemon.id}}/add_to_team" method="POST">
+        {% csrf_token %}
+            {% for team in user.teams.all %}
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="teams" value="{{team.id}}">
+                <label class="form-check-label">{{team.name}}</label>
+            </div>
+            {% empty %}
+            <h4>No Teams yet!</h4>
+            {% endfor %}
+            {% if user.teams.all %}
+            <div class="btn-container">
+                <button class="btn btn-primary add">Add</button>
+            </div>
+            {% else %}
+            <!-- dont display a button -->
+            {% endif %}
+        </form>
+        <hr>
+        <button class="btn btn-secondary create-team" id="create-team"><i class="material-icons">add</i> Create New Team</button>
+        <form action="/{{pokemon.id}}/create_team" method="POST" class="new-team">
+        {% csrf_token %}
+            <div class="form-group">
+                <label>Name</label><br><br>
+                <input type="text" name="name" value="{{team.name}}" class="form-control form-control-custom" placeholder="Enter Team name...">
+            </div>
+            <button class="btn btn-primary">Create</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

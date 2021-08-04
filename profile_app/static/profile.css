@@ -75,6 +75,7 @@ body {
         .striped:nth-of-type(odd) {
             background-color: #444444;
         }
+
 /* Posts/ Right comlumn styles */
 .posts {
     max-width: 500px;
@@ -83,13 +84,84 @@ body {
 .card-item span.star {
     font-size: 1.25em;
 }
+.card h5 {
+    width: 100%;
+    text-align: center;
+}
 .pkmn-img {
     width: 15%;
     height: 15%;
     border-radius: 50%;
     background-color: #424242;
 }
+/* Tab Styles */
+.tab-nav {
+    display: flex;
+    margin-bottom: 0;
+    justify-content: space-between;
+    width: 100%;
+}
+    .tab-nav li {
+        flex: 1 0 20%;
+        text-align: center;
+    }
+        .tab-nav li a {
+            padding: 10px;
+            display: block;
+            background-color: var(--fourth);
+            border-radius: .25rem .25rem 0 0;
+        }
+        .tab-nav li a.active {
+            border-bottom: 2px solid var(--third);
+        }
+
+/* Favorites Styles */
+.card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+    row-gap: 2rem;
+}
+    .card-grid h5 {
+        grid-column: 1 / span 4;
+    }
+    .card-grid a img {
+        border-radius: 50%;
+        background-color: #444444;
+        width: 80%;
+        margin-bottom: 10px;
+        transition: transform .2s;
+    }
+        .card-grid a img:hover {
+            transform: scale(1.125);
+        }
+
+/* Team Tab Styles */
+.card h5.team-title {
+    text-align: left;
+    margin-bottom: 20px;
+}
+.team-grid {
+    display: grid;
+    width: 90%;
+    grid-template-columns: 1fr 1fr;
+}
+.team-grid a {
+    text-align: center;
+    width: 100%;
+}
+    .team-grid a img {
+        background-color: #444444;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        transition: transform .2s;
+    }
+        .team-grid a img:hover {
+            transform: scale(1.0625);
+        }
     
+
+
 /* "Edit profile" modal styles */
 .modal-bg {
     display: none;
@@ -178,26 +250,16 @@ body {
     } 
 }
 
-/* Tab Styles */
-.tab-nav {
-    display: flex;
-    margin-bottom: 0;
-    justify-content: space-between;
-    width: 100%;
-}
-    .tab-nav li {
-        flex: 1 0 25%;
-        text-align: center;
+/*-------------------- At 550px --------------------*/
+@media only screen and (min-width: 550px) {
+    .card-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
-        .tab-nav li a {
-            padding: 10px;
-            display: block;
-            background-color: var(--fourth);
-            border-radius: .25rem .25rem 0 0;
-        }
-        .tab-nav li a.active {
-            border-bottom: 2px solid var(--third);
-        }
+    .team-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        width: 96%;
+    }
+}
 
 /*-------------------- At 1080px --------------------*/
 @media only screen and (min-width: 1080px) {

@@ -43,6 +43,8 @@ $('#edit-profile').click(function(){
 //close "Edit Profile" modal
 $('#close').click(function(){
     $('.modal-bg').css("display", "none");
+    $('.new-team').css("display", "none");
+    $('#create-team').css("display", "flex");
 })
 
 // select profile image
@@ -70,4 +72,15 @@ $( function() {
 $('.tab-nav li a').click(function(){
     $('.tab-nav li a').removeClass('active');
     $(this).addClass('active');
+})
+
+// display "Add to Team" modal
+$('#add-to-team').click(function(){
+    $('.modal-bg').css("display", "block")
+})
+
+// display 'Create Team' form
+$('#create-team').click(function(){
+    $('#create-team').css("display", "none");
+    $('.new-team').css("display", "block");
 })

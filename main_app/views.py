@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Count
 from login_app.models import User
 from .models import Review, Pokemon
-from profile_app.models import Post, Comment
+from profile_app.models import Post, Comment, Team
 import requests
 import json
 
@@ -149,11 +149,34 @@ def like_review_comment(request):
         comment.likes.add(user)
     return redirect(request.META.get('HTTP_REFERER'))
 
-def create_team(request):
-    pass
+def create_team(request, pkmn_id):
+    #if GET request, redirect
+    if request.method == "GET":
+        return redirect('/')
+    user = User.objects.get(id = request.session['userid'])
+    pkmn = Pokemon.objects.get(id = pkmn_id)
+    new_team = Team.objects.create(
+        name = request.POST['name'],
+        user = user
+    )
+    new_team.pkmn.add(pkmn)
+    return redirect(request.META.get('HTTP_REFERER'))
 
-def add_to_team(request):
-    pass
+def add_to_team(request, pkmn_id):
+    #if GET request, redirect
+    if request.method == "GET":
+        return redirect('/')
+    user = User.objects.get(id = request.session['userid'])
+    pkmn = Pokemon.objects.get(id = pkmn_id)
+    teams = request.POST.getlist('teams')
+    for i in teams:
+        team = Team.objects.get(id = i)
+        team.pkmn.add(pkmn)
+        if len(team.pkmn.all()) > 6:
+            first_pkmn = team.pkmn.first()
+            team.pkmn.remove(first_pkmn)
+            print(f"{first_pkmn.name} got removed from {team.name}!")
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def like_team(request):
     pass

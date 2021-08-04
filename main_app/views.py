@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.db.models import Count
 from login_app.models import User
 from .models import Review, Pokemon
@@ -168,18 +169,36 @@ def add_to_team(request, pkmn_id):
         return redirect('/')
     user = User.objects.get(id = request.session['userid'])
     pkmn = Pokemon.objects.get(id = pkmn_id)
+    #get all selected teams as a list[]
     teams = request.POST.getlist('teams')
     for i in teams:
+        #add pokemon to each selected team in the list[]
         team = Team.objects.get(id = i)
+        #if team has 6 pokemon, dont let them add
+        if len(team.pkmn.all()) == 6:
+            messages.error(request, "This team is full!")
+            print(f'{pkmn.name} was not added to {team.name}')
+            return redirect(request.META.get('HTTP_REFERER'))
         team.pkmn.add(pkmn)
-        if len(team.pkmn.all()) > 6:
-            first_pkmn = team.pkmn.first()
-            team.pkmn.remove(first_pkmn)
-            print(f"{first_pkmn.name} got removed from {team.name}!")
     return redirect(request.META.get('HTTP_REFERER'))
 
 def like_team(request):
-    pass
+    #if GET request, redirect
+    if request.method == "GET":
+        return redirect('/')
+    user = User.objects.get(id = request.session['userid'])
+    team = Team.objects.get(id = request.POST['like'])
+    if user in team.likes.all():
+    #if user in team's likes, remove them
+        team.likes.remove(user)
+    else:
+    #otherwise, add them
+        team.likes.add(user)
+    return redirect(request.META.get('HTTP_REFERER'))
 
-def delete_team(request):
-    pass
+def delete_team(request, team_id):
+    team_to_delete = Team.objects.get(id = team_id)
+    if request.session["userid"] != team_to_delete.user.id:
+        return redirect('/')
+    team_to_delete.delete()
+    return redirect(request.META.get('HTTP_REFERER'))

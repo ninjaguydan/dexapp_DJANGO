@@ -242,8 +242,13 @@
         {% csrf_token %}
             {% for team in user.teams.all %}
             <div class="form-check">
+                {% if team.pkmn.all|length == 6 %}
+                <input type="checkbox" class="form-check-input" disabled>
+                <label class="form-check-label">{{team.name}} (This team is full!)</label>
+                {% else %}
                 <input type="checkbox" class="form-check-input" name="teams" value="{{team.id}}">
                 <label class="form-check-label">{{team.name}}</label>
+                {% endif %}
             </div>
             {% empty %}
             <h4>No Teams yet!</h4>

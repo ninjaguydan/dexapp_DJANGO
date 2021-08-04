@@ -358,10 +358,13 @@
                     <button><i class="material-icons active">favorite</i></button>
                 </form>
                 {% endif %}
-                <!-- reply icon -->
                 <p>{{team.likes.all|length}}</p>
+                <!-- reply icon -->
                 <i class="material-icons reply" team_id="{{team.id}}">chat_bubble_outline</i>
                 <p>{{team.comments.all|length}}</p>
+                {% if request.session.userid == team.user.id %}
+                <a href="/{{team.id}}/delete_team"><i class="material-icons delete">delete</i></a>
+                {% endif %}
             </div>
         </div>
         {% empty %}

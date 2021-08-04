@@ -257,7 +257,7 @@ body {
     }
     .team-grid {
         grid-template-columns: 1fr 1fr 1fr;
-        width: 96%;
+        width: 90%;
     }
 }
 

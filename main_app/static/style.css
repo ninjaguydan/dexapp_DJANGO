@@ -231,10 +231,10 @@ margin-bottom: 3px;
     .card-item-content .time {
         position: relative;
     }
-        .card-item-content .time a {
+        .card-item-content .time a, .delete {
             color: gray;
         }
-            .card-item-content .time a:hover {
+            .card-item-content .time a:hover, .delete:hover {
                 color: var(--primary);
             }
         .card-item-content .time i {

@@ -1,0 +1,81 @@
+.card {
+    width: 100%;
+}
+.card h3.team-title {
+    margin-bottom: 40px;
+}
+    .card h3 span {
+        font-size: .75em;
+        color: gray;
+        font-weight: 400;
+    }
+        .card h3 span a {
+            color: gray;
+        }
+            .card h3 span a:hover {
+                color: var(--third);
+            }
+.team-grid {
+    display: grid;
+    row-gap: 40px;
+    width: 90%;
+    grid-template-columns: 1fr 1fr;
+}
+.team-grid a {
+    text-align: center;
+    width: 100%;
+}
+    .team-grid a p {
+        margin-bottom: .5rem;
+    }
+    .team-grid a img {
+        background-color: #444444;
+        width: 60%;
+        border-radius: 10%;
+        margin-bottom: 10px;
+        transition: transform .2s;
+    }
+        .team-grid a img:hover {
+            transform: scale(1.0625);
+        }
+.type-container {
+    width: 75%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+.type {
+    font-size: .5em;
+    border-radius: 1rem;
+    padding: 5px;
+    margin: 0 auto;
+    text-align: center;
+    width: 90%;
+    margin-bottom: 10px;
+}
+
+/*-------------------- At 550px --------------------*/
+@media only screen and (min-width: 550px) {
+    .team-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .type {
+        width: 70%;
+    }
+    
+}
+
+/*-------------------- At 1080px --------------------*/
+@media only screen and (min-width: 1080px) {
+    .team-grid {
+        width: 95%;
+    }
+    .type-container {
+        flex-direction: row;
+    }
+    .type {
+        width: 45%;
+    }
+}

@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index),
     path('<int:pkmn_id>', views.pokemon),
+    path('team/<int:team_id>', views.display_team),
     path('favorite', views.favorite),
     path('<int:pkmn_id>/create_review', views.create_review),
     path('<int:review_id>/delete_review', views.delete_review),

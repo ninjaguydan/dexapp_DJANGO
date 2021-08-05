@@ -64,6 +64,17 @@ def pokemon(request, pkmn_id):
     }
     return render(request, "pokemon.html", context)
 
+def display_team(request, team_id):
+    if "userid" in request.session:
+        user = User.objects.get(id = request.session['userid'])
+    else:
+        user = None
+    context = {
+        "user" : user,
+        "team" : Team.objects.get(id = team_id),
+    }
+    return render(request, "team.html", context)
+
 def favorite(request):
     #if GET request, redirect
     if request.method == "GET":

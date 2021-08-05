@@ -325,7 +325,7 @@
     <div id="tabs-4">
         {% for team in profile.teams.all reversed %}
         <div class="card">
-            <h5 class="team-title">{{team.name}}</h5>
+            <h5 class="team-title"><a href="/team/{{team.id}}">{{team.name}}</a></h5>
             <div class="team-grid">
                 {% for pokemon in team.pkmn.all %}
                 <a href="/{{pokemon.id}}">

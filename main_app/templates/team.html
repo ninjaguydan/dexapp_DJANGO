@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'pkmn.css' %}">
+    <link rel="stylesheet" href="{% static 'team.css' %}">
+{% endblock %}
+
+{% block title %}| {{team.name}}{% endblock %}
+
+
+<!------------------------ Body ------------------------>
+{% block content %}
+
+<div class="card">
+    <h3 class="team-title">{{team.name}} <span>by <a href="/profile/{{team.user.id}}">{{team.user.username}}</a></span></h3>
+    <div class="team-grid">
+        {% for pokemon in team.pkmn.all %}
+        <a href="/{{pokemon.id}}">
+            <img src="{{pokemon.art_url}}" alt="">
+            <p>{{pokemon.name|title}}</p>
+            <div class="type-container">
+                <span class="type electric">Electric</span>
+                <span class="type fighting">Fighting</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    <!-- Side icons -->
+    <div class="card-item-icons">
+        {% if "userid" not in request.session %}
+        <!-- If no one is logged in, non-clickable heart is displayed -->
+        <i class="material-icons">favorite_border</i>
+        {% elif user not in team.likes.all %}
+        <!-- "Like Post" form -->
+        <form action="/like_team" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="like" value="{{team.id}}">
+            <button><i class="material-icons">favorite_border</i></button>
+        </form>
+        {% else %}
+        <!-- "Unlike Post" form -->
+        <form action="/like_team" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="like" value="{{team.id}}">
+            <button><i class="material-icons active">favorite</i></button>
+        </form>
+        {% endif %}
+        <p>{{team.likes.all|length}}</p>
+        <!-- reply icon -->
+        <i class="material-icons reply" team_id="{{team.id}}">chat_bubble_outline</i>
+        <p>{{team.comments.all|length}}</p>
+        {% if request.session.userid == team.user.id %}
+        <a href="/{{team.id}}/delete_team"><i class="material-icons delete">delete</i></a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

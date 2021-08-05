@@ -37,6 +37,9 @@ a {
 .wrapper {
     padding: 15px;
 }
+input:-internal-autofill-selected {
+    background-color: transparent !important;
+}
 /* Background color styles */
 .gray {background-color: var(--secondary);}
 .red {background-color: var(--primary);}

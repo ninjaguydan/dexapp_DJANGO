@@ -299,12 +299,11 @@ margin-bottom: 3px;
     padding: 15px;
 }
     .comment .comment_form {
-        margin-bottom: 15px;
+        margin-top: 24px;
     }
     .comment .card {
-        border-top: 2px solid rgb(255 255 255 / 13%);
-        border-left: 2px solid rgb(255 255 255 / 13%);
-        border-right: 2px solid rgb(255 255 255 / 13%);
+        border: 2px solid rgb(255 255 255 / 13%);
+        border-bottom: none;
     }
     .comment .card-item {
         margin-right: 15px;

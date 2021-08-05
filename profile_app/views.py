@@ -37,10 +37,13 @@ def update_profile(request, user_id):
     return redirect(f'/profile/{user_id}')
 
 def delete_profile(request):
-    user = User.objects.get(id = request.session['userid'])
-    request.session.clear()
-    user.delete()
-    return redirect('/login/register')
+    #Check if anyone is logged in
+    if "userid" in request.session:
+        user = User.objects.get(id = request.session['userid'])
+        request.session.clear()
+        user.delete()
+        return redirect('/login/register')
+    return redirect('/')
 
 def follow(request):
     if request.method == "GET":
@@ -67,14 +70,14 @@ def create_post(request, user_id):
     return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_post(request, post_id):
-    post_to_delete = Post.objects.get(id = post_id)
-    user_id = post_to_delete.added_by.id
-    #post can only be deleted by author
-    if request.session['userid'] != user_id:
-        return redirect('/')
-    post_to_delete.delete()
-    #redirect to the page we came from
-    return redirect(request.META.get('HTTP_REFERER'))
+    #check if anyone is logged in
+    if "userid" in request.session:
+        post_to_delete = Post.objects.get(id = post_id)
+        #delete post if logged in user is also post's author
+        if request.session['userid'] == post_to_delete.added_by.id:
+            post_to_delete.delete()
+            return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('/')
 
 def like_post(request):
     #if GET request, redirect 
@@ -103,13 +106,14 @@ def comment_post(request, post_id):
     return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_post_comment(request, comment_id):
-    comment_to_delete = Comment.objects.get(id = comment_id)
-    #comment can only be deleted by author
-    if request.session['userid'] != comment_to_delete.added_by.id:
-        return redirect('/')
-    post = Post.objects.get(id = comment_to_delete.post.id)
-    comment_to_delete.delete()
-    return redirect(request.META.get('HTTP_REFERER'))
+    #check if anyone is logged in
+    if "userid" in request.session:
+        comment_to_delete = Comment.objects.get(id = comment_id)
+        #delete comment if logged in user is also comment's author
+        if request.session['userid'] == comment_to_delete.added_by.id:
+            comment_to_delete.delete()
+            return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('/')
 
 def like_post_comment(request):
     #if GET request, redirect

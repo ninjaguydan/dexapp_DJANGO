@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from django.db.models import Count
 from login_app.models import User
 from .models import Review, Pokemon
@@ -39,14 +38,9 @@ def pokemon(request, pkmn_id):
     else:
         user = None
     pokemon = Pokemon.objects.get(id = pkmn_id)
-    
     #get average of all review ratings..
-    all_reviews = pokemon.reviews.all()
-    if all_reviews:
-        total = 0
-        for review in all_reviews:
-            total += review.rating
-        avg = total/len(all_reviews)
+    if pokemon.reviews.all():
+        avg = Pokemon.objects.rating_avg(pkmn_id)
     else:
         avg = 0
     #look at previous pokemon object and grab sprite url if it exits
@@ -62,7 +56,7 @@ def pokemon(request, pkmn_id):
     context = {
         "pokemon" : pokemon,
         "user" : user,
-        "average" : round(avg, 2),
+        "average" : avg,
         "prev" : f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{prev}.png",
         "prev_num" : prev,
         "next" : f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{nxt}.png",
@@ -99,11 +93,14 @@ def create_review(request, pkmn_id):
     return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_review(request, review_id):
-    review_to_delete = Review.objects.get(id = review_id)
-    if request.session["userid"] != review_to_delete.added_by.id:
-        return redirect('/')
-    review_to_delete.delete()
-    return redirect(request.META.get('HTTP_REFERER'))
+    #Check if user is logged in
+    if "userid" in request.session:
+        review_to_delete = Review.objects.get(id = review_id)
+        #Delete review if logged in user is the review's author
+        if request.session['userid'] == review_to_delete.added_by.id:
+            review_to_delete.delete()
+            return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('/')
 
 def like_review(request):
     #if GET request, redirect
@@ -121,7 +118,6 @@ def like_review(request):
 
 def comment_review(request, review_id):
     review = Review.objects.get(id = review_id)
-    pkmn = Pokemon.objects.get(id = review.pkmn.id)
     user = User.objects.get(id = request.session['userid'])
     Comment.objects.create(
         content = request.POST['comment'],
@@ -131,10 +127,14 @@ def comment_review(request, review_id):
     return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_review_comment(request, comment_id):
-    comment_to_delete = Comment.objects.get(id = comment_id)
-    pkmn = Pokemon.objects.get(id = comment_to_delete.review.pkmn.id)
-    comment_to_delete.delete()
-    return redirect(request.META.get('HTTP_REFERER'))
+    #Check if user is logged in
+    if "userid" in request.session:
+        comment_to_delete = Comment.objects.get(id = comment_id)
+        #Delete comment if logged in user is the comment's author
+        if request.session['userid'] == comment_to_delete.added_by.id:
+            comment_to_delete.delete()
+            return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('/')
 
 def like_review_comment(request):
     #if GET request, redirect
@@ -167,7 +167,6 @@ def add_to_team(request, pkmn_id):
     #if GET request, redirect
     if request.method == "GET":
         return redirect('/')
-    user = User.objects.get(id = request.session['userid'])
     pkmn = Pokemon.objects.get(id = pkmn_id)
     #get all selected teams as a list[]
     teams = request.POST.getlist('teams')
@@ -176,7 +175,6 @@ def add_to_team(request, pkmn_id):
         team = Team.objects.get(id = i)
         #if team has 6 pokemon, dont let them add
         if len(team.pkmn.all()) == 6:
-            messages.error(request, "This team is full!")
             print(f'{pkmn.name} was not added to {team.name}')
             return redirect(request.META.get('HTTP_REFERER'))
         team.pkmn.add(pkmn)
@@ -197,8 +195,11 @@ def like_team(request):
     return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_team(request, team_id):
-    team_to_delete = Team.objects.get(id = team_id)
-    if request.session["userid"] != team_to_delete.user.id:
-        return redirect('/')
-    team_to_delete.delete()
-    return redirect(request.META.get('HTTP_REFERER'))
+    #Check if anyone is logged in
+    if "userid" in request.session:
+        team_to_delete = Team.objects.get(id = team_id)
+        #Check if logged in user is the one who made the team
+        if request.session['userid'] == team_to_delete.user.id:
+            team_to_delete.delete()
+            return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('/')

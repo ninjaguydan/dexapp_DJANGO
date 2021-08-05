@@ -159,21 +159,7 @@
             </div>
             <!-- Display following Div when chat bubble is clicked -->
             <div class="comment comment_{{post.id}}">
-                {% if request.session.userid %}
-                <!-- Display Reply Form if a user is logged in -->
-                <form action="/profile/{{post.id}}/comment_post" method="POST" class="comment_form">
-                    {% csrf_token %}
-                    <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
-                    <div class="btn-container">
-                        <button class="btn btn-primary btn-post">Reply</button>
-                    </div>
-                </form>
-                {% else %}
-                <!-- don't display the form if no one is logged in -->
-                {% endif %}
                 <!-- All reply comments -->
-                {% if post.comments.all %}
-                <!-- If any comments exist, dispaly them -->
                 {% for comment in post.comments.all %}
                 <div class="card card-reply">
                     <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
@@ -206,6 +192,18 @@
                     </div>
                 </div>
                 {% endfor %}
+
+                <!-- Display Reply Form if a user is logged in -->
+                {% if request.session.userid %}
+                <form action="/profile/{{post.id}}/comment_post" method="POST" class="comment_form">
+                    {% csrf_token %}
+                    <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
+                    <div class="btn-container">
+                        <button class="btn btn-primary btn-post">Reply</button>
+                    </div>
+                </form>
+                {% else %}
+                <!-- don't display the form if no one is logged in -->
                 {% endif %}
             </div>
         </div>
@@ -254,21 +252,7 @@
             </div>
             <!-- Display following Div when chat bubble is clicked -->
             <div class="comment comment_{{review.id}}">
-                {% if request.session.userid %}
-                <!-- Display Reply Form if a user is logged in -->
-                <form action="/{{review.id}}/comment_review" method="POST" class="comment_form">
-                    {% csrf_token %}
-                    <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
-                    <div class="btn-container">
-                        <button class="btn btn-primary btn-post">Reply</button>
-                    </div>
-                </form>
-                {% else %}
-                <!-- don't display the form if no one is logged in -->
-                {% endif %}
                 <!-- All reply comments -->
-                {% if review.comments.all %}
-                <!-- If any comments exist, dispaly them -->
                 {% for comment in review.comments.all %}
                 <div class="card card-reply">
                     <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
@@ -301,6 +285,18 @@
                     </div>
                 </div>
                 {% endfor %}
+
+                <!-- Display Reply Form if a user is logged in -->
+                {% if request.session.userid %}
+                <form action="/{{review.id}}/comment_review" method="POST" class="comment_form">
+                    {% csrf_token %}
+                    <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
+                    <div class="btn-container">
+                        <button class="btn btn-primary btn-post">Reply</button>
+                    </div>
+                </form>
+                {% else %}
+                <!-- don't display the form if no one is logged in -->
                 {% endif %}
             </div>
         </div>
@@ -376,6 +372,8 @@
     
 </div>
 
+{% if "userid" in request.session %}
+{% if request.session.userid == profile.id %}
 <!---------------- "Edit Profile" popup modal ---------------->
 <div class="modal-bg">
     <div class="edit-profile-modal">
@@ -435,4 +433,6 @@
         <a href="/profile/delete_profile">Delete Profile</a>
     </div>
 </div>
+{% endif %}
+{% endif %}
 {% endblock %}

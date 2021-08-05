@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load pkmn_extras %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'index.css' %}">
@@ -66,21 +67,7 @@
         </div>
         <!-- Display following Div when chat bubble is clicked -->
         <div class="comment comment_{{post.id}}">
-            {% if request.session.userid %}
-            <!-- Display Reply Form if a user is logged in -->
-            <form action="/profile/{{post.id}}/comment_post" method="POST" class="comment_form">
-                {% csrf_token %}
-                <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
-                <div class="btn-container">
-                    <button class="btn btn-primary btn-post">Reply</button>
-                </div>
-            </form>
-            {% else %}
-            <!-- don't display the form if no one is logged in -->
-            {% endif %}
             <!-- All reply comments -->
-            {% if post.comments.all %}
-            <!-- If any comments exist, dispaly them -->
             {% for comment in post.comments.all %}
             <div class="card card-reply">
                 <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
@@ -113,6 +100,18 @@
                 </div>
             </div>
             {% endfor %}
+
+            <!-- Display Reply Form if a user is logged in -->
+            {% if request.session.userid %}
+            <form action="/profile/{{post.id}}/comment_post" method="POST" class="comment_form">
+                {% csrf_token %}
+                <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
+                <div class="btn-container">
+                    <button class="btn btn-primary btn-post">Reply</button>
+                </div>
+            </form>
+            {% else %}
+            <!-- don't display the form if no one is logged in -->
             {% endif %}
         </div>
     </div>
@@ -140,7 +139,7 @@
                 <a href="/{{pokemon.id}}"><h6 class="bold">{{pokemon.name|title}}</h6></a>
                 <div class="icons">
                     <h6><i class="material-icons">favorite</i> {{pokemon.favorited_by.all|length}}</h6>
-                    <h6><i class="material-icons">star</i> 66</h6>
+                    <h6><i class="material-icons">star</i> {{pokemon.id|rating_avg}}</h6>
                 </div>
             </div>
         </li>

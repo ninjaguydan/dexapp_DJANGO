@@ -2,6 +2,15 @@ from django.db import models
 from login_app.models import User
 
 
+class PokeManager(models.Manager):
+    def rating_avg(self, pkmn_id):
+        pkmn = Pokemon.objects.get(id = pkmn_id)
+        total = 0
+        for review in pkmn.reviews.all():
+            total += review.rating
+        avg = total/len(pkmn.reviews.all())
+        return round(avg, 2)
+
 class Pokemon(models.Model):
     name = models.CharField(max_length=200, null = True)
     sprite_url = models.CharField(max_length=200, null = True)
@@ -10,6 +19,7 @@ class Pokemon(models.Model):
     height = models.IntegerField(null = True)
     weight = models.IntegerField(null = True)
     favorited_by = models.ManyToManyField(User, related_name = "favorites")
+    objects = PokeManager()
 
 class Review(models.Model):
     content = models.TextField()

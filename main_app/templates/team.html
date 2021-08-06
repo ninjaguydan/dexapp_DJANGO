@@ -78,23 +78,25 @@
     <!--- Weakness/Resistance List --->
     <ul class="list-group">
         <li class="list-group-item">
-            <h5 class="bold">Weakness Rating</h5>
+            <h5 class="bold">Resistance Rating</h5>
         </li>
+        <!-- Weakness/Resistance Table -->
         <li class="list-group-item chart-container">
-            <table class="table table-striped table-dark">
+            <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">Types</th>
-                        <th scope="col">W</th>
-                        <th scope="col">R</th>
-                        <th scope="col">I</th>
+                        <th scope="col"><i class="material-icons weak">radio_button_checked</i></th>
+                        <th scope="col"><i class="material-icons flip-y resist">arrow_drop_down_circle</i></th>
+                        <th scope="col"><i class="material-icons immune">remove_circle</i></th>
                     </tr>
                 </thead>
-                
+
+                <!-- Populate from backend based on Team types -->
                 <tbody>
                     <tr>
                         <th scope="row">Fire</th>
-                        <td>2</td>
+                        <td class="mid weak">4</td>
                         <td>-</td>
                         <td>-</td>
                     </tr>
@@ -102,16 +104,19 @@
                         <th scope="row">Dark</th>
                         <td>2</td>
                         <td>2</td>
-                        <td>-</td>
+                        <td class="high">6</td>
                     </tr>
                     <tr>
                         <th scope="row">Psychic</th>
                         <td>1</td>
-                        <td>3</td>
+                        <td class="mid resist">3</td>
                         <td>-</td>
                     </tr>
                 </tbody>
             </table>
+        </li>
+        <li class="list-group-item" id="toggle-weakness">
+            <p>Hide/Display Resistances</p>
         </li>
     </ul>
 

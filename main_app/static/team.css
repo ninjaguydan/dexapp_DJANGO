@@ -25,16 +25,16 @@
             font-size: 18px;
             margin-right: 5px;
         }
-.list-group-item#toggle-stats {
+.list-group-item#toggle-stats, .list-group-item#toggle-weakness {
     padding: .6rem 2.5rem;
     justify-content: space-around;
 }        
-    .list-group-item#toggle-stats p {
+    .list-group-item#toggle-stats p, .list-group-item#toggle-weakness p {
         margin: 0;
         font-size: .8em;
         cursor: pointer;
     }
-        .list-group-item#toggle-stats p:hover {
+        .list-group-item#toggle-stats p:hover, .list-group-item#toggle-weakness p:hover {
             color: var(--third);
         }
 
@@ -44,7 +44,44 @@
 }
     .chart-container table {
         margin: 0;
+        color: white;
     }
+    .chart-container table thead tr, .chart-container table  tbody tr:nth-of-type(even) {
+        background-color: #444444;
+    }
+    .chart-container table tbody tr {
+        border: transparent;
+    }
+    .chart-container table tr th:first-child {
+        text-align: left;
+        padding-left: 2rem;
+    }
+    .chart-container table th, .chart-container table td{
+        vertical-align: middle;
+    }
+    .chart-container table i {
+        position: relative;
+        top: 4px;
+    }
+    .weak {
+        color: var(--primary);
+    }
+    .resist {
+        color: var(--third);
+    }
+    .immune {
+        color: gray;
+    }
+    .mid {
+        font-weight: bold;
+    }
+    .high {
+        font-weight: bold;
+        font-size: 1.25em;
+    }
+    
+
+
 
 
 /* Team Grid Styles */

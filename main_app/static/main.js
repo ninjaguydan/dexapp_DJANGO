@@ -89,3 +89,8 @@ $('#create-team').click(function(){
 $('#toggle-stats').click(function(){
     $('.list-group-item.striped').toggle()
 })
+
+//Toggle Team Weakness
+$('#toggle-weakness').click(function(){
+    $('.chart-container').toggle()
+})

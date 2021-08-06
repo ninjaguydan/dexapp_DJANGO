@@ -30,6 +30,9 @@ a {
 .bold {
     font-weight: 700 !important;
 }
+.flip-y {
+    transform: scaleY(-1);
+}
 .time {
     color: gray;
     font-size: .75rem;

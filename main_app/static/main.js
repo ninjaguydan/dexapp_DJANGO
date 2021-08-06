@@ -84,3 +84,8 @@ $('#create-team').click(function(){
     $('#create-team').css("display", "none");
     $('.new-team').css("display", "block");
 })
+
+//toggle Team stats
+$('#toggle-stats').click(function(){
+    $('.list-group-item.striped').toggle()
+})

@@ -75,6 +75,40 @@ def display_team(request, team_id):
     }
     return render(request, "team.html", context)
 
+def comment_team(request, team_id):
+    team = Team.objects.get(id = team_id)
+    user = User.objects.get(id = request.session['userid'])
+    Comment.objects.create(
+        content = request.POST['comment'],
+        added_by = user,
+        team = team 
+    )
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def delete_team_comment(request, comment_id):
+    #Check if user is logged in
+    if "userid" in request.session:
+        comment_to_delete = Comment.objects.get(id = comment_id)
+        #Delete comment if logged in user is the comment's author
+        if request.session['userid'] == comment_to_delete.added_by.id:
+            comment_to_delete.delete()
+            return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('/')
+
+def like_team_comment(request):
+    #if GET request, redirect
+    if request.method == "GET":
+        return redirect('/')
+    user = User.objects.get(id = request.session['userid'])
+    comment = Comment.objects.get(id = request.POST['like'])
+    #if user in review comment's likes, remove them
+    if user in comment.likes.all():
+        comment.likes.remove(user)
+    else:
+    #otherwise, like post comment
+        comment.likes.add(user)
+    return redirect(request.META.get('HTTP_REFERER'))
+
 def favorite(request):
     #if GET request, redirect
     if request.method == "GET":

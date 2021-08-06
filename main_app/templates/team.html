@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block style %}
+    <link rel="stylesheet" href="{% static 'profile.css' %}">
     <link rel="stylesheet" href="{% static 'pkmn.css' %}">
     <link rel="stylesheet" href="{% static 'team.css' %}">
 {% endblock %}
@@ -12,9 +13,113 @@
 <!------------------------ Body ------------------------>
 {% block content %}
 
-<div class="card">
-    <h3 class="team-title">{{team.name}} <span>by <a href="/profile/{{team.user.id}}">{{team.user.username}}</a></span></h3>
-    <div class="team-grid">
+<!-- Left Column Content -->
+<div class="column profile">
+    <!--- Team Stat List --->
+    <ul class="list-group">
+        <li class="list-group-item">
+            <h4>{{team.name}}</h4>
+            <h6>by <a href="/profile/{{team.user.id}}">{{team.user.username}}</a></h6>
+            <div class="icons">
+                {% if "userid" not in request.session %}
+                    <!-- If no one is logged in, non-clickable heart is displayed -->
+                    <i class="material-icons">favorite_border</i>
+                {% elif user not in team.likes.all %}
+                    <!-- "Like Team" form -->
+                    <form action="/like_team" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="like" value="{{team.id}}">
+                        <button><i class="material-icons">favorite_border</i></button>
+                    </form>
+                {% else %}
+                    <!-- "Unlike Team" form -->
+                    <form action="/like_team" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="like" value="{{team.id}}">
+                        <button><i class="material-icons active">favorite</i></button>
+                    </form>
+                {% endif %} 
+                <h5 class="bold">{{team.likes.all | length}}</h5>
+            </div>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Base Stat Total Avg</p>
+            <span>00</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Avg HP</p>
+            <span>45</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Avg Attack</p>
+            <span>49</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Avg Defense</p>
+            <span>49</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Avg Special Attack</p>
+            <span>65</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Avg Special Defense</p>
+            <span>65</span>
+        </li>
+        <li class="list-group-item striped">
+            <p class="bold">Avg Speed</p>
+            <span>45</span>
+        </li>
+        <li class="list-group-item" id="toggle-stats">
+            <p>Hide/Display Team Stats</p>
+        </li>
+    </ul><br>
+
+    <!--- Weakness/Resistance List --->
+    <ul class="list-group">
+        <li class="list-group-item">
+            <h5 class="bold">Weakness Rating</h5>
+        </li>
+        <li class="list-group-item chart-container">
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Types</th>
+                        <th scope="col">W</th>
+                        <th scope="col">R</th>
+                        <th scope="col">I</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr>
+                        <th scope="row">Fire</th>
+                        <td>2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Dark</th>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Psychic</th>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+    </ul>
+
+</div><br><br>
+
+<!-- Right column content -->
+<div class="column posts">
+    <div class="card team-grid">
         {% for pokemon in team.pkmn.all %}
         <a href="/{{pokemon.id}}">
             <img src="{{pokemon.art_url}}" alt="">
@@ -25,35 +130,59 @@
             </div>
         </a>
         {% endfor %}
-    </div>
-    <!-- Side icons -->
-    <div class="card-item-icons">
-        {% if "userid" not in request.session %}
-        <!-- If no one is logged in, non-clickable heart is displayed -->
-        <i class="material-icons">favorite_border</i>
-        {% elif user not in team.likes.all %}
-        <!-- "Like Post" form -->
-        <form action="/like_team" method="POST">
+    </div><br>
+
+    {% if "userid" not in request.session %}
+    <!-- If no one is logged in, don't display comment form -->
+    {% else %}
+    <!-- Comment Form -->
+    <div class="card">
+        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}}">
+        <form action="/{{team.id}}/comment_team" method="POST">
             {% csrf_token %}
-            <input type="hidden" name="like" value="{{team.id}}">
-            <button><i class="material-icons">favorite_border</i></button>
+            <textarea class="form-control form-control-custom" name="comment" rows="1" placeholder="Thoughts on {{team.name}}?"></textarea>
+            <div class="btn-container">
+                <button class="btn btn-primary btn-post">Post</button>
+            </div>
         </form>
-        {% else %}
-        <!-- "Unlike Post" form -->
-        <form action="/like_team" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="like" value="{{team.id}}">
-            <button><i class="material-icons active">favorite</i></button>
-        </form>
-        {% endif %}
-        <p>{{team.likes.all|length}}</p>
-        <!-- reply icon -->
-        <i class="material-icons reply" team_id="{{team.id}}">chat_bubble_outline</i>
-        <p>{{team.comments.all|length}}</p>
-        {% if request.session.userid == team.user.id %}
-        <a href="/{{team.id}}/delete_team"><i class="material-icons delete">delete</i></a>
-        {% endif %}
     </div>
+    {% endif %}
+    
+    <!--- Team Comments --->
+    {% for comment in team.comments.all %}
+    <div class="card">
+        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+        <div class="card-item card-item-content">
+            <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
+            <p>{{comment.content}}</p>
+            <p class="time">{{comment.created_at}} ago {% if request.session.userid == comment.added_by.id %}| <a href="/{{comment.id}}/delete_team_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
+        </div>
+        <!-- Side icons -->
+        <div class="card-item-icons">
+            {% if "userid" not in request.session %}
+            <!-- If no one is logged in, non-clickable heart is displayed -->
+            <i class="material-icons">favorite_border</i>
+            {% elif user not in comment.likes.all %}
+            <!-- "Like Comment" form -->
+            <form action="/like_team_comment" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="like" value="{{comment.id}}">
+                <button><i class="material-icons">favorite_border</i></button>
+            </form>
+            {% else %}
+            <!-- "Unlike Comment" form -->
+            <form action="/like_team_comment" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="like" value="{{comment.id}}">
+                <button><i class="material-icons active">favorite</i></button>
+            </form>
+            {% endif %}
+            <p>{{comment.likes.all|length}}</p>
+        </div>
+    </div>
+    {% endfor %}
 </div>
+
+
 
 {% endblock %}

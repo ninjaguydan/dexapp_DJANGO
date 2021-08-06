@@ -29,19 +29,20 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
+class Team(models.Model):
+    name = models.CharField(max_length = 100)
+    user = models.ForeignKey(User, related_name = "teams", on_delete = models.CASCADE)
+    pkmn = models.ManyToManyField('main_app.Pokemon', related_name = "teams")
+    likes = models.ManyToManyField(User, related_name = "liked_teams")
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
 class Comment(models.Model):
     content = models.TextField()
     added_by = models.ForeignKey(User, related_name = "comments_added", null = True, on_delete = models.CASCADE)
     likes = models.ManyToManyField(User, related_name = "liked_comments")
     post = models.ForeignKey(Post, related_name = "comments", on_delete = models.CASCADE, null = True)
     review = models.ForeignKey('main_app.Review', related_name = "comments", on_delete = models.CASCADE, null = True)
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
-
-class Team(models.Model):
-    name = models.CharField(max_length = 100)
-    user = models.ForeignKey(User, related_name = "teams", on_delete = models.CASCADE)
-    pkmn = models.ManyToManyField('main_app.Pokemon', related_name = "teams")
-    likes = models.ManyToManyField(User, related_name = "liked_teams")
+    team = models.ForeignKey(Team, related_name = "comments", on_delete = models.CASCADE, null = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)

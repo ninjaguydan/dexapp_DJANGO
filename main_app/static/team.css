@@ -1,24 +1,57 @@
-.card {
-    width: 100%;
+/* Team stat list styles */
+.list-group-item .icons {
+    margin-top: 15px;
+    margin-bottom: 0;
+    justify-content: center;
 }
-.card h3.team-title {
-    margin-bottom: 40px;
-}
-    .card h3 span {
-        font-size: .75em;
-        color: gray;
-        font-weight: 400;
+    .list-group-item h5 {
+        margin: 0;
     }
-        .card h3 span a {
-            color: gray;
+    .list-group-item .icons form {
+        width: initial;
+    }
+    .list-group-item .icons button {
+        all: unset;
+        cursor: pointer;
+    }
+        .list-group-item .icons button:hover {
+            color: var(--third);
         }
-            .card h3 span a:hover {
-                color: var(--third);
-            }
+        .list-group-item .icons button i {
+            top: 2px;
+        }
+        .list-group-item .icons i {
+            top: -1px;
+            font-size: 18px;
+            margin-right: 5px;
+        }
+.list-group-item#toggle-stats {
+    padding: .6rem 2.5rem;
+    justify-content: space-around;
+}        
+    .list-group-item#toggle-stats p {
+        margin: 0;
+        font-size: .8em;
+        cursor: pointer;
+    }
+        .list-group-item#toggle-stats p:hover {
+            color: var(--third);
+        }
+
+/* Weakness Rating Styles */
+.chart-container {
+    padding: 0;
+}
+    .chart-container table {
+        margin: 0;
+    }
+
+
+/* Team Grid Styles */
 .team-grid {
     display: grid;
     row-gap: 40px;
-    width: 90%;
+    width: 100%;
     grid-template-columns: 1fr 1fr;
 }
 .team-grid a {
@@ -29,8 +62,8 @@
         margin-bottom: .5rem;
     }
     .team-grid a img {
-        background-color: #444444;
-        width: 60%;
+        background-color: #3a3a3a;
+        width: 75%;
         border-radius: 10%;
         margin-bottom: 10px;
         transition: transform .2s;
@@ -60,18 +93,19 @@
 @media only screen and (min-width: 550px) {
     .team-grid {
         grid-template-columns: 1fr 1fr 1fr;
+        /* width: 95%; */
     }
     .type {
         width: 70%;
     }
+    /* .list-group-item.striped {
+        display: block;
+    } */
     
 }
 
 /*-------------------- At 1080px --------------------*/
 @media only screen and (min-width: 1080px) {
-    .team-grid {
-        width: 95%;
-    }
     .type-container {
         flex-direction: row;
     }

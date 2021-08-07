@@ -16,6 +16,7 @@ urlpatterns = [
     path('<int:comment_id>/delete_review_comment', views.delete_review_comment),
     path('like_review_comment', views.like_review_comment),
     path('<int:pkmn_id>/create_team', views.create_team),
+    path('<int:team_id>/update_team', views.update_team),
     path('<int:pkmn_id>/add_to_team', views.add_to_team),
     path('like_team', views.like_team),
     path('<int:team_id>/delete_team', views.delete_team),

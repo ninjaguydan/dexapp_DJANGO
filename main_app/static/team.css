@@ -1,4 +1,26 @@
 /* Team stat list styles */
+.list-group-item {
+    position: relative;
+}
+    /* Edit Team Button */
+    .edit-team {
+        position: absolute;
+        font-size: 18px;
+        right: 10px;
+        top: 10px;
+        color: gray;
+        border-radius: 50%;
+        padding: 5px;
+        cursor: pointer;
+        transition: transform .5s;
+    }
+    .edit-team:hover {
+        color: inherit;
+    }
+        .edit-team:active {
+                background-color: #444444;
+                transform: scale(1.0625);
+        }
 .list-group-item .icons {
     margin-top: 15px;
     margin-bottom: 0;
@@ -79,10 +101,6 @@
         font-weight: bold;
         font-size: 1.25em;
     }
-    
-
-
-
 
 /* Team Grid Styles */
 .team-grid {
@@ -124,6 +142,56 @@
     text-align: center;
     width: 90%;
     margin-bottom: 10px;
+}
+
+/*---------- Edit Team Modal ----------*/
+.edit-profile-modal .team-grid {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    row-gap: 20px;
+}
+.remove-pkmn-container {
+    text-align: center;
+    position: relative;
+}
+    .remove-pkmn-container input {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    .remove-pkmn-container input.form-check-input[type=checkbox] {
+        border-radius: 50%;
+        margin-top: 0;
+        width: 1.5em;
+        height: 1.5em;
+        background-color: var(--fifth);
+        cursor: pointer;
+    }
+    .remove-pkmn-container input.form-check-input[type=checkbox]:focus {
+        box-shadow: 0 0 0 0.25rem rgb(241 40 73 / 30%);
+    }
+    .remove-pkmn-container input.form-check-input[type=checkbox]:checked {
+        box-shadow: 0 0 0 0.25rem rgb(241 40 73 / 30%);
+        background-color: var(--primary);
+        background-image: url('https://s2.svgbox.net/hero-outline.svg?ic=minus-sm');
+        border: none;
+    }
+.edit-profile-modal .team-grid img {
+    border-radius: 50%;
+    width: 80%;
+    background-color: #444444;
+    cursor: initial;
+}
+    .edit-profile-modal .team-grid img:hover {
+        transform: none
+    }
+.update {
+    align-items: baseline;
+}
+.update p {
+    margin: 0;
+    margin-right: 10px;
+    font-style: italic;
 }
 
 /*-------------------- At 550px --------------------*/

@@ -41,7 +41,14 @@
                 {% endif %} 
                 <h5 class="bold">{{team.likes.all | length}}</h5>
             </div>
+            {% if "userid" in request.session %}
+            {% if request.session.userid == team.user.id %}
+            <!-- Edit Team Icon -->
+            <i class="material-icons edit-team">border_color</i>
+            {% endif %}
+            {% endif %}
         </li>
+        <!-- Team Stat Averages -->
         <li class="list-group-item striped">
             <p class="bold">Base Stat Total Avg</p>
             <span>00</span>
@@ -95,19 +102,97 @@
                 <!-- Populate from backend based on Team types -->
                 <tbody>
                     <tr>
-                        <th scope="row">Fire</th>
-                        <td class="mid weak">4</td>
-                        <td>-</td>
+                        <th scope="row">Bug</th>
+                        <td>2</td>
+                        <td>1</td>
                         <td>-</td>
                     </tr>
                     <tr>
                         <th scope="row">Dark</th>
+                        <td>1</td>
                         <td>2</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Dragon</th>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Electric</th>
+                        <td>1</td>
+                        <td class="mid resist">3</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Fighting</th>
+                        <td>1</td>
+                        <td class="mid resist">3</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Fairy</th>
                         <td>2</td>
-                        <td class="high">6</td>
+                        <td>1</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Fire</th>
+                        <td class="mid weak">3</td>
+                        <td>2</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Flying</th>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ghost</th>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Grass</th>
+                        <td>1</td>
+                        <td class="mid resist">4</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ground</th>
+                        <td>-</td>
+                        <td>1</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ice</th>
+                        <td>2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Poison</th>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
                     </tr>
                     <tr>
                         <th scope="row">Psychic</th>
+                        <td>-</td>
+                        <td>2</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Rock</th>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Steel</th>
                         <td>1</td>
                         <td class="mid resist">3</td>
                         <td>-</td>
@@ -154,13 +239,14 @@
     {% endif %}
     
     <!--- Team Comments --->
-    {% for comment in team.comments.all %}
+    {% for comment in team.comments.all reversed %}
+    {% if comment.added_by %}
     <div class="card">
         <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
         <div class="card-item card-item-content">
             <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
             <p>{{comment.content}}</p>
-            <p class="time">{{comment.created_at}} ago {% if request.session.userid == comment.added_by.id %}| <a href="/{{comment.id}}/delete_team_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
+            <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/{{comment.id}}/delete_team_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
         </div>
         <!-- Side icons -->
         <div class="card-item-icons">
@@ -185,9 +271,46 @@
             <p>{{comment.likes.all|length}}</p>
         </div>
     </div>
+    {% else %}
+    <div class="card update">
+        <p>{{comment.content}}</p>
+        <p class="time">{{comment.created_at}}</p>
+    </div>
+    {% endif %}
     {% endfor %}
 </div>
 
 
-
+{% if "userid" in request.session %}
+{% if request.session.userid == team.user.id %}
+<!------------ Add to Team Modal ------------>
+<div class="modal-bg">
+    <!-- Add to team -->
+    <div class="edit-profile-modal">
+        <div class="modal-head">
+            <h4>Edit Team</h4>
+            <p id="close">&#10005;</p>
+        </div>
+        <hr>
+        <form action="/{{team.id}}/update_team" method="POST">
+        {% csrf_token %}
+            <div class="form-group">
+                <label>Name</label><br><br>
+                <input type="text" name="name" value="{{team.name}}" class="form-control form-control-custom">
+            </div>
+            <!-- current team members -->
+            <div class="team-grid">
+                {% for pokemon in team.pkmn.all %}
+                <div class="remove-pkmn-container">
+                    <img src="{{pokemon.sprite_url}}" alt="">
+                    <input type="checkbox" class="form-check-input" name="pkmn" value="{{pokemon.id}}">
+                </div>
+                {% endfor %}
+            </div>
+            <button class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endif %}
 {% endblock %}

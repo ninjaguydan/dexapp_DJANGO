@@ -165,6 +165,7 @@ body {
 /* "Edit profile" modal styles */
 .modal-bg {
     display: none;
+    padding: 15px;
     background-color: rgb(0, 0, 0, 0.8);
     position: fixed;
     z-index: 25;

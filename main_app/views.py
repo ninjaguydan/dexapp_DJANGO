@@ -208,6 +208,23 @@ def create_team(request, pkmn_id):
     new_team.pkmn.add(pkmn)
     return redirect(request.META.get('HTTP_REFERER'))
 
+def update_team(request, team_id):
+    #if GET request, redirect
+    if request.method == "GET":
+        return redirect('/')
+    team = Team.objects.get(id = team_id)
+    team.name = request.POST['name']
+    #get all selected pokemon as a list[]
+    pokemon = request.POST.getlist('pkmn')
+    for i in pokemon:
+        pkmn = Pokemon.objects.get(id = i)
+        team.pkmn.remove(pkmn)
+        Comment.objects.create(
+            content = f"{pkmn.name.title()} removed!",
+            team = team
+        )
+    return redirect(request.META.get('HTTP_REFERER'))
+
 def add_to_team(request, pkmn_id):
     #if GET request, redirect
     if request.method == "GET":
@@ -223,6 +240,10 @@ def add_to_team(request, pkmn_id):
             print(f'{pkmn.name} was not added to {team.name}')
             return redirect(request.META.get('HTTP_REFERER'))
         team.pkmn.add(pkmn)
+        Comment.objects.create(
+            content = f"{pkmn.name.title()} added!",
+            team = team,
+        )
     return redirect(request.META.get('HTTP_REFERER'))
 
 def like_team(request):

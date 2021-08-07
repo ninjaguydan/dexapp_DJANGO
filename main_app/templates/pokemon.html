@@ -243,6 +243,7 @@
 </div>
 
 
+{% if "userid" in request.session %}
 <!------------ Add to Team Modal ------------>
 <div class="modal-bg">
     <!-- Add to team -->
@@ -281,10 +282,11 @@
         {% csrf_token %}
             <div class="form-group">
                 <label>Name</label><br><br>
-                <input type="text" name="name" value="{{team.name}}" class="form-control form-control-custom" placeholder="Enter Team name...">
+                <input type="text" name="name" class="form-control form-control-custom" placeholder="Enter Team name...">
             </div>
             <button class="btn btn-primary">Create</button>
         </form>
     </div>
 </div>
+{% endif %}
 {% endblock %}

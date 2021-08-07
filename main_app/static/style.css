@@ -87,6 +87,7 @@ input:-internal-autofill-selected {
     box-shadow: 0 0 0 0.25rem rgb(253 49 88 / 25%);
 }
 .form-control-custom {
+    padding-left: 0;
     background-color: transparent;
     border: none;
     border-bottom: 1px solid var(--fifth);
@@ -213,7 +214,7 @@ input:-internal-autofill-selected {
     display: none;
 }
 
-/* Card Styles */
+/*---------- Card Styles ----------*/
 .card {
 display: flex;
 flex-direction: row;
@@ -296,7 +297,7 @@ margin-bottom: 3px;
     border-radius: 50%;
 }
 
-/* Comment Styles */
+/*---------- Comment Styles ----------*/
 .comment {
     display: none;
     width: 100%;
@@ -306,6 +307,7 @@ margin-bottom: 3px;
 }
     .comment .comment_form {
         margin-top: 24px;
+        padding: .5rem;
     }
     .comment .card {
         border: 2px solid rgb(255 255 255 / 13%);

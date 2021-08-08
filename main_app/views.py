@@ -1,25 +1,30 @@
 from django.shortcuts import render, redirect
 from django.db.models import Count
 from login_app.models import User
-from .models import Review, Pokemon
+from .models import Review, Pokemon, Type
 from profile_app.models import Post, Comment, Team
 import requests
 import json
 
 def index(request):
-    #Create object for all 898 Pokemon
+    #-------- Initialize Pokemon, Types, and type relationships ----------#
+    #Create table for all 18 types
+    if len(Type.objects.all()) == 0:
+        for i in range(1,19):
+            Type.objects.create_type(i)
+        #Create Type relationships
+        for t in Type.objects.all():
+            Type.objects.add_relation(t.id)
+    #Create table for all 898 Pokemon
     if len(Pokemon.objects.all()) == 0:
         for i in range(1,899):
-            response = requests.get(f"https://pokeapi.co/api/v2/pokemon/{i}/")
-            Pokemon.objects.create(
-                name = response.json()["name"],
-                sprite_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{i}.png",
-                shiny_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/{i}.png",
-                art_url = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{i}.png",
-                height = response.json()["height"],
-                weight = response.json()["weight"],
-            )
+            Pokemon.objects.create_pkmn(i)
+            #add types to pokemon
+            Pokemon.objects.add_types(i)
+            #add weakness/resistance info to pokemon
+            Pokemon.objects.add_weaknesses(i)
         return redirect('/')
+
     if "userid" in request.session:
         user = User.objects.get(id = request.session['userid'])
     else:
@@ -43,12 +48,12 @@ def pokemon(request, pkmn_id):
         avg = Pokemon.objects.rating_avg(pkmn_id)
     else:
         avg = 0
-    #look at previous pokemon object and grab sprite url if it exits
+    #if pokemon ID is 1, the previous ID becomes 898
     if pkmn_id-1 != 0:
         prev = pkmn_id-1
     else:
         prev = 898
-    #look at next pokemon object and grab sprite url if it exits
+    #if pokemon ID is 898, the next ID becomes 1
     if pkmn_id+1 != 899:
         nxt = pkmn_id+1
     else:
@@ -69,7 +74,9 @@ def display_team(request, team_id):
         user = User.objects.get(id = request.session['userid'])
     else:
         user = None
+    resistance_table = Team.objects.get_resistance(team_id)
     context = {
+        "r_table" : resistance_table,
         "user" : user,
         "team" : Team.objects.get(id = team_id),
     }
@@ -206,6 +213,11 @@ def create_team(request, pkmn_id):
         user = user
     )
     new_team.pkmn.add(pkmn)
+    #post update to team page
+    Comment.objects.create(
+        content = f"{pkmn.name.title()} added!",
+        team = new_team
+    )
     return redirect(request.META.get('HTTP_REFERER'))
 
 def update_team(request, team_id):
@@ -219,6 +231,7 @@ def update_team(request, team_id):
     for i in pokemon:
         pkmn = Pokemon.objects.get(id = i)
         team.pkmn.remove(pkmn)
+        #post update to team page
         Comment.objects.create(
             content = f"{pkmn.name.title()} removed!",
             team = team
@@ -240,6 +253,7 @@ def add_to_team(request, pkmn_id):
             print(f'{pkmn.name} was not added to {team.name}')
             return redirect(request.META.get('HTTP_REFERER'))
         team.pkmn.add(pkmn)
+        #post update to team page
         Comment.objects.create(
             content = f"{pkmn.name.title()} added!",
             team = team,

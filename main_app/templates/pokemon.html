@@ -36,7 +36,9 @@
             </div>
         </li>
         <li class="list-group-item types bold">
-            <!-- append types here -->
+            {% for type in pokemon.types.all %}
+            <span class="type {{type.name}}">{{type.name}}</span>
+            {% endfor %}
         </li>
         <li class="list-group-item striped">
             <p class="bold">Base Stat Total</p>
@@ -63,7 +65,7 @@
             <span>65</span>
         </li>
         <li class="list-group-item striped">
-            <p class="bold">Special Defense</p>
+            <p class="bold">Speed</p>
             <span>45</span>
         </li>
         <li class="list-group-item striped">
@@ -74,8 +76,7 @@
             <p class="bold">Featured on {{pokemon.teams.all|length}} team{{pokemon.teams.all|length|pluralize}}!</p>
             <a href="">See all <i class="material-icons">chevron_right</i></a>
         </li>
-        <!-- If no one is logged in, following row is not displayed -->
-        <li class="list-group-item striped">
+        <li class="list-group-item striped btn-stacked">
             {% if "userid" in request.session %}
             <button class="btn btn-secondary" id="add-to-team"><i class="material-icons">add</i> Add to Team</button>
                 {% if user not in pokemon.favorited_by.all %}
@@ -112,8 +113,6 @@
             </div>
         </li>
     </ul>
-    <!-- Passing Pokemon's ID to javascript -->
-    <forjs id = "{{pokemon.id}}"></forjs>
 </div><br><br><br>
 
 

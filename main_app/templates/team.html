@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load pkmn_extras %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'profile.css' %}">
@@ -101,102 +102,22 @@
 
                 <!-- Populate from backend based on Team types -->
                 <tbody>
+                    {% for key, value in r_table.items %}
                     <tr>
-                        <th scope="row">Bug</th>
-                        <td>2</td>
-                        <td>1</td>
-                        <td>-</td>
+                        <th scope="row">{{key|title}}</th>
+                        {% for i in value %}
+                            {% for k, v in i.items %}
+                                {% if v > 4 %}
+                                <td class="high {{k}}">{{v}}</td>
+                                {% elif v > 2 %}
+                                <td class="mid {{k}}">{{v}}</td>
+                                {% else %}
+                                <td>{{v|check_zero}}</td>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
                     </tr>
-                    <tr>
-                        <th scope="row">Dark</th>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Dragon</th>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Electric</th>
-                        <td>1</td>
-                        <td class="mid resist">3</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Fighting</th>
-                        <td>1</td>
-                        <td class="mid resist">3</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Fairy</th>
-                        <td>2</td>
-                        <td>1</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Fire</th>
-                        <td class="mid weak">3</td>
-                        <td>2</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Flying</th>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Ghost</th>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Grass</th>
-                        <td>1</td>
-                        <td class="mid resist">4</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Ground</th>
-                        <td>-</td>
-                        <td>1</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Ice</th>
-                        <td>2</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Poison</th>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Psychic</th>
-                        <td>-</td>
-                        <td>2</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Rock</th>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Steel</th>
-                        <td>1</td>
-                        <td class="mid resist">3</td>
-                        <td>-</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </li>
@@ -215,8 +136,9 @@
             <img src="{{pokemon.art_url}}" alt="">
             <p>{{pokemon.name|title}}</p>
             <div class="type-container">
-                <span class="type electric">Electric</span>
-                <span class="type fighting">Fighting</span>
+                {% for type in pokemon.types.all %}
+                <span class="type {{type.name}}">{{type.name|title}}</span>
+                {% endfor %}
             </div>
         </a>
         {% endfor %}

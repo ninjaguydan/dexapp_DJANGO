@@ -1,9 +1,26 @@
 from django.db import models
 from login_app.models import User
+from django.apps import apps
 
 class TeamManager(models.Manager):
-    def validator(self):
-        pass
+    def get_resistance(self, index):
+        Type = apps.get_model(app_label='main_app', model_name='Type')
+        table = {}
+        for t in Type.objects.all().order_by('name'):
+            table[t.name] = [
+                {"weak" : 0},
+                {"resist" : 0},
+                {"immune" : 0},
+            ]
+        team = Team.objects.get(id = index)
+        for pokemon in team.pkmn.all():
+            for weakness in pokemon.weak_to.all():
+                table[weakness.name][0]["weak"] += 1
+            for resistance in pokemon.resists.all():
+                table[resistance.name][1]["resist"] += 1
+            for immunity in pokemon.immune_to.all():
+                table[immunity.name][2]["immune"] += 1
+        return table
 
 
 class Profile(models.Model):
@@ -36,6 +53,7 @@ class Team(models.Model):
     likes = models.ManyToManyField(User, related_name = "liked_teams")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    objects = TeamManager()
 
 class Comment(models.Model):
     content = models.TextField()

@@ -11,5 +11,12 @@ def rating_avg(value):
     else:
         avg = 0
     return round(avg, 2)
-
 register.filter('rating_avg', rating_avg)
+
+
+def check_zero(value):
+    if value == 0:
+        return "-"
+    else:
+        return value
+register.filter('check_zero', check_zero)

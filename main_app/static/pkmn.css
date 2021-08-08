@@ -3,10 +3,16 @@
     border-radius:unset;
     margin: 30px 0;
 }
+.list-group-item.btn-stacked {
+    flex-direction: column;
+}
+    .list-group-item.btn-stacked button:first-child {
+        margin-bottom: 10px;
+    }
 .list-group-item button {
     font-size: .8em;
     margin: 0;
-    width: 45%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +23,7 @@
         margin-right: 5px;
     }
 .list-group-item form {
-    width: 45%;
+    width: 100%;
 }
     .list-group-item form button {
         width: 100%;
@@ -101,17 +107,17 @@
 .ice { background-color: rgb(101, 245, 255); color: rgb(0, 0, 0);}
 .normal { background-color: rgb(128, 128, 128); color: var(--fifth);}
 .psychic { background-color: rgb(218, 94, 197); color: rgb(53, 36, 52);}
-.poison { background-color: rgb(187, 94, 211); color: rgb(44, 26, 40);}
+.poison { background-color: rgb(187, 94, 211); color: rgb(245, 217, 239);}
 .rock { background-color: rgb(92, 64, 27); color: rgb(253, 232, 212);}
 .water { background-color: rgb(45, 138, 192); color: var(--fifth);}
 .steel { background-color: rgb(93, 110, 119); color: var(--fifth);}
 
 
-/* Right column styles */
 .btn-container {
     display: flex;
     justify-content: space-between;
 }
+
 .form-row {
     display: flex;
     align-items: center;
@@ -156,6 +162,19 @@ button.add {
     margin-top: 10px;
     margin-bottom: 0;
     width: 50%;
+}
+
+/*-------------------- At 550px --------------------*/
+@media only screen and (min-width: 550px) {
+    .list-group-item.btn-stacked {
+        flex-direction: row;
+    }
+    .list-group-item button {
+        width: 45%;
+    }
+    .list-group-item form {
+        width: 45%;
+    }
 }
 
 /*-------------------- At 1080px --------------------*/

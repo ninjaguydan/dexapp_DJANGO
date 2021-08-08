@@ -40,22 +40,28 @@
 		</div>
         <!-- Desktop Navigation -->
         <ul class="main-nav"> 
-            <li><a href="">Pokedex</a></li> 
-            <li><a href="">Community</a></li>
             {% if request.session.userid %}
                 <li>
                     <a href=""><i class="material-icons">mail</i></a>
-                    <div class="notification">4</div></li>
+                    <div class="notification">4</div>
+                </li>
                 <li>
                     <a href=""><i class="material-icons">notifications</i></a>
-                    <div class="notification">10</div></li>
+                    <div class="notification">10</div>
+                </li>
                 <li class="bold">
                     <a href="/profile/{{user.id}}"><img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="user-img {{user.bg_color}}"></a>
                     <span>{{user.username}} <i class="material-icons">arrow_drop_down</i></span>
                 </li>
+                <!-- tell JavaScript whether or not someone is logged in -->
+                <forjs logged-in="True" hidden>
             {% else %}
+                <li><a href="">Pokedex</a></li> 
+                <li><a href="">Community</a></li>
                 <li class="bold"><a href="/login/register">Sign Up</a></li>
-                <li class="bold"><a href="/login/">Login</a></li>  
+                <li class="bold"><a href="/login/">Login</a></li>
+                <!-- tell JavaScript whether or not someone is logged in --> 
+                <forjs logged-in="False" hidden>
             {% endif %}
         </ul>
     </header>
@@ -63,10 +69,9 @@
     <!-- Dropdown Menu -->
     <ul class="dropdown-menu dropdown-menu-dark">
         <li><a class="dropdown-item" href="/profile/{{user.id}}"><i class="material-icons">account_circle</i>Profile</a></li>
-        <li><a class="dropdown-item" href=""><img src="{% static 'img/dex-icon.svg' %}" alt=""> Teams</a></li>
-        <!-- <li><a class="dropdown-item" href=""><i class="material-icons">favorite</i>Favorites</a></li> -->
+        <li><a class="dropdown-item" href=""><img src="{% static 'img/dex-icon.svg' %}" alt=""> Pokedex</a></li>
+        <li><a class="dropdown-item" href=""><i class="material-icons">people</i>Community</a></li>
         <li><hr class="dropdown-divider"></li>
-        <!-- <li><a class="dropdown-item" href="">Account Settings</a></li> -->
         <li><a class="dropdown-item" href="/login/logout">Logout</a></li>
     </ul>
     

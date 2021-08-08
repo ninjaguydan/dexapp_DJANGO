@@ -91,9 +91,9 @@
     .resist {
         color: var(--third);
     }
-    .immune {
+    /* .immune {
         color: gray;
-    }
+    } */
     .mid {
         font-weight: bold;
     }

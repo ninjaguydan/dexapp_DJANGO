@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block js %}
-    <script src="{% static 'pkmn.js' %}" defer></script>
-{% endblock %}
-
 {% block style %}
     <link rel="stylesheet" href="{% static 'profile.css' %}">
     <link rel="stylesheet" href="{% static 'pkmn.css' %}">
@@ -74,7 +70,6 @@
         </li>
         <li class="list-group-item striped">
             <p class="bold">Featured on {{pokemon.teams.all|length}} team{{pokemon.teams.all|length|pluralize}}!</p>
-            <a href="">See all <i class="material-icons">chevron_right</i></a>
         </li>
         <li class="list-group-item striped btn-stacked">
             {% if "userid" in request.session %}

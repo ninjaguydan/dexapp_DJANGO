@@ -28,38 +28,48 @@ class PokeManager(models.Manager):
     def add_weaknesses(self, index):
         pkmn = Pokemon.objects.get(id = index)
         type1 = pkmn.types.all()[0]
+        #add all of type1's weaknesses to Pokemon's weaknesses
         for weakness in type1.weak_to.all():
             pkmn.weak_to.add(weakness)
+        #add all of type1's resistances to Pokemon's resistances
         for resistance in type1.resists.all():
             pkmn.resists.add(resistance)
+        #add all of type1's immunites to Pokemon's immunities
         for immunity in type1.immune_to.all():
             pkmn.immune_to.add(immunity)
+        #if a second type exists...
         if len(pkmn.types.all()) == 2:
             type2 = pkmn.types.all()[1]
             for weakness in type2.weak_to.all():
+                #if type2's weakness is in Pokemon's resistances, remove resistance
                 if weakness in pkmn.resists.all():
                     pkmn.resists.remove(weakness)
+                #if type2's weakness isn't in Pokemon's immunities, add weakness to Pokemon
                 elif weakness not in pkmn.immune_to.all():
                     pkmn.weak_to.add(weakness)
                 else:
                     break
             for resistance in type2.resists.all():
+                #if type2's resistance is in Pokemon's weaknesses, remove weakness
                 if resistance in pkmn.weak_to.all():
                     pkmn.weak_to.remove(resistance)
+                #if type2's resistance is not in type1's weaknesses, add resistance 
                 elif resistance not in type1.weak_to.all():
                     pkmn.resists.add(resistance)
                 else:
                     break
             for immunity in type2.immune_to.all():
+                #if type2 immunity in Pokemon's weaknesses, remove weakness and add immunity
                 if immunity in pkmn.weak_to.all():
                     pkmn.weak_to.remove(immunity)
                     pkmn.immune_to.add(immunity)
+                #if type2 immunity in Pkmn's resistances, remove resistance and add immunity
                 elif immunity in pkmn.resists.all():
                     pkmn.resists.remove(immunity)
                     pkmn.immune_to.add(immunity)
+                #add immunity
                 else:
                     pkmn.immune_to.add(immunity)
-
 
     def rating_avg(self, pkmn_id):
         pkmn = Pokemon.objects.get(id = pkmn_id)

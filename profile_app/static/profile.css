@@ -89,6 +89,7 @@ body {
     text-align: center;
 }
 .pkmn-img {
+    display: none;
     width: 15%;
     height: 15%;
     border-radius: 50%;
@@ -110,6 +111,7 @@ body {
             display: block;
             background-color: var(--fourth);
             border-radius: .25rem .25rem 0 0;
+            font-size: 0.75em;
         }
         .tab-nav li a.active {
             border-bottom: 2px solid var(--third);
@@ -118,7 +120,7 @@ body {
 /* Favorites Styles */
 .card-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     text-align: center;
     row-gap: 1.25rem;
 }
@@ -260,6 +262,12 @@ body {
     .team-grid {
         grid-template-columns: 1fr 1fr 1fr;
         width: 90%;
+    }
+    .tab-nav li a {
+        font-size: 1em;
+    }
+    .pkmn-img {
+        display: block;
     }
 }
 

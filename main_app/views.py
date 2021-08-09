@@ -7,9 +7,9 @@ import requests
 import json
 
 def index(request):
-    #-------- Initialize Pokemon, Types, and type relationships ----------#
-    #Create table for all 18 types
+    #Initialize Pokemon, Types, and type relationships
     if len(Type.objects.all()) == 0:
+        #Create table for all 18 types
         for i in range(1,19):
             Type.objects.create_type(i)
         #Create Type relationships
@@ -214,10 +214,11 @@ def create_team(request, pkmn_id):
     )
     new_team.pkmn.add(pkmn)
     #post update to team page
-    Comment.objects.create(
-        content = f"{pkmn.name.title()} added!",
+    update = Comment.objects.create(
+        content = "added!",
         team = new_team
     )
+    update.pkmn.add(pkmn)
     return redirect(request.META.get('HTTP_REFERER'))
 
 def update_team(request, team_id):
@@ -232,10 +233,11 @@ def update_team(request, team_id):
         pkmn = Pokemon.objects.get(id = i)
         team.pkmn.remove(pkmn)
         #post update to team page
-        Comment.objects.create(
-            content = f"{pkmn.name.title()} removed!",
-            team = team
+        update = Comment.objects.create(
+            content = "removed!",
+            team = team,
         )
+        update.pkmn.add(pkmn)
     return redirect(request.META.get('HTTP_REFERER'))
 
 def add_to_team(request, pkmn_id):
@@ -254,10 +256,11 @@ def add_to_team(request, pkmn_id):
             return redirect(request.META.get('HTTP_REFERER'))
         team.pkmn.add(pkmn)
         #post update to team page
-        Comment.objects.create(
-            content = f"{pkmn.name.title()} added!",
+        update = Comment.objects.create(
+            content = "added!",
             team = team,
         )
+        update.pkmn.add(pkmn)
     return redirect(request.META.get('HTTP_REFERER'))
 
 def like_team(request):

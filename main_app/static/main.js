@@ -7,7 +7,7 @@ menuBtn.addEventListener('click', () => {
 
 // ..hamburger Function
 function openMenu() {
-    let nav = document.querySelector('.mobile-nav');
+    let nav = document.querySelector('.mobile-nav-slider');
     if (nav.style.display === "block") {
         nav.style.display = "none";
     } else {
@@ -18,7 +18,7 @@ function openMenu() {
 //check if a user is logged in and reduce width if true
 let loggedIn = $('forjs').attr('logged-in');
 if (loggedIn == "True") {
-    $('.main-nav').css("width", "270px");
+    $('.main-nav').css("width", "280px");
 }
 //display main nav dropdown menu
 $('.main-nav span').click(function(){

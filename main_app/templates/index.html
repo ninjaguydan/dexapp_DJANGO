@@ -19,7 +19,7 @@
     {% else %}
     <!-- Post Form -->
     <div class="card">
-        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}}">
+        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
         <form action="/profile/{{user.id}}/create_post" method="POST">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>

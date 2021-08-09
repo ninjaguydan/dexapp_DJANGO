@@ -62,5 +62,6 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, related_name = "comments", on_delete = models.CASCADE, null = True)
     review = models.ForeignKey('main_app.Review', related_name = "comments", on_delete = models.CASCADE, null = True)
     team = models.ForeignKey(Team, related_name = "comments", on_delete = models.CASCADE, null = True)
+    pkmn = models.ManyToManyField('main_app.Pokemon')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)

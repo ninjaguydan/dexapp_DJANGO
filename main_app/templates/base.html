@@ -30,6 +30,25 @@
 </head>
 
 <body>
+    <!-- Nav Slider -->
+    <div class="mobile-nav-slider">
+        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="{{user.bg_color}} user-img">
+        <p class="bold">{{user.first_name}} {{user.last_name}}</p>
+        <span class="username">{{user.username}}</span>
+        <br>
+        <div class="follow-cnt">
+            <p><span class="bold">{{user.profile.following.all|length}}</span> Following</p>
+            <p><span class="bold">{{user.following.all|length}}</span> Follower{{profile.following.all|length|pluralize}}</p>
+        </div>
+        <ul>
+            <li><a href="/profile/{{user.id}}"><i class="material-icons">account_circle</i>Profile</a></li>
+            <li><a href=""><img src="{% static 'img/dex-icon.svg' %}" alt=""> Pokedex</a></li>
+            <li><a href=""><i class="material-icons">people</i>Community</a></li>
+            <hr>
+            <li><a href="/login/logout">Logout</a></li>
+        </ul>
+    </div>
+
     <h1 hidden>Dexapp</h1>
     <header class="main">
         <!-- DexApp Logo -->
@@ -73,6 +92,24 @@
         <li><a class="dropdown-item" href=""><i class="material-icons">people</i>Community</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="/login/logout">Logout</a></li>
+    </ul>
+
+    <!-- Mobile Nav -->
+    <ul class="mobile-nav">
+        <li>
+            <a href=""><i class="material-icons">search</i></a>
+        </li>
+        <li>
+            <a href=""><i class="material-icons">mail</i></a>
+            <div class="notification">4</div>
+        </li>
+        <li>
+            <a href=""><i class="material-icons">notifications</i></a>
+            <div class="notification">10</div>
+        </li>
+        <li>
+            <a href="/profile/{{user.id}}"><img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="user-img {{user.bg_color}}"></a>
+        </li>
     </ul>
     
     <!--main content wrapper-->

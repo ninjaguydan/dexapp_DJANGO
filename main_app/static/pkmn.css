@@ -169,6 +169,9 @@ button.add {
     .list-group-item.btn-stacked {
         flex-direction: row;
     }
+    .list-group-item.btn-stacked button:first-child {
+        margin-bottom: 0;
+    }
     .list-group-item button {
         width: 45%;
     }

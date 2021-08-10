@@ -24,7 +24,7 @@ a {
     a:hover {
         color: var(--third);
     }
-p, h2, h3, h4, h5, h6, span {
+p, span {
     font-size: .8em;
 }
 .active {
@@ -259,16 +259,17 @@ input:-internal-autofill-selected {
     border-radius: .5rem 0 0 .5rem;
     width: 80vw;
     height: 100%;
-    padding: 15px;
+    padding: 30px;
     animation: overlay .3s forwards;
 }
     .mobile-nav-slider .user-img {
-        width: 50px;
-        height: 50px;
+        width: 70px;
+        height: 70px;
         margin-bottom: 10px;
     }
     .mobile-nav-slider p {
         margin: 0;
+        font-size: 1em;
     }
     .mobile-nav-slider span.username {
         color: gray;
@@ -280,6 +281,7 @@ input:-internal-autofill-selected {
         display: flex;
         font-size: .9em;
         margin-top: 10px;
+        justify-content: end;
     }
         .mobile-nav-slider .follow-cnt p {
             color: gray;
@@ -427,12 +429,41 @@ margin-bottom: 3px;
         width: 347px;
     }
 
-
+/*--------------- Pop up Styles ---------------*/
+.popup {
+    position: fixed;
+    z-index: 101;
+    bottom: 95px;
+    flex-wrap: nowrap;
+    width: 90%;
+    border: 1px solid gray;
+    box-shadow: 3px 5px 10px 1px rgba(27, 27, 27, 0.2);
+}
+.popup p {
+    margin: 0;
+    position: relative;
+    top: 3px;
+}
+.popup i {
+    margin-right: 15px;
+    color: var(--third);
+}
 
 /*-------------------- At 550px --------------------*/
 @media only screen and (min-width: 550px) {
-    p, h2, h3, h4, h5, h6, span {
+    p, span {
         font-size: 1em;
+    }
+    .popup {
+        bottom: 14px;
+        width: 409.5px;
+
+    }
+    .popup p {
+        top: 0;
+    }
+    .wrapper {
+        padding-bottom: 30px;
     }
     .time {
         font-size: .75rem;
@@ -557,6 +588,9 @@ margin-bottom: 3px;
     }
     .column {
         width: 58%;
+    }
+    .popup {
+        left: 14px;
     }
 
     /* Card Styles */

@@ -19,8 +19,8 @@ body {
 }
     .list-group-item img {
         border-radius: 50%;
-        width: 90%;
-        margin: 45px 0;
+        width: 50%;
+        margin: 24px 0;
     }
     .list-group-item h4 {
         margin-bottom: .25rem;
@@ -70,7 +70,7 @@ body {
     }
         .striped p, .striped span {
             margin-bottom: 0;
-            font-size: .8em;
+            font-size: .7em;
         }
         .striped:nth-of-type(odd) {
             background-color: #444444;
@@ -256,6 +256,14 @@ body {
 
 /*-------------------- At 550px --------------------*/
 @media only screen and (min-width: 550px) {
+    .list-group-item img {
+        border-radius: 50%;
+        width: 90%;
+        margin: 45px 0;
+    }
+    .striped p, .striped span {
+        font-size: .8em;
+    }
     .card-grid {
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }

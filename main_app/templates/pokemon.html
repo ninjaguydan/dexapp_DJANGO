@@ -38,31 +38,31 @@
         </li>
         <li class="list-group-item striped">
             <p class="bold">Base Stat Total</p>
-            <span>00</span>
+            <span>{{total}}</span>
         </li>
         <li class="list-group-item striped">
             <p class="bold">HP</p>
-            <span>45</span>
+            <span>{{pokemon.hp}}</span>
         </li>
         <li class="list-group-item striped">
             <p class="bold">Attack</p>
-            <span>49</span>
+            <span>{{pokemon.attack}}</span>
         </li>
         <li class="list-group-item striped">
             <p class="bold">Defense</p>
-            <span>49</span>
+            <span>{{pokemon.defense}}</span>
         </li>
         <li class="list-group-item striped">
             <p class="bold">Special Attack</p>
-            <span>65</span>
+            <span>{{pokemon.sp_attack}}</span>
         </li>
         <li class="list-group-item striped">
             <p class="bold">Special Defense</p>
-            <span>65</span>
+            <span>{{pokemon.sp_defense}}</span>
         </li>
         <li class="list-group-item striped">
             <p class="bold">Speed</p>
-            <span>45</span>
+            <span>{{pokemon.speed}}</span>
         </li>
         <li class="list-group-item striped">
             <p class="bold">Reviews</p>
@@ -109,7 +109,6 @@
         </li>
     </ul>
 </div><br><br><br>
-
 
 <!---- Right column content ---->  
 <div class="column posts">
@@ -218,7 +217,7 @@
                 </div>
             </div>
             {% endfor %}
-            
+
             <!-- Display Reply Form if a user is logged in -->
             {% if request.session.userid %}
             <form action="/{{review.id}}/comment_review" method="POST" class="comment_form">
@@ -281,6 +280,12 @@
             <button class="btn btn-primary">Create</button>
         </form>
     </div>
+</div>
+
+<!------------- Added to Team Popup --------------->
+<div class="card popup">
+    <i class="material-icons">check_circle</i>
+    <p>Succesfully added to "Team Name name name"</p>
 </div>
 {% endif %}
 {% endblock %}

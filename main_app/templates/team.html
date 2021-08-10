@@ -50,34 +50,12 @@
             {% endif %}
         </li>
         <!-- Team Stat Averages -->
+        {% for key, value in s_table.items %}
         <li class="list-group-item striped">
-            <p class="bold">Base Stat Total Avg</p>
-            <span>00</span>
+            <p class="bold">{{key}}</p>
+            <span>{{value}}</span>
         </li>
-        <li class="list-group-item striped">
-            <p class="bold">Avg HP</p>
-            <span>45</span>
-        </li>
-        <li class="list-group-item striped">
-            <p class="bold">Avg Attack</p>
-            <span>49</span>
-        </li>
-        <li class="list-group-item striped">
-            <p class="bold">Avg Defense</p>
-            <span>49</span>
-        </li>
-        <li class="list-group-item striped">
-            <p class="bold">Avg Special Attack</p>
-            <span>65</span>
-        </li>
-        <li class="list-group-item striped">
-            <p class="bold">Avg Special Defense</p>
-            <span>65</span>
-        </li>
-        <li class="list-group-item striped">
-            <p class="bold">Avg Speed</p>
-            <span>45</span>
-        </li>
+        {% endfor %}
         <li class="list-group-item" id="toggle-stats">
             <p>Hide/Display Team Stats</p>
         </li>

@@ -7,15 +7,16 @@ import requests
 import json
 
 def index(request):
-    #Initialize Pokemon, Types, and type relationships
+    # Initialize Pokemon, Types, and type relationships
     if len(Type.objects.all()) == 0:
-        #Create table for all 18 types
+        # Create table for all 18 types
         for i in range(1,19):
             Type.objects.create_type(i)
-        #Create Type relationships
+        # Create Type relationships
         for t in Type.objects.all():
             Type.objects.add_relation(t.id)
-    #Create table for all 898 Pokemon
+        return redirect('/')
+    # Create table for all 898 Pokemon
     if len(Pokemon.objects.all()) == 0:
         for i in range(1,899):
             Pokemon.objects.create_pkmn(i)
@@ -23,6 +24,8 @@ def index(request):
             Pokemon.objects.add_types(i)
             #add weakness/resistance info to pokemon
             Pokemon.objects.add_weaknesses(i)
+            #add gen
+            Pokemon.objects.add_gen(i)
         return redirect('/')
 
     if "userid" in request.session:
@@ -66,6 +69,7 @@ def pokemon(request, pkmn_id):
         "prev_num" : prev,
         "next" : f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{nxt}.png",
         "next_num" : nxt,
+        "total" : Pokemon.objects.get_total(pkmn_id),
     }
     return render(request, "pokemon.html", context)
 
@@ -74,9 +78,10 @@ def display_team(request, team_id):
         user = User.objects.get(id = request.session['userid'])
     else:
         user = None
-    resistance_table = Team.objects.get_resistance(team_id)
+    
     context = {
-        "r_table" : resistance_table,
+        "r_table" : Team.objects.get_resistance(team_id),
+        "s_table" : Team.objects.get_stats(team_id),
         "user" : user,
         "team" : Team.objects.get(id = team_id),
     }

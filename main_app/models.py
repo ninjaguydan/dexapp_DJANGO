@@ -18,6 +18,26 @@ class PokeManager(models.Manager):
             sp_defense = response.json()['stats'][4]['base_stat'],
             speed = response.json()['stats'][5]['base_stat']
         )
+    def add_gen(self, index):
+        pkmn = Pokemon.objects.get(id = index)
+        if pkmn.id < 152:
+            pkmn.gen = 1
+        elif pkmn.id < 252:
+            pkmn.gen = 2
+        elif pkmn.id < 387:
+            pkmn.gen = 3
+        elif pkmn.id < 494:
+            pkmn.gen = 4
+        elif pkmn.id < 650:
+            pkmn.gen = 5
+        elif pkmn.id < 722:
+            pkmn.gen = 6
+        elif pkmn.id < 810:
+            pkmn.gen = 7
+        else:
+            pkmn.gen = 8
+        pkmn.save()
+
     def add_types(self, index):
         response = requests.get(f"https://pokeapi.co/api/v2/pokemon/{index}/")
         current_pkmn = Pokemon.objects.get(id = index)
@@ -79,6 +99,16 @@ class PokeManager(models.Manager):
         avg = total/len(pkmn.reviews.all())
         return round(avg, 2)
 
+    def get_total(self, index):
+        pkmn = Pokemon.objects.get(id = index)
+        total = 0
+        total += pkmn.hp
+        total += pkmn.attack
+        total += pkmn.defense
+        total += pkmn.sp_attack
+        total += pkmn.sp_defense
+        total += pkmn.speed
+        return total
 
 class TypeManager(models.Manager):
     def create_type(self, index):
@@ -107,6 +137,7 @@ class TypeManager(models.Manager):
 
 class Pokemon(models.Model):
     name = models.CharField(max_length=200, null = True)
+    gen = models.IntegerField(null = True)
     sprite_url = models.CharField(max_length=200, null = True)
     shiny_url = models.CharField(max_length=200, null = True)
     art_url = models.CharField(max_length=200, null = True)

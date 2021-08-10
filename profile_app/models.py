@@ -22,6 +22,36 @@ class TeamManager(models.Manager):
                 table[immunity.name][2]["immune"] += 1
         return table
 
+    def get_stats(self, index):
+        Pokemon = apps.get_model(app_label='main_app', model_name='Pokemon')
+        team = Team.objects.get(id = index)
+        table = {}
+        base_total = 0
+        hp_total = 0
+        atk_total = 0
+        def_total = 0
+        spatk_total = 0
+        spdef_total = 0
+        spd_total = 0
+        for pkmn in team.pkmn.all():
+            s_total = Pokemon.objects.get_total(pkmn.id)
+            base_total += s_total
+            hp_total += pkmn.hp
+            atk_total += pkmn.attack
+            def_total += pkmn.defense
+            spatk_total += pkmn.sp_attack
+            spdef_total += pkmn.sp_defense
+            spd_total += pkmn.speed
+        table['Base Stat Total Team Avg'] = round(base_total/6)
+        table['Avg Team HP'] = round(hp_total/6)
+        table['Avg Team Attack'] = round(atk_total/6)
+        table['Avg Team Defense'] = round(def_total/6)
+        table['Avg Team Special Attack'] = round(spatk_total/6)
+        table['Avg Team Special Defense'] = round(spdef_total/6)
+        table['Avg Team Speed'] = round(spd_total/6)
+        return table
+
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name = "profile", on_delete=models.CASCADE)

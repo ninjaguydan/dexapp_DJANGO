@@ -43,6 +43,7 @@ p, span {
 .wrapper {
     padding: 15px;
     padding-bottom: 95px;
+    padding-top: 90px;
 }
 input:-internal-autofill-selected {
     background-color: transparent !important;
@@ -137,6 +138,12 @@ input:-internal-autofill-selected {
 
 
 /*------ Top Navigation Styles ------*/
+header {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    border-bottom: 1px solid var(--secondary);
+}
 .main {
     padding: 15px 15px;
     display: flex;
@@ -153,6 +160,9 @@ input:-internal-autofill-selected {
 
 /* Menu hamburger */
 .menu-btn {
+    position: fixed;
+    right: 30px;
+    top: 20px;
     z-index: 100;
     display: flex;
     justify-content: center;
@@ -213,7 +223,7 @@ input:-internal-autofill-selected {
     bottom: 0;
     margin: 0;
     padding: 20px;
-    z-index: 99;
+    z-index: 1;
     width: 100%;
     position: fixed;
     display: flex;
@@ -252,7 +262,7 @@ input:-internal-autofill-selected {
 .mobile-nav-slider {
     display: none;
     position: fixed;
-    z-index: 100;
+    z-index: 2;
     right: 0;
     background-color: var(--secondary);
     border-left: 1px solid gray;
@@ -430,14 +440,21 @@ margin-bottom: 3px;
     }
 
 /*--------------- Pop up Styles ---------------*/
-.popup {
+.popup-container {
     position: fixed;
     z-index: 101;
     bottom: 95px;
-    flex-wrap: nowrap;
     width: 90%;
+    margin:0;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+.popup {
+    flex-wrap: nowrap;
     border: 1px solid gray;
-    box-shadow: 3px 5px 10px 1px rgba(27, 27, 27, 0.2);
+    background-color: #191919;
+    box-shadow: 3px 5px 10px 1px rgba(27, 27, 27, 0.5);
 }
 .popup p {
     margin: 0;
@@ -448,16 +465,21 @@ margin-bottom: 3px;
     margin-right: 15px;
     color: var(--third);
 }
+.popup-search .search-form input {
+    background-color: var(--secondary);
+}
+
 
 /*-------------------- At 550px --------------------*/
 @media only screen and (min-width: 550px) {
     p, span {
         font-size: 1em;
     }
-    .popup {
+    .popup-container {
         bottom: 14px;
         width: 409.5px;
-
+        left: 14px;
+        transform: none;
     }
     .popup p {
         top: 0;
@@ -548,7 +570,7 @@ margin-bottom: 3px;
     /* Dropdown menu styles */
     .dropdown-menu {
         display: none;
-        position: absolute;
+        position: fixed;
         top: 4.25rem;
         right: 2.2rem;
         box-shadow: -4px 4px 8px rgba(39, 39, 39, 0.6);
@@ -582,14 +604,14 @@ margin-bottom: 3px;
     .wrapper {
         width: 1080px;
         margin: 0 auto;
-        padding-top: 30px;
+        padding-top: 100px;
         display: flex;
         justify-content: space-between;
     }
     .column {
         width: 58%;
     }
-    .popup {
+    .popup-container {
         left: 14px;
     }
 

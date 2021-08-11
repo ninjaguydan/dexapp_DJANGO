@@ -1,0 +1,6 @@
+{% for team in teams_added %}
+<div class="card popup">
+    <i class="material-icons">check_circle</i>
+    <p>Succesfully added to <a href="/team/{{team.id}}">"{{team.name}}"</a></p>
+</div>
+{% endfor %}

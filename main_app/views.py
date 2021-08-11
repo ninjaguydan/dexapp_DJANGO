@@ -252,6 +252,7 @@ def add_to_team(request, pkmn_id):
     pkmn = Pokemon.objects.get(id = pkmn_id)
     #get all selected teams as a list[]
     teams = request.POST.getlist('teams')
+    teams_added = []
     for i in teams:
         #add pokemon to each selected team in the list[]
         team = Team.objects.get(id = i)
@@ -266,7 +267,12 @@ def add_to_team(request, pkmn_id):
             team = team,
         )
         update.pkmn.add(pkmn)
-    return redirect(request.META.get('HTTP_REFERER'))
+        teams_added.append(team)
+    context = {
+        "teams_added" : teams_added 
+    }
+    return render(request, "pokemon-success.html", context)
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 def like_team(request):
     #if GET request, redirect

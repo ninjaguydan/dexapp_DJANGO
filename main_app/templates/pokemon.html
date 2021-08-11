@@ -232,6 +232,10 @@
             {% endif %}
         </div>
     </div>
+    {% empty %}
+    <div class="card">
+        <h5>Be the first to leave a review!</h5>
+    </div>
     {% endfor %}
 </div>
 
@@ -241,16 +245,20 @@
 <div class="modal-bg">
     <!-- Add to team -->
     <div class="edit-profile-modal">
+        <tojs pkmn_id="{{pokemon.id}}">
         <div class="modal-head">
             <h4>Add to...</h4>
             <p id="close">&#10005;</p>
         </div>
         <hr>
-        <form action="/{{pokemon.id}}/add_to_team" method="POST">
+        <form action="/{{pokemon.id}}/add_to_team" method="POST" id="add-to-team">
         {% csrf_token %}
             {% for team in user.teams.all %}
             <div class="form-check">
-                {% if team.pkmn.all|length == 6 %}
+                {% if pokemon in team.pkmn.all %}
+                <input type="checkbox" class="form-check-input" disabled>
+                <label class="form-check-label">{{team.name}} (Already added!)</label>
+                {% elif team.pkmn.all|length == 6 %}
                 <input type="checkbox" class="form-check-input" disabled>
                 <label class="form-check-label">{{team.name}} (This team is full!)</label>
                 {% else %}
@@ -283,9 +291,8 @@
 </div>
 
 <!------------- Added to Team Popup --------------->
-<div class="card popup">
-    <i class="material-icons">check_circle</i>
-    <p>Succesfully added to "Team Name name name"</p>
+<div class="popup-container">
+    <!-- append popups here -->
 </div>
 {% endif %}
 {% endblock %}

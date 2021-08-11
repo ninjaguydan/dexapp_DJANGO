@@ -103,6 +103,27 @@ $('#create-team').click(function(){
     $('#create-team').css("display", "none");
     $('.new-team').css("display", "block");
 })
+//popup notification
+$('.edit-profile-modal').on('submit', '#add-to-team', function(e){
+    e.preventDefault();
+    let pkmn_id = $('tojs').attr('pkmn_id');
+    console.log("we stopped the refresh!!");
+    $.ajax({
+        url: pkmn_id + "/add_to_team",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            console.log(response);
+            $('.popup-container').append(response)
+            $('.modal-bg').css("display", "none");
+        }
+    })
+    setTimeout(function(){
+        $('.popup-container').fadeOut()
+    }, 5000);
+})
+
+
 //Display Star Rating
 function displayRating(num){
     var result = "";

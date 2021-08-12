@@ -18,7 +18,7 @@ function openMenu() {
 //check if a user is logged in and reduce width if true
 let loggedIn = $('forjs').attr('logged-in');
 if (loggedIn == "True") {
-    $('.main-nav').css("width", "280px");
+    $('.main-nav').css("width", "300px");
 }
 //display main nav dropdown menu
 $('.main-nav span').click(function(){
@@ -36,7 +36,10 @@ $(document.body).click(function(e){
 $('.main-nav span').click(function(e) {
     e.stopPropagation();
 })
-
+//---------- Search Icon Function ---------- //
+$('.search-icon').click(function(){
+    $('.search-form').toggle();
+})
 
 //---------- Reply Form Functions ----------//
 // display team reply form

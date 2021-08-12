@@ -105,12 +105,18 @@ input:-internal-autofill-selected {
         background-color: transparent;
     }
 .search-form {
+    z-index: 1;
+    position: fixed;
     display: flex;
+    bottom: 80px;
     flex-direction: row;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--fourth);
 }
     .search-form input {
         border-radius: 1rem 0 0 1rem;
-        background-color: var(--fourth);
+        background-color: #2c2c2c;
         color: var(--fifth);
         border: none;
     }
@@ -123,7 +129,7 @@ input:-internal-autofill-selected {
         all: unset;
         width: 40px;
         border-radius: 0 1rem 1rem 0;
-        background-color: var(--fourth);
+        background-color: #2c2c2c;
         color: var(--fifth);
         position: relative;
         cursor: pointer;
@@ -448,7 +454,6 @@ margin-bottom: 3px;
     margin:0;
     left: 50%;
     transform: translateX(-50%);
-
 }
 .popup {
     flex-wrap: nowrap;
@@ -468,6 +473,12 @@ margin-bottom: 3px;
 .popup-search .search-form input {
     background-color: var(--secondary);
 }
+.nav-icon {
+    cursor: pointer;
+}
+    .nav-icon:hover {
+        color: var(--third);
+    }
 
 
 /*-------------------- At 550px --------------------*/
@@ -501,12 +512,6 @@ margin-bottom: 3px;
         }
     .card-item p {
         margin-bottom: 10px;
-    }
-    .main .header-logo {
-        background: url('img/dex-logo-w.svg') no-repeat center center;
-        background-size: contain;
-        width: 150px;
-        height: 50px;
     }
     /* Hide menu button hamburger */
     #menu-btn {
@@ -595,11 +600,35 @@ margin-bottom: 3px;
     .form-post-img {
         display: block;
     }
+    .search-form {
+        z-index: 1;
+        bottom: unset;
+        top: 71px;
+        width: 100%;
+    }
+}
+/*-------------------- At 675px --------------------*/
+@media only screen and (min-width: 675px) {
+    .search-icon {
+        opacity: 0;
+    }
+    .search-form {
+        display: flex !important;
+        top: 10px;
+        width: 45%;
+        right: 284px;
+    }
 }
 
 
 /*-------------------- At 1080px --------------------*/
 @media only screen and (min-width: 1080px) {
+    .main .header-logo {
+        background: url('img/dex-logo-w.svg') no-repeat center center;
+        background-size: contain;
+        width: 150px;
+        height: 50px;
+    }
     /* Universal styles */
     .wrapper {
         width: 1080px;
@@ -632,4 +661,7 @@ margin-bottom: 3px;
             width: 60px;
             height: 60px;
         }
+    .search-form {
+        top: 16px;
+    }
 }

@@ -62,12 +62,15 @@
         <ul class="main-nav"> 
             {% if request.session.userid %}
                 <li>
-                    <a href=""><i class="material-icons">mail</i></a>
-                    <div class="notification">4</div>
+                    <i class="material-icons nav-icon search-icon">search</i>
                 </li>
                 <li>
-                    <a href=""><i class="material-icons">notifications</i></a>
-                    <div class="notification">10</div>
+                    <a href=""><i class="material-icons">mail</i></a>
+                    <!-- <div class="notification">4</div> -->
+                </li>
+                <li>
+                    <i class="material-icons nav-icon">notifications</i>
+                    <!-- <div class="notification">10</div> -->
                 </li>
                 <li class="bold">
                     <a href="/profile/{{user.id}}"><img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="user-img {{user.bg_color}}"></a>
@@ -95,24 +98,25 @@
         <li><a class="dropdown-item" href="/login/logout">Logout</a></li>
     </ul>
 
-    <!-- mobile search form -->
-    <div class="card popup-search" hidden>
-        <form action="" class="search-form">
-            <input type="search" class="form-control">
-        </form>
-    </div>
+
+    <!-- Search bar -->
+    <form action="" method="" role="search" class="search-form">
+        {% csrf_token %}
+        <input type="search" name="search" class="form-control" placeholder="Search DexApp">
+        <button id="search"><i class="material-icons">search</i></button>
+    </form>
 
     <!-- Mobile Nav -->
     <ul class="mobile-nav">
         <li>
-            <a href=""><i class="material-icons">search</i></a>
+            <i class="material-icons nav-icon search-icon">search</i>
         </li>
         <li>
             <a href=""><i class="material-icons">mail</i></a>
             <!-- <div class="notification">4</div> -->
         </li>
         <li>
-            <a href=""><i class="material-icons">notifications</i></a>
+            <i class="material-icons nav-icon">notifications</i>
             <!-- <div class="notification">10</div> -->
         </li>
         <li>

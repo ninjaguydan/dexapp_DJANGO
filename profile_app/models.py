@@ -25,6 +25,7 @@ class TeamManager(models.Manager):
     def get_stats(self, index):
         Pokemon = apps.get_model(app_label='main_app', model_name='Pokemon')
         team = Team.objects.get(id = index)
+        count = len(team.pkmn.all())
         table = {}
         base_total = 0
         hp_total = 0
@@ -42,13 +43,13 @@ class TeamManager(models.Manager):
             spatk_total += pkmn.sp_attack
             spdef_total += pkmn.sp_defense
             spd_total += pkmn.speed
-        table['Base Stat Total Team Avg'] = round(base_total/6)
-        table['Avg Team HP'] = round(hp_total/6)
-        table['Avg Team Attack'] = round(atk_total/6)
-        table['Avg Team Defense'] = round(def_total/6)
-        table['Avg Team Special Attack'] = round(spatk_total/6)
-        table['Avg Team Special Defense'] = round(spdef_total/6)
-        table['Avg Team Speed'] = round(spd_total/6)
+        table['Base Stat Total Team Avg'] = round(base_total/count)
+        table['Avg Team HP'] = round(hp_total/count)
+        table['Avg Team Attack'] = round(atk_total/count)
+        table['Avg Team Defense'] = round(def_total/count)
+        table['Avg Team Special Attack'] = round(spatk_total/count)
+        table['Avg Team Special Defense'] = round(spdef_total/count)
+        table['Avg Team Speed'] = round(spd_total/count)
         return table
 
 

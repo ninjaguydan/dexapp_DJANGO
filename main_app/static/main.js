@@ -38,7 +38,7 @@ $('.main-nav span').click(function(e) {
 })
 //---------- Search Icon Function ---------- //
 $('.search-icon').click(function(){
-    $('.search-form').toggle();
+    $('.search-form').toggleClass("hidden");
 })
 
 //---------- Reply Form Functions ----------//

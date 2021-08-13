@@ -20,11 +20,13 @@ let loggedIn = $('forjs').attr('logged-in');
 if (loggedIn == "True") {
     $('.main-nav').css("width", "300px");
 }
+
 //display main nav dropdown menu
 $('.main-nav span').click(function(){
     $('.dropdown-menu').toggle();
     $('.main-nav span').toggleClass('active');
 })
+
 //Close dropdown menu when clicking anywhere outside of it
 function closeDropdown() {
     $('.dropdown-menu').hide();
@@ -36,6 +38,7 @@ $(document.body).click(function(e){
 $('.main-nav span').click(function(e) {
     e.stopPropagation();
 })
+
 //---------- Search Icon Function ---------- //
 $('.search-icon').click(function(){
     $('.search-form').toggleClass("hidden");
@@ -43,21 +46,20 @@ $('.search-icon').click(function(){
 
 //---------- Reply Form Functions ----------//
 // display team reply form
-$('.reply').click(function(){
+$(document).on('click', '.reply', function(){
     let team_id = $(this).attr('team_id');
     $(".comment_" + team_id).toggle();
 })
 // display review reply form
-$('.reply').click(function(){
+$(document).on('click', '.reply', function(){
     let review_id = $(this).attr('review_id');
     $(".comment_" + review_id).toggle();
 })
 // display post reply form
-$('.reply').click(function(){
+$(document).on('click', '.reply', function(){
     let post_id = $(this).attr('post_id');
     $(".comment_" + post_id).toggle();
 })
-
 
 //---------- Profile Modal Functions ----------//
 //display "edit Profile" modal
@@ -106,17 +108,15 @@ $('#create-team').click(function(){
     $('#create-team').css("display", "none");
     $('.new-team').css("display", "block");
 })
-//popup notification
+//popup notification AJAX
 $('.edit-profile-modal').on('submit', '#add-to-team', function(e){
     e.preventDefault();
     let pkmn_id = $('tojs').attr('pkmn_id');
-    console.log("we stopped the refresh!!");
     $.ajax({
         url: pkmn_id + "/add_to_team",
         method: "POST",
         data: $(this).serialize(),
         success: function(response){
-            console.log(response);
             $('.popup-container').append(response)
             $('.modal-bg').css("display", "none");
         }
@@ -124,6 +124,36 @@ $('.edit-profile-modal').on('submit', '#add-to-team', function(e){
     setTimeout(function(){
         $('.popup-container').fadeOut()
     }, 5000);
+})
+//review AJAX
+$('.column.posts').on('submit', '#review-form', function(e){
+    e.preventDefault();
+    let pkmn_id = $('tojs').attr('pkmn_id');
+    $.ajax({
+        url: pkmn_id + "/create_review",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            $('.review-list').html(response)
+            $('#review-form textarea').val(null)
+            allRatings()
+        }
+    })
+})
+//like review AJAX
+$('.card').on('submit', '#like_form', function(e){
+    let review_id = $(this).attr('review_id')
+    e.preventDefault();
+    console.log(review_id)
+    $.ajax({
+        url: "/like_review",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            console.log(response)
+            $('.r'+review_id).children('.card-item-icons.r').html(response)
+        }
+    })
 })
 
 
@@ -139,16 +169,19 @@ function displayRating(num){
     }
     return result
 }
-$('.n1').html(displayRating(1));
-$('.n2').html(displayRating(2));
-$('.n3').html(displayRating(3));
-$('.n4').html(displayRating(4));
-$('.n5').html(displayRating(5));
-$('.n6').html(displayRating(6));
-$('.n7').html(displayRating(7));
-$('.n8').html(displayRating(8));
-$('.n9').html(displayRating(9));
-$('.n10').html(displayRating(10));
+function allRatings() {
+    $('.n1').html(displayRating(1));
+    $('.n2').html(displayRating(2));
+    $('.n3').html(displayRating(3));
+    $('.n4').html(displayRating(4));
+    $('.n5').html(displayRating(5));
+    $('.n6').html(displayRating(6));
+    $('.n7').html(displayRating(7));
+    $('.n8').html(displayRating(8));
+    $('.n9').html(displayRating(9));
+    $('.n10').html(displayRating(10));
+}
+allRatings()
 
 //---------- Team Functions ----------//
 //toggle Team stats

@@ -147,7 +147,11 @@ def create_review(request, pkmn_id):
         added_by = user,
         pkmn = pkmn
     )
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {
+        "pokemon": pkmn
+    }
+    return render(request, "pokemon-review.html", context)
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_review(request, review_id):
     #Check if user is logged in
@@ -156,6 +160,8 @@ def delete_review(request, review_id):
         #Delete review if logged in user is the review's author
         if request.session['userid'] == review_to_delete.added_by.id:
             review_to_delete.delete()
+            print("we came from", request.META.get('HTTP_REFERER'))
+            print("the path is", request.path)
             return redirect(request.META.get('HTTP_REFERER'))
     return redirect('/')
 
@@ -171,7 +177,12 @@ def like_review(request):
     else:
     #otherwise, add them
         review.likes.add(user)
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {
+        "user" : user,
+        "review" : review,
+    }
+    return render(request, "review-likes-partial.html", context)
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 def comment_review(request, review_id):
     review = Review.objects.get(id = review_id)

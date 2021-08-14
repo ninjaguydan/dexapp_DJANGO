@@ -141,17 +141,30 @@ $('.column.posts').on('submit', '#review-form', function(e){
     })
 })
 //like review AJAX
-$('.card').on('submit', '#like_form', function(e){
+$('.column').on('submit', '#like_form', function(e){
     let review_id = $(this).attr('review_id')
     e.preventDefault();
-    console.log(review_id)
     $.ajax({
         url: "/like_review",
         method: "POST",
         data: $(this).serialize(),
         success: function(response){
-            console.log(response)
             $('.r'+review_id).children('.card-item-icons.r').html(response)
+        }
+    })
+})
+//review comment AJAX
+$('.comment').on('submit', '.comment_form', function(e){
+    e.preventDefault();
+    let review_id = $(this).attr('review_id')
+    $.ajax({
+        url: "/" + review_id + "/comment_review",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            console.log(response)
+            $('.comment.comment_'+ review_id).html(response)
+            $('.comment-form textarea').val(null)
         }
     })
 })

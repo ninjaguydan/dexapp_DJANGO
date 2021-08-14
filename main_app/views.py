@@ -147,9 +147,7 @@ def create_review(request, pkmn_id):
         added_by = user,
         pkmn = pkmn
     )
-    context = {
-        "pokemon": pkmn
-    }
+    context = {"pokemon": pkmn}
     return render(request, "pokemon-review.html", context)
     # return redirect(request.META.get('HTTP_REFERER'))
 
@@ -177,10 +175,7 @@ def like_review(request):
     else:
     #otherwise, add them
         review.likes.add(user)
-    context = {
-        "user" : user,
-        "review" : review,
-    }
+    context = {"user" : user, "review" : review}
     return render(request, "review-likes-partial.html", context)
     # return redirect(request.META.get('HTTP_REFERER'))
 
@@ -192,7 +187,9 @@ def comment_review(request, review_id):
         added_by = user,
         review = review
     )
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {"review" : review, "user" : user}
+    return render(request, "review-comment-partial.html", context)
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_review_comment(request, comment_id):
     #Check if user is logged in

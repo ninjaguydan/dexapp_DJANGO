@@ -14,7 +14,7 @@ function openMenu() {
         nav.style.display = "block";
     }
 }
-//---------- Navigation Functions ----------//
+//------------------------------ Navigation Functions ------------------------------//
 //check if a user is logged in and reduce width if true
 let loggedIn = $('forjs').attr('logged-in');
 if (loggedIn == "True") {
@@ -39,12 +39,12 @@ $('.main-nav span').click(function(e) {
     e.stopPropagation();
 })
 
-//---------- Search Icon Function ---------- //
+//------------------------------ Search Icon Function ------------------------------ //
 $('.search-icon').click(function(){
     $('.search-form').toggleClass("hidden");
 })
 
-//---------- Reply Form Functions ----------//
+//------------------------------ Reply Form Functions ------------------------------//
 // display team reply form
 $(document).on('click', '.reply', function(){
     let team_id = $(this).attr('team_id');
@@ -61,7 +61,7 @@ $(document).on('click', '.reply', function(){
     $(".comment_" + post_id).toggle();
 })
 
-//---------- Profile Modal Functions ----------//
+//------------------------------ Profile Modal Functions ------------------------------//
 //display "edit Profile" modal
 $('#edit-profile').click(function(){
     $('.modal-bg').css("display", "block");
@@ -87,7 +87,7 @@ $('.img-container span').click(function(){
     $('#color').val(color);
 })
 
-//---------- Profile Functions ----------//
+//------------------------------ Profile Functions ------------------------------//
 //profile tabs
 $( function() {
     $( "#tabs" ).tabs();
@@ -98,7 +98,7 @@ $('.tab-nav li a').click(function(){
     $(this).addClass('active');
 })
 
-//---------- Pokemon Functions ----------//
+//------------------------------ Pokemon Functions ------------------------------//
 // display "Add to Team" modal
 $('#add-to-team').click(function(){
     $('.modal-bg').css("display", "block")
@@ -162,13 +162,24 @@ $('.comment').on('submit', '.comment_form', function(e){
         method: "POST",
         data: $(this).serialize(),
         success: function(response){
-            console.log(response)
             $('.comment.comment_'+ review_id).html(response)
             $('.comment-form textarea').val(null)
         }
     })
 })
-
+//like review comment AJAX
+$('.column').on('submit', '.like_form', function(e){
+    e.preventDefault()
+    let comment_id = $(this).attr('comment_id');
+    $.ajax({
+        url: "/like_review_comment",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            $('.c'+comment_id).children('.card-item-icons.c').html(response)
+        }
+    })
+})
 
 //Display Star Rating
 function displayRating(num){
@@ -196,7 +207,7 @@ function allRatings() {
 }
 allRatings()
 
-//---------- Team Functions ----------//
+//------------------------------ Team Functions ------------------------------//
 //toggle Team stats
 $('#toggle-stats').click(function(){
     $('.list-group-item.striped').toggle()
@@ -206,7 +217,7 @@ $('#toggle-weakness').click(function(){
     $('.chart-container').toggle()
 })
 
-//---------- Team Modal Functions ----------//
+//------------------------------ Team Modal Functions ------------------------------//
 //display "Edit Team" modal
 $('.edit-team').click(function(){
     $('.modal-bg').css("display", "block")

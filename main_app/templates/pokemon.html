@@ -202,14 +202,14 @@
                         <i class="material-icons">favorite_border</i>
                         {% elif user not in comment.likes.all %}
                         <!-- "Like Comment" form -->
-                        <form action="/like_review_comment" method="POST">
+                        <form action="/like_review_comment" method="POST" class="like_form" comment_id="{{comment.id}}">
                             {% csrf_token %}
                             <input type="hidden" name="like" value="{{comment.id}}">
                             <button><i class="material-icons">favorite_border</i></button>
                         </form>
                         {% else %}
                         <!-- "Unlike Comment" form -->
-                        <form action="/like_review_comment" method="POST">
+                        <form action="/like_review_comment" method="POST" class="like_form" comment_id="{{comment.id}}">
                             {% csrf_token %}
                             <input type="hidden" name="like" value="{{comment.id}}">
                             <button><i class="material-icons active">favorite</i></button>

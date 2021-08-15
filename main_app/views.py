@@ -141,13 +141,13 @@ def create_review(request, pkmn_id):
         return redirect(f'pkmn/{pkmn_id}')
     pkmn = Pokemon.objects.get(id = pkmn_id)
     user = User.objects.get(id=request.session['userid'])
-    Review.objects.create(
+    review = Review.objects.create(
         content = request.POST['review'],
         rating = request.POST['rating'],
         added_by = user,
         pkmn = pkmn
     )
-    context = {"pokemon": pkmn}
+    context = {"pokemon": pkmn, "user" : user, "review" : review}
     return render(request, "pokemon-review.html", context)
     # return redirect(request.META.get('HTTP_REFERER'))
 
@@ -213,7 +213,9 @@ def like_review_comment(request):
     else:
     #otherwise, like post comment
         comment.likes.add(user)
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {"user" : user, "comment" : comment}
+    return render(request, "review-comment-likes-partial.html", context)
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 def create_team(request, pkmn_id):
     #if GET request, redirect

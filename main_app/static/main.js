@@ -97,7 +97,63 @@ $('.tab-nav li a').click(function(){
     $('.tab-nav li a').removeClass('active');
     $(this).addClass('active');
 })
+//post AJAX
+$('.column').on('submit', '#post-form', function(e){
+    e.preventDefault()
+    let userid = $(this).attr('userid')
+    $.ajax({
+        url: "/profile/" + userid + "/create_post",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            $('.post-list').html(response)
+            $('#post-form textarea').val(null)
+        }
+    })
+})
+//like post AJAX
+$('.column').on('submit', '.like-post-form', function(e){
+    e.preventDefault()
+    let post_id = $(this).attr('post_id')
+    $.ajax({
+        url: "/profile/like_post",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            console.log(response)
+            $('.p' + post_id).html(response)
+        }
+    })
+})
+//post comment AJAX
+$('.column').on('submit','.post_comment_form', function(e){
+    e.preventDefault()
+    let post_id = $(this).attr('post_id')
+    $.ajax({
+        url: "/profile/"+ post_id +"/comment_post",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            console.log(response)
+            $('.comment.comment_' + post_id).html(response)
+            $('.post_comment_form textarea').val(null)
+        }
+    })
+})
+//like post comment AJAX
+$('.column').on('submit', '.like-post-comment-form', function(e){
+    e.preventDefault()
+    let comment_id = $(this).attr('comment_id');
+    $.ajax({
+        url: "/profile/like_post_comment",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            $('.c' + comment_id).html(response)
+        }
+    })
 
+})
 //------------------------------ Pokemon Functions ------------------------------//
 // display "Add to Team" modal
 $('#add-to-team').click(function(){
@@ -154,7 +210,7 @@ $('.column').on('submit', '#like_form', function(e){
     })
 })
 //review comment AJAX
-$('.comment').on('submit', '.comment_form', function(e){
+$('.column').on('submit', '.comment_form', function(e){
     e.preventDefault();
     let review_id = $(this).attr('review_id')
     $.ajax({

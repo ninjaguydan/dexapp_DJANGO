@@ -1,64 +1,62 @@
 {% load static %}
-{% for review in pokemon.reviews.all reversed %}
-<div class="card r{{review.id}}">
-    <img src="{% static '' %}img/default-profiles/{{review.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{review.added_by.bg_color}}">
+{% for post in profile.posts.all reversed %}
+<div class="card">
+    <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
     <div class="card-item card-item-content">
-        <a href="/profile/{{review.added_by.id}}"><p class="bold">{{review.added_by.first_name}} {{review.added_by.last_name}} </a><span>{{review.added_by.username}}</span></p>
-        <span class="n{{review.rating}} star">{{review.rating}}</span>
-        <p>{{review.content}}</p>
-        <p class="time">{{review.created_at}} {% if request.session.userid == review.added_by.id %}| <a href="/{{review.id}}/delete_review"><i class="material-icons">delete</i></a>{% endif %}</p>
+        <a href="/profile/{{post.added_by.id}}"><p class="bold">{{post.added_by.first_name}} {{post.added_by.last_name}} </a><span>{{post.added_by.username}}</span></p>
+        <p>{{post.content}}</p>
+        <p class="time">{{post.created_at}} {% if request.session.userid == post.added_by.id %}| <a href="/profile/{{post.id}}/delete_post"><i class="material-icons">delete</i></a>{% endif %}</p>
     </div>
     <!-- Side icons -->
-    <div class="card-item-icons r">
+    <div class="card-item-icons p{{post.id}}">
         {% if "userid" not in request.session %}
         <!-- If no one is logged in, non-clickable heart is displayed -->
         <i class="material-icons">favorite_border</i>
-        {% elif user not in review.likes.all %}
+        {% elif user not in post.likes.all %}
         <!-- "Like Post" form -->
-        <form action="/like_review" method="POST" id="like_form" review_id="{{review.id}}">
+        <form action="/profile/like_post" method="POST" class="like-post-form" post_id="{{post.id}}">
             {% csrf_token %}
-            <input type="hidden" name="like" value="{{review.id}}">
+            <input type="hidden" name="like" value="{{post.id}}">
             <button><i class="material-icons">favorite_border</i></button>
         </form>
         {% else %}
         <!-- "Unlike Post" form -->
-        <form action="/like_review" method="POST" id="like_form" review_id="{{review.id}}">
+        <form action="/profile/like_post" method="POST" class="like-post-form" post_id="{{post.id}}">
             {% csrf_token %}
-            <input type="hidden" name="like" value="{{review.id}}">
+            <input type="hidden" name="like" value="{{post.id}}">
             <button><i class="material-icons active">favorite</i></button>
         </form>
         {% endif %}
-        <p>{{review.likes.all|length}}</p>
-        <!-- reply icon -->
-        <i class="material-icons reply" review_id="{{review.id}}">chat_bubble_outline</i>
-        <p>{{review.comments.all|length}}</p>
+        <p>{{post.likes.all|length}}</p>
+        <i class="material-icons reply" post_id="{{post.id}}">chat_bubble_outline</i>
+        <p>{{post.comments.all|length}}</p>
     </div>
     <!-- Display following Div when chat bubble is clicked -->
-    <div class="comment comment_{{review.id}}">
+    <div class="comment comment_{{post.id}}">
         <!-- All reply comments -->
-        {% for comment in review.comments.all %}
-        <div class="card card-reply c{{comment.id}}">
+        {% for comment in post.comments.all %}
+        <div class="card card-reply">
             <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
             <div class="card-item card-item-content">
                 <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
                 <p>{{comment.content}}</p>
-                <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/{{comment.id}}/delete_review_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
+                <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/profile/{{comment.id}}/delete_post_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
             </div>
             <!-- Side icons -->
-            <div class="card-item-icons c">
+            <div class="card-item-icons c{{comment.id}}">
                 {% if "userid" not in request.session %}
                 <!-- If no one is logged in, non-clickable heart is displayed -->
                 <i class="material-icons">favorite_border</i>
                 {% elif user not in comment.likes.all %}
                 <!-- "Like Comment" form -->
-                <form action="/like_review_comment" method="POST" class="like_form" comment_id="{{comment.id}}">
+                <form action="/profile/like_post_comment" method="POST" class="like-post-comment-form" comment_id="{{comment.id}}">
                     {% csrf_token %}
                     <input type="hidden" name="like" value="{{comment.id}}">
                     <button><i class="material-icons">favorite_border</i></button>
                 </form>
                 {% else %}
                 <!-- "Unlike Comment" form -->
-                <form action="/like_review_comment" method="POST" class="like_form" comment_id="{{comment.id}}">
+                <form action="/profile/like_post_comment" method="POST" class="like-post-comment-form" comment_id="{{comment.id}}">
                     {% csrf_token %}
                     <input type="hidden" name="like" value="{{comment.id}}">
                     <button><i class="material-icons active">favorite</i></button>
@@ -71,7 +69,7 @@
 
         <!-- Display Reply Form if a user is logged in -->
         {% if request.session.userid %}
-        <form action="/{{review.id}}/comment_review" method="POST" class="comment_form" review_id="{{review.id}}" comment_id="{{comment.id}}">
+        <form action="/profile/{{post.id}}/comment_post" method="POST" class="post_comment_form" post_id ="{{post.id}}">
             {% csrf_token %}
             <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
             <div class="btn-container">
@@ -85,6 +83,6 @@
 </div>
 {% empty %}
 <div class="card">
-    <h5>Be the first to leave a review!</h5>
+    <h5>No Posts yet!</h5>
 </div>
 {% endfor %}

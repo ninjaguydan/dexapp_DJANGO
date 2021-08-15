@@ -182,12 +182,12 @@ def like_review(request):
 def comment_review(request, review_id):
     review = Review.objects.get(id = review_id)
     user = User.objects.get(id = request.session['userid'])
-    Comment.objects.create(
+    comment = Comment.objects.create(
         content = request.POST['comment'],
         added_by = user,
         review = review
     )
-    context = {"review" : review, "user" : user}
+    context = {"review" : review, "user" : user, "comment" : comment}
     return render(request, "review-comment-partial.html", context)
     # return redirect(request.META.get('HTTP_REFERER'))
 

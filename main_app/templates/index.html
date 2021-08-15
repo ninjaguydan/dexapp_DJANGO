@@ -20,7 +20,7 @@
     <!-- Post Form -->
     <div class="card">
         <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
-        <form action="/profile/{{user.id}}/create_post" method="POST">
+        <form action="/profile/{{user.id}}/create_post" method="POST" id="post-form" userid="{{user.id}}">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
             <div class="btn-container">
@@ -29,6 +29,7 @@
         </form>
     </div>
     {% endif %}
+
     <!-- Timeline Feed -->
     {% for post in posts reversed %}
     <div class="card">
@@ -38,6 +39,7 @@
             <p>{{post.content}}</p>
             <p class="time">{{post.created_at|timesince}} ago {% if request.session.userid == post.added_by.id %}| <a href="/profile/{{post.id}}/delete_post"><i class="material-icons">delete</i></a>{% endif %}</p>
         </div>
+        <!-- Side icons -->
         <div class="card-item-icons">
             {% if "userid" not in request.session %}
             <!-- If no one is logged in, non-clickable heart is displayed -->
@@ -99,7 +101,7 @@
 
             <!-- Display Reply Form if a user is logged in -->
             {% if request.session.userid %}
-            <form action="/profile/{{post.id}}/comment_post" method="POST" class="comment_form">
+            <form action="/profile/{{post.id}}/comment_post" method="POST" class="post_comment_form">
                 {% csrf_token %}
                 <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
                 <div class="btn-container">

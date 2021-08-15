@@ -61,13 +61,14 @@ def create_post(request, user_id):
     if request.method == "GET":
         return redirect('/')
     user = User.objects.get(id= user_id)
-    Post.objects.create(
+    post = Post.objects.create(
         content = request.POST['post'],
         added_by = user,
     )
     print(f"We got here from {request.META.get('HTTP_REFERER')}!!")
-    #redirect to the page we came from
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {"user" : user, "post" : post, "profile" : user}
+    return render(request, "post.html", context)
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_post(request, post_id):
     #check if anyone is logged in
@@ -90,20 +91,23 @@ def like_post(request):
         post.likes.remove(user)
     else:
         post.likes.add(user)
-    #redirect to the page we came from
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {"user" : user, "post" : post}
+    return render(request, "post-like.html", context)
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 def comment_post(request, post_id):
     post = Post.objects.get(id = post_id)
     if request.method == "GET":
         return redirect(f'/profile/{post.added_by.id}')
     user = User.objects.get(id = request.session['userid'])
-    Comment.objects.create(
+    comment = Comment.objects.create(
         content = request.POST['comment'],
         added_by = user,
         post = post
     )
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {"post" : post, "comment" : comment, "user" : user}
+    return render(request, "post-comment.html", context)
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_post_comment(request, comment_id):
     #check if anyone is logged in
@@ -127,4 +131,6 @@ def like_post_comment(request):
     else:
     #otherwise, like post comment
         comment.likes.add(user)
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {"comment" : comment, "user" : user}
+    return render(request, "post-comment-like.html", context)
+    # return redirect(request.META.get('HTTP_REFERER'))

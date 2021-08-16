@@ -14,6 +14,10 @@ function openMenu() {
         nav.style.display = "block";
     }
 }
+$('form').click(function(){
+    alert("hello?");
+    $(this).children('button').prop("disabled", true)
+})
 //------------------------------ Navigation Functions ------------------------------//
 //check if a user is logged in and reduce width if true
 let loggedIn = $('forjs').attr('logged-in');
@@ -45,11 +49,6 @@ $('.search-icon').click(function(){
 })
 
 //------------------------------ Reply Form Functions ------------------------------//
-// display team reply form
-$(document).on('click', '.reply', function(){
-    let team_id = $(this).attr('team_id');
-    $(".comment_" + team_id).toggle();
-})
 // display review reply form
 $(document).on('click', '.reply', function(){
     let review_id = $(this).attr('review_id');
@@ -120,7 +119,6 @@ $('.column').on('submit', '.like-post-form', function(e){
         method: "POST",
         data: $(this).serialize(),
         success: function(response){
-            console.log(response)
             $('.p' + post_id).html(response)
         }
     })
@@ -134,7 +132,6 @@ $('.column').on('submit','.post_comment_form', function(e){
         method: "POST",
         data: $(this).serialize(),
         success: function(response){
-            console.log(response)
             $('.comment.comment_' + post_id).html(response)
             $('.post_comment_form textarea').val(null)
         }
@@ -152,7 +149,19 @@ $('.column').on('submit', '.like-post-comment-form', function(e){
             $('.c' + comment_id).html(response)
         }
     })
-
+})
+//like team AJAX
+$('.column').on('submit','.like-team-form', function(e){
+    e.preventDefault()
+    let team_id = $(this).attr('team_id')
+    $.ajax({
+        url: "/like_team",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            $('.t'+ team_id).html(response)
+        }
+    })
 })
 //------------------------------ Pokemon Functions ------------------------------//
 // display "Add to Team" modal
@@ -271,6 +280,37 @@ $('#toggle-stats').click(function(){
 //Toggle Team Weakness
 $('#toggle-weakness').click(function(){
     $('.chart-container').toggle()
+})
+//Toggle Team Updates
+$('.update-toggle p').click(function(){
+    $('.update').toggle()
+})
+//team comment AJAX
+$('.column').on('submit', '.team_comment_form', function(e){
+    e.preventDefault()
+    let team_id = $(this).attr('team_id')
+    $.ajax({
+        url: "/" + team_id + "/comment_team",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            $('.comment_'+ team_id).html(response)
+            $('.team_comment_form textarea').val(null)
+        }
+    })
+})
+//like team comment AJAX
+$('.column').on('submit','.like_team_comment_form', function(e){
+    e.preventDefault()
+    let comment_id = $(this).attr('comment_id')
+    $.ajax({
+        url: "/like_team_comment",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            $('.c'+comment_id).html(response)
+        }
+    })
 })
 
 //------------------------------ Team Modal Functions ------------------------------//

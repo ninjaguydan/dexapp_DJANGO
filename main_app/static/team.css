@@ -193,6 +193,20 @@
     margin-right: 10px;
     font-style: italic;
 }
+.update-toggle {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+}
+    .update-toggle p {
+        cursor: pointer;
+        font-size: .75em;
+        font-style: italic;
+        color: gray;
+    }
+        .update-toggle p:hover {
+            color: white;
+        }
 
 /*-------------------- At 550px --------------------*/
 @media only screen and (min-width: 550px) {

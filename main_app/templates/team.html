@@ -122,13 +122,18 @@
         {% endfor %}
     </div><br>
 
+    <!-- Hide/Display Team Updates -->
+    <div class="update-toggle">
+        <p>Hide/Display Updates</p>
+    </div>
+
     {% if "userid" not in request.session %}
     <!-- If no one is logged in, don't display comment form -->
     {% else %}
     <!-- Comment Form -->
     <div class="card">
         <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
-        <form action="/{{team.id}}/comment_team" method="POST">
+        <form action="/{{team.id}}/comment_team" method="POST" class="team_comment_form" team_id="{{team.id}}">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="comment" rows="1" placeholder="Thoughts on {{team.name}}?"></textarea>
             <div class="btn-container">
@@ -138,48 +143,50 @@
     </div>
     {% endif %}
     
-    <!--- Team Comments --->
-    {% for comment in team.comments.all reversed %}
-    {% if comment.added_by %}
-    <div class="card">
-        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
-        <div class="card-item card-item-content">
-            <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
-            <p>{{comment.content}}</p>
-            <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/{{comment.id}}/delete_team_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
+    <div class="comment_{{team.id}}">
+        <!--- Team Comments --->
+        {% for comment in team.comments.all reversed %}
+        {% if comment.added_by %}
+        <div class="card">
+            <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+            <div class="card-item card-item-content">
+                <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
+                <p>{{comment.content}}</p>
+                <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/{{comment.id}}/delete_team_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
+            </div>
+            <!-- Side icons -->
+            <div class="card-item-icons c{{comment.id}}">
+                {% if "userid" not in request.session %}
+                <!-- If no one is logged in, non-clickable heart is displayed -->
+                <i class="material-icons">favorite_border</i>
+                {% elif user not in comment.likes.all %}
+                <!-- "Like Comment" form -->
+                <form action="/like_team_comment" method="POST" comment_id="{{comment.id}}" class="like_team_comment_form">
+                    {% csrf_token %}
+                    <input type="hidden" name="like" value="{{comment.id}}">
+                    <button><i class="material-icons">favorite_border</i></button>
+                </form>
+                {% else %}
+                <!-- "Unlike Comment" form -->
+                <form action="/like_team_comment" method="POST" comment_id="{{comment.id}}" class="like_team_comment_form">
+                    {% csrf_token %}
+                    <input type="hidden" name="like" value="{{comment.id}}">
+                    <button><i class="material-icons active">favorite</i></button>
+                </form>
+                {% endif %}
+                <p>{{comment.likes.all|length}}</p>
+            </div>
         </div>
-        <!-- Side icons -->
-        <div class="card-item-icons">
-            {% if "userid" not in request.session %}
-            <!-- If no one is logged in, non-clickable heart is displayed -->
-            <i class="material-icons">favorite_border</i>
-            {% elif user not in comment.likes.all %}
-            <!-- "Like Comment" form -->
-            <form action="/like_team_comment" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="like" value="{{comment.id}}">
-                <button><i class="material-icons">favorite_border</i></button>
-            </form>
-            {% else %}
-            <!-- "Unlike Comment" form -->
-            <form action="/like_team_comment" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="like" value="{{comment.id}}">
-                <button><i class="material-icons active">favorite</i></button>
-            </form>
-            {% endif %}
-            <p>{{comment.likes.all|length}}</p>
+        {% else %}
+        <div class="card update">
+            {% for p in comment.pkmn.all %}
+            <p><a href="/{{p.id}}">{{p.name|title}} </a>{{comment.content}}</p>
+            <p class="time">{{comment.created_at}}</p>
+            {% endfor %}
         </div>
-    </div>
-    {% else %}
-    <div class="card update">
-        {% for p in comment.pkmn.all %}
-        <p><a href="/{{p.id}}">{{p.name|title}} </a>{{comment.content}}</p>
-        <p class="time">{{comment.created_at}}</p>
+        {% endif %}
         {% endfor %}
     </div>
-    {% endif %}
-    {% endfor %}
 </div>
 
 

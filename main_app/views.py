@@ -90,12 +90,14 @@ def display_team(request, team_id):
 def comment_team(request, team_id):
     team = Team.objects.get(id = team_id)
     user = User.objects.get(id = request.session['userid'])
-    Comment.objects.create(
+    comment = Comment.objects.create(
         content = request.POST['comment'],
         added_by = user,
         team = team 
     )
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {"user" : user, "team" : team, "comment" : comment}
+    return render(request, "team-comment.html", context)
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_team_comment(request, comment_id):
     #Check if user is logged in
@@ -119,7 +121,9 @@ def like_team_comment(request):
     else:
     #otherwise, like post comment
         comment.likes.add(user)
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {"user" : user, "comment" : comment}
+    return render(request,"team-comment-like.html",context)
+    # return redirect(request.META.get('HTTP_REFERER'))
 
 def favorite(request):
     #if GET request, redirect
@@ -296,7 +300,12 @@ def like_team(request):
     else:
     #otherwise, add them
         team.likes.add(user)
-    return redirect(request.META.get('HTTP_REFERER'))
+    if request.META.get('HTTP_REFERER') != None and "/team/" in request.META.get('HTTP_REFERER'):
+        return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        context = {"user" : user, "team" : team}
+        print(request.META.get('HTTP_REFERER'))
+        return render(request,"team-like.html", context)
 
 def delete_team(request, team_id):
     #Check if anyone is logged in

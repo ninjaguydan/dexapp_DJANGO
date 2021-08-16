@@ -89,6 +89,10 @@ input:-internal-autofill-selected {
 .btn-secondary {
     background-color: transparent;
 }
+.btn:disabled, .btn.disabled {
+    background-color: #9b2d3f;
+    border-color: #9b2d3f;
+}
 
 /* Form Styles */
 .form-control:focus {

@@ -22,7 +22,7 @@
             <h6>{{profile.username}}</h6>
             <img src="{% static '' %}img/default-profiles/{{profile.default_img}}.png" class="{{profile.bg_color}}">
             <!-- Display bio if one exists -->
-            {% if profile.profile.bio != "None" %}
+            {% if profile.profile.bio != None %}
             <p>{{profile.profile.bio}}</p>
             {% endif %}
             <div class="follow-cnt">
@@ -58,7 +58,7 @@
                 <p class="bold"><i class="material-icons">mail_outline</i> Message</p>
         </li>
         {% endif %}
-        {% if profile.profile.location != "None" %}
+        {% if profile.profile.location != None %}
         <!-- Display Location if one was given -->
         <li class="list-group-item striped">
             <p class="bold">Location</p>
@@ -69,7 +69,7 @@
             <p class="bold">Joined</p>
             <span>{{profile.created_at|date:"F Y"}}</span>
         </li>
-        {% if profile.profile.pronouns != "None" %}
+        {% if profile.profile.pronouns != None %}
         <!-- Display pronouns if they were given -->
         <li class="list-group-item striped">
             <p class="bold">Pronouns</p>
@@ -118,7 +118,7 @@
                 {% csrf_token %}
                 <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
                 <div class="btn-container">
-                    <button class="btn btn-primary btn-post" disabled>Post</button>
+                    <button class="btn btn-primary btn-post" disabled="true">Post</button>
                 </div>
             </form>
         </div>

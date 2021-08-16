@@ -568,6 +568,8 @@ margin-bottom: 3px;
         }
         .main-nav span {
             cursor: pointer;
+            position: relative;
+            top: 3px;
         }
             .main-nav span.active, .main-nav span:hover {
                 color: var(--third);
@@ -623,7 +625,8 @@ margin-bottom: 3px;
         display: flex !important;
         top: 10px;
         width: 45%;
-        right: 284px;
+        right: 295px;
+        background-color: transparent;
     }
 }
 

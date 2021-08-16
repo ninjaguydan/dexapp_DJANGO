@@ -27,9 +27,18 @@ def update_profile(request, user_id):
     profile = Profile.objects.get(id = user.profile.id)
     user.first_name = request.POST['fname']
     user.last_name = request.POST['lname']
-    profile.bio = request.POST['bio']
-    profile.location = request.POST['location']
-    profile.pronouns = request.POST['pronouns']
+    if request.POST['bio'] == "None":
+        profile.bio = None
+    else:
+        profile.bio = request.POST['bio']
+    if request.POST['location'] == "None":
+        profile.location = None
+    else:
+        profile.location = request.POST['location']
+    if request.POST['pronouns'] == "None":
+        profile.pronouns = None
+    else:
+        profile.pronouns = request.POST['pronouns']
     user.default_img = request.POST['img']
     user.bg_color = request.POST['color']
     user.save()

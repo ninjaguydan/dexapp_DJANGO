@@ -14,9 +14,14 @@ function openMenu() {
         nav.style.display = "block";
     }
 }
-$('form').click(function(){
-    alert("hello?");
-    $(this).children('button').prop("disabled", true)
+// disable buttons if form inputs contain only white space 
+$('.card').on('keyup', 'form', function(){
+    let str = $(this).find('textarea').val().replace(/\s/g, '').length;
+    if (!str) {
+        $(this).find('button').prop("disabled", true)
+    } else {
+        $(this).find('button').prop("disabled", false)
+    }
 })
 //------------------------------ Navigation Functions ------------------------------//
 //check if a user is logged in and reduce width if true

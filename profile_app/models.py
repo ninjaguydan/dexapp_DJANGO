@@ -43,13 +43,13 @@ class TeamManager(models.Manager):
             spatk_total += pkmn.sp_attack
             spdef_total += pkmn.sp_defense
             spd_total += pkmn.speed
-        table['Base Stat Total Team Avg'] = round(base_total/count)
-        table['Avg Team HP'] = round(hp_total/count)
-        table['Avg Team Attack'] = round(atk_total/count)
-        table['Avg Team Defense'] = round(def_total/count)
-        table['Avg Team Special Attack'] = round(spatk_total/count)
-        table['Avg Team Special Defense'] = round(spdef_total/count)
-        table['Avg Team Speed'] = round(spd_total/count)
+        table['Base Stat Total Avg'] = round(base_total/count)
+        table['Avg HP'] = round(hp_total/count)
+        table['Avg Attack'] = round(atk_total/count)
+        table['Avg Defense'] = round(def_total/count)
+        table['Avg Special Attack'] = round(spatk_total/count)
+        table['Avg Special Defense'] = round(spdef_total/count)
+        table['Avg Speed'] = round(spd_total/count)
         return table
 
 

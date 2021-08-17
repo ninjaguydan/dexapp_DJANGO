@@ -33,6 +33,12 @@ p, span {
 .bold {
     font-weight: 700 !important;
 }
+.counter {
+    position: absolute;
+    font-size: 0.8em;
+    color: gray;
+    bottom: 10px;
+}
 .error {
     color: var(--primary);
     display: none;
@@ -46,6 +52,9 @@ form.search-form.hidden {
 .time {
     color: gray;
     font-size: .6rem;
+}
+.warning {
+    color: var(--primary);
 }
 .wrapper {
     padding: 15px;

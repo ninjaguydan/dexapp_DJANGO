@@ -17,32 +17,19 @@ def profile(request, profile_id):
 
 def update_profile(request, user_id):
     if request.method == "GET":
-        return redirect(f'/{user_id}')
+        return redirect(f'/profile/{user_id}')
     errors = User.objects.update_validator(request.POST)
     if errors:
         for key, value in errors.items():
             messages.error(request, value)
-        return redirect(f'/{user_id}')
+        return redirect(f'/profile/{user_id}')
     user = User.objects.get(id = user_id)
-    profile = Profile.objects.get(id = user.profile.id)
     user.first_name = request.POST['fname']
     user.last_name = request.POST['lname']
-    if request.POST['bio'] == "None":
-        profile.bio = None
-    else:
-        profile.bio = request.POST['bio']
-    if request.POST['location'] == "None":
-        profile.location = None
-    else:
-        profile.location = request.POST['location']
-    if request.POST['pronouns'] == "None":
-        profile.pronouns = None
-    else:
-        profile.pronouns = request.POST['pronouns']
+    Profile.objects.update(request.POST, user_id)
     user.default_img = request.POST['img']
     user.bg_color = request.POST['color']
     user.save()
-    profile.save()
     return redirect(f'/profile/{user_id}')
 
 def delete_profile(request):

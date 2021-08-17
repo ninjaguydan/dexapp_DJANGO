@@ -29,7 +29,18 @@ $('form').on('keyup', '#confirm-pw-input', function(){
         }
     }
 })
-
+//textarea counter
+$('.card').on('keyup', 'form', function(){
+    let limit = 255;
+    let input = $(this).find('textarea').val();
+    limit -= input.length;
+    $(this).find('small.counter').html(limit + '/255');
+    if ( limit < 100 ) {
+        $(this).find('small.counter').addClass('warning')
+    } else {
+        $(this).find('small.counter').removeClass('warning')
+    }
+})
 // disable buttons if form inputs contain only white space 
 $('.card').on('keyup', 'form', function(){
     let str = $(this).find('textarea').val().replace(/\s/g, '').length;
@@ -43,7 +54,7 @@ $('.card').on('keyup', 'form', function(){
 //check if a user is logged in and reduce width if true
 const loggedIn = $('forjs').attr('logged-in');
 if (loggedIn == "True") {
-    $('.main-nav').css("width", "300px");
+    $('.main-nav').css("width", "325px");
 } 
 if (loggedIn == "False") {
     $('#menu-btn').hide()
@@ -109,6 +120,15 @@ $('.img-container span').click(function(){
     $(this).css("outline", "5px solid #86b7fe");
     let color = $(this).attr('color');
     $('#color').val(color);
+})
+//validate update fields
+$('.modal-bg').on('keyup', '.form-group', function(){
+    let fieldInput = $(this).find('input').val()
+    if ( fieldInput.length < 2 ) {
+        $(this).children('.error').show();
+    } else {
+        $(this).children('.error').hide();
+    }
 })
 
 //------------------------------ Profile Functions ------------------------------//

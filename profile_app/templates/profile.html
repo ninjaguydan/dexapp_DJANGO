@@ -117,6 +117,7 @@
             <form action="/profile/{{user.id}}/create_post" method="POST" id="post-form" userid="{{user.id}}">
                 {% csrf_token %}
                 <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
+                <small class="counter">255/255</small>
                 <div class="btn-container">
                     <button class="btn btn-primary btn-post" disabled="true">Post</button>
                 </div>
@@ -385,15 +386,24 @@
             <p id="close">&#10005;</p>
         </div>
         <hr>
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{message}}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <form action="/profile/{{user.id}}/update" method="POST">
             {% csrf_token %}
             <div class="form-group">
                 <label>First Name</label>
-                <input type="text" name="fname" value="{{user.first_name}}" class="form-control">
+                <input type="text" name="fname" value="{{user.first_name}}" class="form-control fname">
+                <small class="error">Must be at least 2 characters</small>
             </div>
             <div class="form-group">
                 <label>Last Name</label>
-                <input type="text" name="lname" value="{{user.last_name}}" class="form-control">
+                <input type="text" name="lname" value="{{user.last_name}}" class="form-control lname">
+                <small class="error">Must be at least 2 characters</small>
             </div>
             <div class="form-group">
                 <label>Bio</label>

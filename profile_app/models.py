@@ -52,6 +52,24 @@ class TeamManager(models.Manager):
         table['Avg Speed'] = round(spd_total/count)
         return table
 
+class ProfileManager(models.Manager):
+    def update(self, postData, index):
+        profile = Profile.objects.get(id = index)
+        if len(postData['bio']) == 0 or postData['bio'] == "None":
+            profile.bio = None
+        else:
+            profile.bio = postData['bio']
+        if len(postData['location']) == 0 or postData['location'] == "None":
+            profile.location = None
+        else:
+            profile.location = postData['location']
+        if len(postData['pronouns']) == 0 or postData['pronouns'] == "None":
+            profile.pronouns = None
+        else:
+            profile.pronouns = postData['pronouns']
+        profile.save()
+        return
+
 
 
 class Profile(models.Model):
@@ -62,6 +80,7 @@ class Profile(models.Model):
     following = models.ManyToManyField(User, related_name = "following", blank = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    objects = ProfileManager()
 
 class Post(models.Model):
     content = models.TextField()

@@ -14,6 +14,22 @@ function openMenu() {
         nav.style.display = "block";
     }
 }
+//check if passwords match when signing up
+$('form').on('keyup', '#confirm-pw-input', function(){
+    let pw = $('input.pw').val()
+    let confirm_pw = $('input.confirm').val()
+    if (confirm_pw.length > 0 ) {
+        $(this).children('.error').show();
+        $(this).children('.success').hide();
+        $('.btn-primary').prop('disabled', true)
+        if ( confirm_pw == pw ) {
+            $(this).children('.error').hide();
+            $(this).children('.success').show();
+            $('.btn-primary').prop('disabled', false)
+        }
+    }
+})
+
 // disable buttons if form inputs contain only white space 
 $('.card').on('keyup', 'form', function(){
     let str = $(this).find('textarea').val().replace(/\s/g, '').length;
@@ -25,13 +41,17 @@ $('.card').on('keyup', 'form', function(){
 })
 //------------------------------ Navigation Functions ------------------------------//
 //check if a user is logged in and reduce width if true
-let loggedIn = $('forjs').attr('logged-in');
+const loggedIn = $('forjs').attr('logged-in');
 if (loggedIn == "True") {
     $('.main-nav').css("width", "300px");
+} 
+if (loggedIn == "False") {
+    $('#menu-btn').hide()
 }
 
 //display main nav dropdown menu
 $('.main-nav span').click(function(){
+    console.log("what?");
     $('.dropdown-menu').toggle();
     $('.main-nav span').toggleClass('active');
 })

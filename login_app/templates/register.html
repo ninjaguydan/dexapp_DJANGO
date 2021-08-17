@@ -56,10 +56,12 @@
                 <label>Confirm Password</label>
                 <div id="confirm-pw-input">
                     <input type="password" name="confirm" class="form-control confirm">
+                    <small class="error">Passwords do not match.</small>
+                    <i class="material-icons success">check_circle</i>
                 </div>
             </div>
             <div class="btn-container">
-                <button class="btn btn-primary">Sign up</button>
+                <button class="btn btn-primary" disabled>Sign up</button>
                 <a class="btn btn-secondary" href="/login">Log in</a>
             </div>
         </form>

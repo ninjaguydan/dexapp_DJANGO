@@ -30,11 +30,14 @@
 </head>
 
 <body>
+
+    
     <!-- Menu Hamburger -->
     <div onclick="openMenu()" id="menu-btn" class="menu-btn">
         <div class="menu-btn_burger"></div>
     </div>
-    
+
+    {% if request.session.userid %}
     <!-- Nav Slider -->
     <div class="mobile-nav-slider">
         <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="{{user.bg_color}} user-img">
@@ -53,6 +56,7 @@
             <li><a href="/login/logout">Logout</a></li>
         </ul>
     </div>
+    {% endif %}
 
     <h1 hidden>Dexapp</h1>
     <header class="main">
@@ -60,10 +64,10 @@
         <a href="/" class="header-logo"></a>
         <!-- Desktop Navigation -->
         <ul class="main-nav"> 
+            <li>
+                <i class="material-icons nav-icon search-icon">search</i>
+            </li>
             {% if request.session.userid %}
-                <li>
-                    <i class="material-icons nav-icon search-icon">search</i>
-                </li>
                 <li>
                     <a href=""><i class="material-icons">mail</i></a>
                     <!-- <div class="notification">4</div> -->
@@ -79,8 +83,8 @@
                 <!-- tell JavaScript whether or not someone is logged in -->
                 <forjs logged-in="True" hidden>
             {% else %}
-                <li><a href="">Pokedex</a></li> 
                 <li><a href="">Community</a></li>
+                <li><a href="">Pokedex</a></li> 
                 <li class="bold"><a href="/login/register">Sign Up</a></li>
                 <li class="bold"><a href="/login/">Login</a></li>
                 <!-- tell JavaScript whether or not someone is logged in --> 
@@ -89,6 +93,7 @@
         </ul>
     </header>
 
+    {% if request.session.userid %}
     <!-- Dropdown Menu -->
     <ul class="dropdown-menu dropdown-menu-dark">
         <li><a class="dropdown-item" href="/profile/{{user.id}}"><i class="material-icons">account_circle</i>Profile</a></li>
@@ -97,7 +102,7 @@
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="/login/logout">Logout</a></li>
     </ul>
-
+    {% endif %}
 
     <!-- Search bar -->
     <form action="" method="" role="search" class="search-form hidden">
@@ -111,6 +116,7 @@
         <li>
             <i class="material-icons nav-icon search-icon">search</i>
         </li>
+        {% if request.session.userid %}
         <li>
             <a href=""><i class="material-icons">mail</i></a>
             <!-- <div class="notification">4</div> -->
@@ -122,6 +128,11 @@
         <li>
             <a href="/profile/{{user.id}}"><img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="user-img {{user.bg_color}}"></a>
         </li>
+        {% else %}
+        <li><a href=""><i class="material-icons">people</i></a></li>
+        <li><a href=""><img src="{% static 'img/dex-icon.svg' %}" alt="Pokedex"></a></li>
+        <li><a href="/login/"><i class="material-icons">account_circle</i></a></li>
+        {% endif %}
     </ul>
     
     <!--main content wrapper-->

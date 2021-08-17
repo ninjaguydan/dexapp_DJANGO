@@ -14,6 +14,16 @@ body {
 .tag {
     display: none;    
 }
+#confirm-pw-input {
+    position: relative;
+}
+    #confirm-pw-input i {
+        display: none;
+        position: absolute;
+        top: 6px;
+        right: 10px;
+        color: var(--third);
+    }
 /*-------------------- At 550px --------------------*/
 @media only screen and (min-width: 550px) {
     .logres {

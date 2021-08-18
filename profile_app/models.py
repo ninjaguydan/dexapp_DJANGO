@@ -70,7 +70,44 @@ class ProfileManager(models.Manager):
         profile.save()
         return
 
+class PostManager(models.Manager):
+    def new_post(self, user, postData):
+        if len(postData['post']) < 1 or len(postData['post']) > 255:
+            return None
+        else:
+            return Post.objects.create(
+                content = postData['post'],
+                added_by = user,
+            )
 
+class CommentManager(models.Manager):
+    def new_post_comment(self, postData, user, post):
+        if len(postData['comment']) < 1 or len(postData['comment']) > 255:
+            return None
+        else:
+            return Comment.objects.create(
+                content = postData['comment'],
+                added_by = user,
+                post = post,
+            )
+    def new_team_comment(self, postData, user, team):
+        if len(postData['comment']) < 1 or len(postData['comment']) > 255:
+            return None
+        else:
+            return Comment.objects.create(
+                content = postData['comment'],
+                added_by = user,
+                team = team,
+            )
+    def new_review_comment(self, postData, user, review):
+        if len(postData['comment']) < 1 or len(postData['comment']) > 255:
+            return None
+        else:
+            return Comment.objects.create(
+                content = postData['comment'],
+                added_by = user,
+                review = review,
+            )
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name = "profile", on_delete=models.CASCADE)
@@ -88,6 +125,7 @@ class Post(models.Model):
     likes = models.ManyToManyField(User, related_name = "liked_posts")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    objects = PostManager()
 
 class Message(models.Model):
     content = models.TextField()
@@ -115,3 +153,4 @@ class Comment(models.Model):
     pkmn = models.ManyToManyField('main_app.Pokemon')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    objects = CommentManager()

@@ -135,6 +135,18 @@ class TypeManager(models.Manager):
                 type_to_add = Type.objects.get(name = immunity['name'])
                 current_type.immune_to.add(type_to_add)
 
+class ReviewManager(models.Manager):
+    def new_review(self, postData, user, pkmn):
+        if len(postData['review']) < 1 or len(postData['review']) > 255:
+            return None
+        else:
+            return Review.objects.create(
+                content = postData['review'],
+                rating = postData['rating'],
+                added_by = user,
+                pkmn = pkmn
+            )
+
 class Pokemon(models.Model):
     name = models.CharField(max_length=200, null = True)
     gen = models.IntegerField(null = True)
@@ -169,3 +181,4 @@ class Review(models.Model):
     likes = models.ManyToManyField(User, related_name = "liked_reviews")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    objects = ReviewManager()

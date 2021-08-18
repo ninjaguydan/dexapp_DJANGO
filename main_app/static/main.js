@@ -30,7 +30,7 @@ $('form').on('keyup', '#confirm-pw-input', function(){
     }
 })
 //textarea counter
-$('.card').on('keyup', 'form', function(){
+$('.column').on('keyup', 'form', function(){
     let limit = 255;
     let input = $(this).find('textarea').val();
     limit -= input.length;
@@ -42,9 +42,9 @@ $('.card').on('keyup', 'form', function(){
     }
 })
 // disable buttons if form inputs contain only white space 
-$('.card').on('keyup', 'form', function(){
+$('.column').on('keyup', 'form', function(){
     let str = $(this).find('textarea').val().replace(/\s/g, '').length;
-    if (!str) {
+    if (!str || str > 255) {
         $(this).find('button').prop("disabled", true)
     } else {
         $(this).find('button').prop("disabled", false)
@@ -150,8 +150,10 @@ $('.column').on('submit', '#post-form', function(e){
         method: "POST",
         data: $(this).serialize(),
         success: function(response){
-            $('.post-list').html(response)
-            $('#post-form textarea').val(null)
+            $('#post-form small.counter').html('255/255');
+            $('#post-form button').prop("disabled", true);
+            $('.post-list').html(response);
+            $('#post-form textarea').val(null);
         }
     })
 })
@@ -246,6 +248,8 @@ $('.column.posts').on('submit', '#review-form', function(e){
         success: function(response){
             $('.review-list').html(response)
             $('#review-form textarea').val(null)
+            $('#review-form small.counter').html('255/255');
+            $('#review-form button').prop("disabled", true);
             allRatings()
         }
     })
@@ -341,6 +345,8 @@ $('.column').on('submit', '.team_comment_form', function(e){
         success: function(response){
             $('.comment_'+ team_id).html(response)
             $('.team_comment_form textarea').val(null)
+            $('.team_comment_form small.counter').html('255/255');
+            $('.team_comment_form button').prop("disabled", true);
         }
     })
 })

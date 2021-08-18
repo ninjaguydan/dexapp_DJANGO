@@ -136,6 +136,7 @@
         <form action="/{{team.id}}/comment_team" method="POST" class="team_comment_form" team_id="{{team.id}}">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="comment" rows="1" placeholder="Thoughts on {{team.name}}?"></textarea>
+            <small class="counter">255/255</small>
             <div class="btn-container">
                 <button class="btn btn-primary btn-post" disabled>Post</button>
             </div>

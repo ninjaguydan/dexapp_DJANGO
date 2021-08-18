@@ -24,12 +24,8 @@ def update_profile(request, user_id):
             messages.error(request, value)
         return redirect(f'/profile/{user_id}')
     user = User.objects.get(id = user_id)
-    user.first_name = request.POST['fname']
-    user.last_name = request.POST['lname']
+    User.objects.update_user(user, request.POST)
     Profile.objects.update(request.POST, user_id)
-    user.default_img = request.POST['img']
-    user.bg_color = request.POST['color']
-    user.save()
     return redirect(f'/profile/{user_id}')
 
 def delete_profile(request):
@@ -57,14 +53,10 @@ def create_post(request, user_id):
     if request.method == "GET":
         return redirect('/')
     user = User.objects.get(id= user_id)
-    post = Post.objects.create(
-        content = request.POST['post'],
-        added_by = user,
-    )
+    post = Post.objects.new_post(user, request.POST)
     print(f"We got here from {request.META.get('HTTP_REFERER')}!!")
     context = {"user" : user, "post" : post, "profile" : user}
     return render(request, "post.html", context)
-    # return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_post(request, post_id):
     #check if anyone is logged in
@@ -89,21 +81,15 @@ def like_post(request):
         post.likes.add(user)
     context = {"user" : user, "post" : post}
     return render(request, "post-like.html", context)
-    # return redirect(request.META.get('HTTP_REFERER'))
 
 def comment_post(request, post_id):
-    post = Post.objects.get(id = post_id)
     if request.method == "GET":
-        return redirect(f'/profile/{post.added_by.id}')
+        return redirect(request.META.get('HTTP_REFERER'))
+    post = Post.objects.get(id = post_id)
     user = User.objects.get(id = request.session['userid'])
-    comment = Comment.objects.create(
-        content = request.POST['comment'],
-        added_by = user,
-        post = post
-    )
+    comment = Comment.objects.new_post_comment(request.POST, user, post)
     context = {"post" : post, "comment" : comment, "user" : user}
     return render(request, "post-comment.html", context)
-    # return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_post_comment(request, comment_id):
     #check if anyone is logged in
@@ -129,4 +115,3 @@ def like_post_comment(request):
         comment.likes.add(user)
     context = {"comment" : comment, "user" : user}
     return render(request, "post-comment-like.html", context)
-    # return redirect(request.META.get('HTTP_REFERER'))

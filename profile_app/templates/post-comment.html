@@ -38,6 +38,7 @@
 <form action="/profile/{{post.id}}/comment_post" method="POST" class="post_comment_form" post_id ="{{post.id}}">
     {% csrf_token %}
     <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
+    <small class="counter comment-counter">255/255</small>
     <div class="btn-container">
         <button class="btn btn-primary btn-post" disabled>Reply</button>
     </div>

@@ -78,7 +78,6 @@ def display_team(request, team_id):
         user = User.objects.get(id = request.session['userid'])
     else:
         user = None
-    
     context = {
         "r_table" : Team.objects.get_resistance(team_id),
         "s_table" : Team.objects.get_stats(team_id),
@@ -88,56 +87,43 @@ def display_team(request, team_id):
     return render(request, "team.html", context)
 
 def comment_team(request, team_id):
+    if request.method == "GET":
+        return redirect(request.META.get('HTTP_REFERER'))
     team = Team.objects.get(id = team_id)
     user = User.objects.get(id = request.session['userid'])
-    comment = Comment.objects.create(
-        content = request.POST['comment'],
-        added_by = user,
-        team = team 
-    )
+    comment = Comment.objects.new_team_comment(request.POST, user, team)
     context = {"user" : user, "team" : team, "comment" : comment}
     return render(request, "team-comment.html", context)
-    # return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_team_comment(request, comment_id):
-    #Check if user is logged in
     if "userid" in request.session:
         comment_to_delete = Comment.objects.get(id = comment_id)
-        #Delete comment if logged in user is the comment's author
         if request.session['userid'] == comment_to_delete.added_by.id:
             comment_to_delete.delete()
             return redirect(request.META.get('HTTP_REFERER'))
     return redirect('/')
 
 def like_team_comment(request):
-    #if GET request, redirect
     if request.method == "GET":
         return redirect('/')
     user = User.objects.get(id = request.session['userid'])
     comment = Comment.objects.get(id = request.POST['like'])
-    #if user in review comment's likes, remove them
     if user in comment.likes.all():
         comment.likes.remove(user)
     else:
-    #otherwise, like post comment
         comment.likes.add(user)
     context = {"user" : user, "comment" : comment}
     return render(request,"team-comment-like.html",context)
-    # return redirect(request.META.get('HTTP_REFERER'))
 
 def favorite(request):
-    #if GET request, redirect
     if request.method == "GET":
         return redirect('/')
     user = User.objects.get(id = request.session['userid'])
     pokemon = Pokemon.objects.get(id = request.POST['pokemon'])
-    #if pokemon in user's favorites, remove them
     if pokemon in user.favorites.all():
         user.favorites.remove(pokemon)
-    #otherwise, add them
     else:
         user.favorites.add(pokemon)
-    #redirect to the page we came from
     return redirect(request.META.get('HTTP_REFERER'))
 
 def create_review(request, pkmn_id):
@@ -145,15 +131,9 @@ def create_review(request, pkmn_id):
         return redirect(f'pkmn/{pkmn_id}')
     pkmn = Pokemon.objects.get(id = pkmn_id)
     user = User.objects.get(id=request.session['userid'])
-    review = Review.objects.create(
-        content = request.POST['review'],
-        rating = request.POST['rating'],
-        added_by = user,
-        pkmn = pkmn
-    )
+    review = Review.objects.new_review(request.POST, user, pkmn)
     context = {"pokemon": pkmn, "user" : user, "review" : review}
     return render(request, "pokemon-review.html", context)
-    # return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_review(request, review_id):
     #Check if user is logged in
@@ -181,19 +161,15 @@ def like_review(request):
         review.likes.add(user)
     context = {"user" : user, "review" : review}
     return render(request, "review-likes-partial.html", context)
-    # return redirect(request.META.get('HTTP_REFERER'))
 
 def comment_review(request, review_id):
+    if request.method == "GET":
+        return redirect('/')
     review = Review.objects.get(id = review_id)
     user = User.objects.get(id = request.session['userid'])
-    comment = Comment.objects.create(
-        content = request.POST['comment'],
-        added_by = user,
-        review = review
-    )
+    comment = Comment.objects.new_review_comment(request.POST, user, review)
     context = {"review" : review, "user" : user, "comment" : comment}
     return render(request, "review-comment-partial.html", context)
-    # return redirect(request.META.get('HTTP_REFERER'))
 
 def delete_review_comment(request, comment_id):
     #Check if user is logged in
@@ -286,7 +262,6 @@ def add_to_team(request, pkmn_id):
         "teams_added" : teams_added 
     }
     return render(request, "pokemon-success.html", context)
-    # return redirect(request.META.get('HTTP_REFERER'))
 
 def like_team(request):
     #if GET request, redirect

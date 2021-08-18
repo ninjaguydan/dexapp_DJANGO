@@ -33,6 +33,14 @@ class UserManager(models.Manager):
             errors['last_name'] = "Last name must be at least 2 characters"
         return errors
 
+    def update_user(self, user, postData):
+        user = user
+        user.first_name = postData['fname']
+        user.last_name = postData['lname']
+        user.default_img = postData['img']
+        user.bg_color = postData['color']
+        user.save()
+
     def authenticate(self, email, password):
         users = self.filter(email = email)
         if not users:

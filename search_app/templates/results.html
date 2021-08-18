@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}| Search{% endblock %}
+
+
+<!------------------------ Body ------------------------>
+{% block content %}
+<div class="column">
+    {% if query %}
+        <h1>You searched for {{query}}</h1>
+        <small>{{results|length}} result{{results|length|pluralize}} found</small>
+        {% for result in results %}
+            {% if result.name %}
+                <h2>{{result.name|title}}</h2>
+            {% endif %}
+            {% if result.first_name %}
+                <h2>{{result.username}}</h2>
+            {% endif %}
+        {% empty %}
+        <h3>No results found</h3>
+        {% endfor %}
+
+
+        
+        
+        
+    {% endif %}
+</div>
+{% endblock %}

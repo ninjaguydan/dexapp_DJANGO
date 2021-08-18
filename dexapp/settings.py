@@ -39,15 +39,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'login_app',
-    'main_app',
-    'profile_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'login_app',
+    'main_app',
+    'profile_app',
+    'search_app',
 ]
 
 MIDDLEWARE = [

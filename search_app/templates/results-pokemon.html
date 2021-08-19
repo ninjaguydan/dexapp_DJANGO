@@ -1,0 +1,8 @@
+{% for p in pokemon %}
+<a href="/{{p.id}}">
+    <div class="card">
+        <img src="{{p.art_url}}" alt="{{p.name}}'s art">
+        <h6>{{p.name|title}}</h6>
+    </div>
+</a>
+{% endfor %}

@@ -1,0 +1,21 @@
+{% load static %}
+{% for result in results %}
+{% if result.name %}
+<a href="/{{result.id}}">
+    <div class="card">
+        <img src="{{result.art_url}}" alt="{{result.name}}'s art">
+        <h6>{{result.name|title}}</h6>
+    </div>
+</a>
+{% endif %}
+{% if result.first_name %}
+<a href="/profile/{{result.id}}">
+    <div class="card">
+        <img src="{% static '' %}img/default-profiles/{{result.default_img}}.png" alt="profile pic" class="{{result.bg_color}} user-img">
+        <h6>{{result.username}}</h6>
+    </div>
+</a>
+{% endif %}
+{% empty %}
+<h5>No results found</h5>
+{% endfor %}

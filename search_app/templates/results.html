@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'results.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'search.js' %}" defer></script>
+{% endblock %}
 
 {% block title %}| Search{% endblock %}
 
@@ -9,18 +16,38 @@
 {% block content %}
 <div class="column">
     {% if query %}
-        <h1>You searched for {{query}}</h1>
+        <h2>You searched for '{{query}}'</h2>
+        <query query ="{{query}}" hidden></query>
         <small>{{results|length}} result{{results|length|pluralize}} found</small>
-        {% for result in results %}
-            {% if result.name %}
-                <h2>{{result.name|title}}</h2>
-            {% endif %}
-            {% if result.first_name %}
-                <h2>{{result.username}}</h2>
-            {% endif %}
-        {% empty %}
-        <h3>No results found</h3>
-        {% endfor %}
+ 
+        <ul class="filters">
+            <li class="current" name="all">All</li>
+            <li name="pokemon">Pokemon</li>
+            <li name="people">People</li>
+        </ul>
+    
+        <div class="results">
+            {% for result in results %}
+                {% if result.name %}
+                <a href="/{{result.id}}">
+                    <div class="card">
+                        <img src="{{result.art_url}}" alt="{{result.name}}'s art">
+                        <h6>{{result.name|title}}</h6>
+                    </div>
+                </a>
+                {% endif %}
+                {% if result.first_name %}
+                <a href="/profile/{{result.id}}">
+                    <div class="card">
+                        <img src="{% static '' %}img/default-profiles/{{result.default_img}}.png" alt="profile pic" class="{{result.bg_color}} user-img">
+                        <h6>{{result.username}}</h6>
+                    </div>
+                </a>
+                {% endif %}
+            {% empty %}
+            <h5>No results found</h5>
+            {% endfor %}
+        </div>
 
 
         

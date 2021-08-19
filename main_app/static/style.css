@@ -160,6 +160,7 @@ form.search-form {
         color: var(--fifth);
         position: relative;
         cursor: pointer;
+        padding-left: 10px;
     }
         .search-form button i {
             position: absolute;

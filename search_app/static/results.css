@@ -9,6 +9,11 @@ small {
     margin: 0 auto;
     display: table;
 }
+.card small {
+    color: gray;
+    margin-top: 5px;
+    font-size: 0.8em;
+}
 .filters {
     display: flex;
     justify-content: space-around;

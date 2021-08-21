@@ -1,16 +1,18 @@
 //filter search results by all, people, or pokemon
 $('.column').on('click', '.filters li', (function(){
-    let query = $('query').attr('query');
-    let filter = $(this).attr('name')
-    $.ajax({
-        url: "/search/" + query + "/" + filter,
-        method: "GET",
-        data: $(this).serialize(),
-        success: function(response) {
-            console.log(response)
-            $('.results').html(response)
-        }
-    })
+    // let query = $('query').attr('query');
+    let filter = $(this).attr('name');
+    if (filter == "people") {
+        $('.pokemon').hide()
+        $('.people').show()
+    } 
+    else if ( filter == "pokemon" ) {
+        $('.pokemon').show()
+        $('.people').hide()
+    } else {
+        $('.people').show()
+        $('.pokemon').show()
+    }
 })
 )
 //switch active filter style

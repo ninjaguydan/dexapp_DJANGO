@@ -1,4 +1,4 @@
-{% for p in pokemon %}
+{% for p in page.object_list %}
 <a href="/{{p.id}}">
     <div class="card">
         <img src="{{p.art_url}}" alt="{{p.name}}'s art">
@@ -6,3 +6,12 @@
     </div>
 </a>
 {% endfor %}
+
+<ul class="navi">
+    {% if page.has_previous %}
+    <li><a href="/search/?q={{ query }}&page={{ page.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    {% if page.has_next %}
+    <li><a href="/search/?q={{ query }}&page={{ page.next_page_number }}">Next</a></li>
+    {% endif %}
+</ul>

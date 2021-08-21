@@ -13,9 +13,12 @@ small {
     display: flex;
     justify-content: space-around;
     width: 100%;
+    max-width: 503px;
     background-color: var(--fourth);
     border-radius: .25rem;
+    margin: 0 auto;
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
     .filters li {
         width: 100%;
@@ -30,31 +33,53 @@ small {
     .filters li.current {
         color: var(--fifth);
     }
+.navi {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 503px;
+    background-color: var(--fourth);
+    border-radius: .25rem;
+    margin: 0 auto;
+    margin-top: 1rem;
+}
+    .navi li {
+        width: 100%;
+        cursor: pointer;
+        padding: 10px;
+        text-align: center;
+    }
+        .navi li:hover {
+            background-color: #303030;
+        }
 .results {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 10px;
     row-gap: 10px;
 }
-.results .card {
-    display: inline-block;
-    text-align: center;
-    transition: transform .2s;
-    height: 100%;
-}
-    .results .card:hover {
-        transform: scale(1.0625);
+    .results .card {
+        display: inline-block;
+        text-align: center;
+        transition: transform .2s;
+        height: 100%;
     }
-.results .card img {
-    width: 60%;
-    margin-bottom: 20px;
-}
-.results .card .user-img {
-    height: unset;
-}
-.results .card h6 {
-    margin: 0;
-}
+        .results .card:hover {
+            transform: scale(1.0625);
+        }
+    .results .card img {
+        width: 60%;
+        margin-bottom: 20px;
+    }
+    .results .card .user-img {
+        height: unset;
+    }
+    .results .card h6 {
+        margin: 0;
+    }
+    .results .filters {
+        position: relative;
+    }
 .wrapper {
     justify-content: space-around;
 }
@@ -63,7 +88,16 @@ small {
 @media only screen and (min-width: 550px) {
     .results {
         grid-template-columns: 1fr 1fr 1fr;
-        column-gap: 10px;
-        row-gap: 10px;
+    }
+}
+
+/*-------------------- At 1080px --------------------*/
+@media only screen and (min-width: 1080px) {
+    .column {
+        width: 80%;
+        max-width: 840px;
+    }
+    .results {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }

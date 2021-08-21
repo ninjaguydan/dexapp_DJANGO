@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from login_app.models import User
-from main_app.models import Review, Pokemon
+from main_app.models import Pokemon
 from django.db.models import Q
-from profile_app.models import Post, Comment, Team
+from django.core.paginator import Paginator
+
 
 # Create your views here.
 def search(request):
@@ -10,13 +11,16 @@ def search(request):
         user = User.objects.get(id = request.session['userid'])
     else:
         user = None
-    if request.method == "GET":
-        return redirect(request.META.get('HTTP_REFERER'))
-    query = request.POST['q']
+    query = request.GET['q']
     pokemon = Pokemon.objects.filter(name__contains = query)
     people = User.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query) | Q(username__contains = query))
     results = [*pokemon, *people]
-    context = {"query" : query, "user" : user, "results" : results}
+
+    results_paginator = Paginator(results, 24)
+    page_number = request.GET.get('page')
+    page = results_paginator.get_page(page_number)
+    
+    context = {"query" : query, "user" : user, "page" : page, "count" : results_paginator.count}
     return render(request, "results.html", context)
 
 def search_people(request, query):
@@ -34,7 +38,10 @@ def search_pokemon(request, query):
     else:
         user = None
     pokemon = Pokemon.objects.filter(name__contains = query)
-    context = {"user" : user, "pokemon" : pokemon}
+    pkmn_paginator = Paginator(pokemon, 24)
+    page_number = request.GET.get('page')
+    page = pkmn_paginator.get_page(page_number)
+    context = {"query" : query, "user" : user, "page" : page}
     return render(request, "results-pokemon.html", context)
 
 # find a way to refactor all this duplicate code below
@@ -46,5 +53,10 @@ def search_all(request, query):
     pokemon = Pokemon.objects.filter(name__contains = query)
     people = User.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query) | Q(username__contains = query))
     results = [*pokemon, *people]
-    context = {"query" : query, "user" : user, "results" : results}
+
+    results_paginator = Paginator(results, 24)
+    page_number = request.GET.get('page')
+    page = results_paginator.get_page(page_number)
+
+    context = {"query" : query, "user" : user, "page" : page}
     return render(request, "results-all.html", context)

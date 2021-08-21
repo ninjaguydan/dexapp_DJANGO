@@ -639,6 +639,9 @@ margin-bottom: 3px;
         top: 71px;
         width: 100%;
     }
+    .review-counter {
+        right: 190px;
+    }
 }
 /*-------------------- At 800px --------------------*/
 @media only screen and (min-width: 800px) {

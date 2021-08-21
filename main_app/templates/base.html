@@ -105,8 +105,7 @@
     {% endif %}
 
     <!-- Search bar -->
-    <form action="/search/" method="POST" role="search" class="search-form hidden">
-        {% csrf_token %}
+    <form action="/search/" method="GET" role="search" class="search-form hidden">
         <input type="text" name="q" class="form-control" placeholder="Search DexApp...">
         <button id="search"><i class="material-icons">search</i></button>
     </form>

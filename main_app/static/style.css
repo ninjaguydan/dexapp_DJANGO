@@ -135,14 +135,21 @@ form.search-form {
     display: flex;
     z-index: 1;
     position: fixed;
-    bottom: 80px;
+    bottom: 77px;
     flex-direction: row;
     width: 100%;
     padding: 10px;
     background-color: var(--fourth);
 }
-    .search-form input {
+    .search-form select {
         border-radius: 1rem 0 0 1rem;
+        padding-left: 10px;
+        padding-right: 5px;
+        background-color: #282828;
+        color: var(--fifth);
+        border: none;
+    }
+    .search-form input {
         background-color: #2c2c2c;
         color: var(--fifth);
         border: none;
@@ -161,6 +168,7 @@ form.search-form {
         position: relative;
         cursor: pointer;
         padding-left: 10px;
+        padding-right: 10px;
     }
         .search-form button i {
             position: absolute;

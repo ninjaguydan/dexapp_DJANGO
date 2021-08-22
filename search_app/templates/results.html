@@ -18,13 +18,7 @@
     {% if query %}
         <h2>You searched for '{{query}}'</h2>
         <query query ="{{query}}" hidden></query>
-        <small>{{count}} result{{count|pluralize}} found</small>
- 
-        <ul class="filters">
-            <li class="current" name="all">All</li>
-            <li name="pokemon">Pokemon</li>
-            <li name="people">People</li>
-        </ul>
+        <small>{{count}} result{{count|pluralize}} found in {{result|title}}</small>
     
         <div class="results infinite-container">
             {% for result in page.object_list %}
@@ -51,7 +45,7 @@
         </div>
 
         {% if page.has_next %}
-            <a class="infinite-more-link" href="?q={{ query }}&page={{ page.next_page_number }}"></a>
+            <a class="infinite-more-link" href="?filter={{ result }}&q={{ query }}&page={{ page.next_page_number }}"></a>
         {% endif %}
 
         <div class="loading" style="display: none;">

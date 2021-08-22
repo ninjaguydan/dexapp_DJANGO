@@ -52,8 +52,8 @@
         </div>
         <ul>
             <li><a href="/profile/{{user.id}}"><i class="material-icons">account_circle</i>Profile</a></li>
-            <li><a href=""><img src="{% static 'img/dex-icon.svg' %}" alt=""> Pokedex</a></li>
-            <li><a href=""><i class="material-icons">home</i>Home</a></li>
+            <li><a href="/search/dex"><img src="{% static 'img/dex-icon.svg' %}" alt="dexapp icon"> Pokedex</a></li>
+            <li><a href="/"><i class="material-icons">home</i>Home</a></li>
             <hr>
             <li><a href="/login/logout">Logout</a></li>
         </ul>
@@ -86,7 +86,7 @@
                 <forjs logged-in="True" hidden>
             {% else %}
                 <li><a href="/">Home</a></li>
-                <li><a href="">Pokedex</a></li> 
+                <li><a href="/search/dex">Pokedex</a></li> 
                 <li class="bold"><a href="/login/register">Sign Up</a></li>
                 <li class="bold"><a href="/login/">Login</a></li>
                 <!-- tell JavaScript whether or not someone is logged in --> 
@@ -99,8 +99,8 @@
     <!-- Dropdown Menu -->
     <ul class="dropdown-menu dropdown-menu-dark">
         <li><a class="dropdown-item" href="/profile/{{user.id}}"><i class="material-icons">account_circle</i>Profile</a></li>
-        <li><a class="dropdown-item" href=""><img src="{% static 'img/dex-icon.svg' %}" alt=""> Pokedex</a></li>
-        <li><a class="dropdown-item" href=""><i class="material-icons">home</i>Home</a></li>
+        <li><a class="dropdown-item" href="/search/dex"><img src="{% static 'img/dex-icon.svg' %}" alt=""> Pokedex</a></li>
+        <li><a class="dropdown-item" href="/"><i class="material-icons">home</i>Home</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="/login/logout">Logout</a></li>
     </ul>
@@ -108,6 +108,10 @@
 
     <!-- Search bar -->
     <form action="/search/" method="GET" role="search" class="search-form hidden">
+        <select name="filter">
+            <option value="pokemon">Pokemon</option>
+            <option value="people">People</option>
+        </select>
         <input type="text" name="q" class="form-control" placeholder="Search DexApp...">
         <button id="search"><i class="material-icons">search</i></button>
     </form>
@@ -130,8 +134,8 @@
             <a href="/profile/{{user.id}}"><img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="user-img {{user.bg_color}}"></a>
         </li>
         {% else %}
-        <li><a href=""><i class="material-icons">home</i></a></li>
-        <li><a href=""><img src="{% static 'img/dex-icon.svg' %}" alt="Pokedex"></a></li>
+        <li><a href="/"><i class="material-icons">home</i></a></li>
+        <li><a href="/search/dex"><img src="{% static 'img/dex-icon.svg' %}" alt="Pokedex"></a></li>
         <li><a href="/login/"><i class="material-icons">account_circle</i></a></li>
         {% endif %}
     </ul>

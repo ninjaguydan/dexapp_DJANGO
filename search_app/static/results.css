@@ -4,6 +4,7 @@
 }
 h2 {
     text-align: center;
+    margin-bottom: 20px;
 }
 small {
     margin: 0 auto;
@@ -14,54 +15,25 @@ small {
     margin-top: 5px;
     font-size: 0.8em;
 }
-.filters {
+.filter-form {
     display: flex;
-    justify-content: space-around;
-    width: 100%;
-    max-width: 503px;
-    background-color: var(--fourth);
-    border-radius: .25rem;
-    margin: 0 auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    align-items: center;
+    justify-content: center;
 }
-    .filters li {
-        width: 100%;
-        text-align: center;
+    .filter-form label {
         color: gray;
-        cursor: pointer;
-        padding: 10px;
     }
-        .filters li:hover {
-            background-color: #303030;
-        }
-    .filters li.current {
-        color: var(--fifth);
+    .filter-form .btn {
+        width: unset;
+        margin: 0;
+        margin-left: 15px;
     }
-.navi {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    max-width: 503px;
-    background-color: var(--fourth);
-    border-radius: .25rem;
-    margin: 0 auto;
-    margin-top: 1rem;
-}
-    .navi li {
-        width: 100%;
-        cursor: pointer;
-        padding: 10px;
-        text-align: center;
-    }
-        .navi li:hover {
-            background-color: #303030;
-        }
 .results {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 10px;
     row-gap: 10px;
+    margin-top: 30px;
 }
     .results .card {
         display: inline-block;
@@ -76,6 +48,10 @@ small {
         width: 60%;
         margin-bottom: 20px;
     }
+    .results.dex .card img {
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
     .results .card .user-img {
         height: unset;
     }
@@ -84,7 +60,7 @@ small {
     }
     .results .filters {
         position: relative;
-    }
+}
 .wrapper {
     justify-content: space-around;
 }
@@ -93,6 +69,10 @@ small {
 @media only screen and (min-width: 550px) {
     .results {
         grid-template-columns: 1fr 1fr 1fr;
+    }
+    .filter-form label {
+        margin-right: 5px;
+        margin-left: 15px;   
     }
 }
 

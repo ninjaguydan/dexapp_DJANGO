@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'pkmn.css' %}">
+    <link rel="stylesheet" href="{% static 'results.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'search.js' %}" defer></script>
+{% endblock %}
+
+{% block title %}| Dex{% endblock %}
+
+
+<!------------------------ Body ------------------------>
+{% block content %}
+<div class="column">
+    <h2>Pokedex</h2>
+
+    <form action="/search/dex" class="filter-form">
+        <label>Gen</label>
+        <select name="gen" class="form-control-custom">
+            <option value="all">All</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+        </select>
+
+        <label>Type</label>
+        <select name="type" class="form-control-custom">
+            <option value="all">All</option>
+            {% for type in types %}
+            <option value="{{type.id}}">{{type.name|title}}</option>
+            {% endfor %}
+        </select>
+
+        <button class="btn btn-secondary">Filter</button>
+    </form>
+
+    <div class="results dex infinite-container">
+        {% for pkmn in pokemon.object_list %}
+        <a href="/{{pkmn.id}}" class="infinite-item">
+            <div class="card">
+                {% if pkmn.id < 10 %}
+                    <small>#00{{pkmn.id}}</small>
+                    {% elif pkmn.id < 100 %}
+                    <small>#0{{pkmn.id}}</small>
+                    {% else %}
+                    <small>#{{pkmn.id}}</small>
+                {% endif %}
+                <img src="{{pkmn.art_url}}" alt="{{pkmn.name}}'s art">
+                <h6>{{pkmn.name|title}}</h6>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    {% if pokemon.has_next %}
+        {% if gen %}
+            <a class="infinite-more-link" href="?gen={{ gen }}&type={{ type }}&page={{ pokemon.next_page_number }}"></a>
+        {% else %}
+            <a class="infinite-more-link" href="?page={{ pokemon.next_page_number }}"></a>
+        {% endif %}
+    {% endif %}
+
+    <div class="loading" style="display: none;">
+        Loading...
+    </div>
+</div>
+
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.results')[0],
+        onBeforePageLoad: function(){
+            $('.loading').show();
+        },
+        onAfterPageLoad: function($items) {
+            $('.loading').hide();
+        }
+    });
+</script>
+{% endblock %}

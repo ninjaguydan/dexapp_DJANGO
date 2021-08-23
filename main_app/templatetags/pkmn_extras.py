@@ -24,3 +24,15 @@ register.filter('check_zero', check_zero)
 def num_to_type(value):
     return Type.objects.get(id = value).name
 register.filter('num_to_type', num_to_type)
+
+def team_filler(team):
+    if len(team) < 6:
+        new = []
+        for obj in team:
+            new.append(obj)
+        for item in range(6 - len(team)):
+            new.append(0)
+        return new
+    else:
+        return team
+register.filter('team_filler', team_filler)

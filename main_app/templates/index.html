@@ -77,7 +77,7 @@
                     <p>{{post.comments.all|length}}</p>
                 </div>
                 <!-- Display following Div when chat bubble is clicked -->
-                <div class="comment comment_{{post.id}}">
+                <div class="comment review_comment_{{post.id}}">
                     <!-- All reply comments -->
                     {% for comment in post.comments.all %}
                     <div class="card card-reply c{{comment.id}}">
@@ -114,7 +114,7 @@
     
                     <!-- Display Reply Form if a user is logged in -->
                     {% if request.session.userid %}
-                    <form action="/{{review.id}}/comment_review" method="POST" class="comment_form" review_id="{{review.id}}">
+                    <form action="/{{post.id}}/comment_review" method="POST" class="comment_form" review_id="{{post.id}}">
                         {% csrf_token %}
                         <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
                         <small class="counter comment-counter">255/255</small>
@@ -130,7 +130,56 @@
             {% elif post.user %}
             <!---------------------- this is a team ---------------------->
             <div class="card">
-                <p>{{post.user}} created the team, {{post.name}}!</p>
+                <p class="team-title">
+                    {% if post.user.id == request.session.userid %}
+                    You
+                    {% else %}
+                    <a href="/profile/{{post.user.id}}" class="bold">{{post.user.username}}</a>
+                    {% endif %} 
+                    created the team, <a href="/team/{{post.id}}" class="bold">{{post.name}}</a>
+                </p>
+                <div class="team-grid-index">
+                    {% for pokemon in post.pkmn.all|team_filler %}
+                    {% if pokemon == 0 %}
+                    <a href="/search/dex">
+                        <img src="{% static '' %}img/default-profiles/{{pokemon}}.png" alt="placeholder icon">
+                    </a>
+                    {% else %}
+                    <a href="/{{pokemon.id}}">
+                        <img src="{{pokemon.sprite_url}}" alt="{{pokemon.name}}'s sprite">
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- Side icons -->
+                <div class="card-item-icons t{{post.id}}">
+                    {% if "userid" not in request.session %}
+                    <!-- If no one is logged in, non-clickable heart is displayed -->
+                    <i class="material-icons">favorite_border</i>
+                    {% elif user not in post.likes.all %}
+                    <!-- "Like Post" form -->
+                    <form action="/like_team" method="POST" class="like-team-form" team_id="{{post.id}}">
+                        {% csrf_token %}
+                        <input type="hidden" name="like" value="{{post.id}}">
+                        <button><i class="material-icons">favorite_border</i></button>
+                    </form>
+                    {% else %}
+                    <!-- "Unlike Post" form -->
+                    <form action="/like_team" method="POST" class="like-team-form" team_id="{{post.id}}">
+                        {% csrf_token %}
+                        <input type="hidden" name="like" value="{{post.id}}">
+                        <button><i class="material-icons active">favorite</i></button>
+                    </form>
+                    {% endif %}
+                    <p>{{post.likes.all|length}}</p>
+                    <!-- reply icon -->
+                    <i class="material-icons">chat_bubble_outline</i>
+                    <p>{{post.comments.all|length}}</p>
+                    <!-- Delete icon -->
+                    {% if request.session.userid == post.user.id %}
+                    <a href="/{{post.id}}/delete_team"><i class="material-icons delete">delete</i></a>
+                    {% endif %}
+                </div>
             </div>
             {% else %}
             <!---------------------- this is a post ---------------------->

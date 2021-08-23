@@ -109,7 +109,12 @@
 <!-- Right column content -->
 <div class="column posts">
     <div class="card team-grid">
-        {% for pokemon in team.pkmn.all %}
+        {% for pokemon in team.pkmn.all|team_filler %}
+        {% if pokemon == 0 %}
+        <a href="/search/dex">
+            <img src="{% static '' %}img/default-profiles/{{pokemon}}.png" alt="placeholder icon">
+        </a>
+        {% else %}
         <a href="/{{pokemon.id}}">
             <img src="{{pokemon.art_url}}" alt="">
             <p>{{pokemon.name|title}}</p>
@@ -119,6 +124,7 @@
                 {% endfor %}
             </div>
         </a>
+        {% endif %}
         {% endfor %}
     </div><br>
 

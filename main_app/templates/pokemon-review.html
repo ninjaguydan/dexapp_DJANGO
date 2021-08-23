@@ -34,7 +34,7 @@
         <p>{{review.comments.all|length}}</p>
     </div>
     <!-- Display following Div when chat bubble is clicked -->
-    <div class="comment comment_{{review.id}}">
+    <div class="comment review_comment_{{review.id}}">
         <!-- All reply comments -->
         {% for comment in review.comments.all %}
         <div class="card card-reply c{{comment.id}}">

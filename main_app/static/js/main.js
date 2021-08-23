@@ -73,7 +73,7 @@ $('.search-icon').click(function(){
 // display review reply form
 $(document).on('click', '.reply', function(){
     let review_id = $(this).attr('review_id');
-    $(".comment_" + review_id).toggle();
+    $(".review_comment_" + review_id).toggle();
 })
 // display post reply form
 $(document).on('click', '.reply', function(){
@@ -261,7 +261,7 @@ $('.column').on('submit', '.comment_form', function(e){
         method: "POST",
         data: $(this).serialize(),
         success: function(response){
-            $('.comment.comment_'+ review_id).html(response)
+            $('.comment.review_comment_'+ review_id).html(response)
             $('.comment-form textarea').val(null)
         }
     })

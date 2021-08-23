@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load pkmn_extras %}
 
 {% block js %}
     <script src="{% static 'pkmn.js' %}" defer></script>
@@ -255,7 +256,7 @@
                 <p>{{review.comments.all|length}}</p>
             </div>
             <!-- Display following Div when chat bubble is clicked -->
-            <div class="comment comment_{{review.id}}">
+            <div class="comment review_comment_{{review.id}}">
                 <!-- All reply comments -->
                 {% for comment in review.comments.all %}
                 <div class="card card-reply c{{comment.id}}">
@@ -332,11 +333,17 @@
         <div class="card">
             <h5 class="team-title"><a href="/team/{{team.id}}">{{team.name}}</a></h5>
             <div class="team-grid">
-                {% for pokemon in team.pkmn.all %}
+                {% for pokemon in team.pkmn.all|team_filler %}
+                {% if pokemon == 0 %}
+                <a href="/search/dex">
+                    <img src="{% static '' %}img/default-profiles/{{pokemon}}.png" alt="placeholder icon">
+                </a>
+                {% else %}
                 <a href="/{{pokemon.id}}">
                     <img src="{{pokemon.sprite_url}}" alt="">
                     <p>{{pokemon.name|title}}</p>
                 </a>
+                {% endif %}
                 {% endfor %}
             </div>
             <!-- Side icons -->

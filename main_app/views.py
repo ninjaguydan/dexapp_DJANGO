@@ -3,6 +3,7 @@ from django.db.models import Count
 from login_app.models import User
 from .models import Review, Pokemon, Type
 from profile_app.models import Post, Comment, Team
+import collections
 import requests
 import json
 
@@ -33,12 +34,16 @@ def index(request):
         user = None
     #testing
     # for u in user.profile.following.all():
-    #     print(u.username)
+    #     print(u.created_at)
     timeline = User.objects.get_timeline(user)
+    # for key,value in timeline.items():
+    ordered_tl = collections.OrderedDict(sorted(timeline.items()))
+    # for key, value in ordered_tl.items():
+    #     print(key)
 
     context = {
         "user" : user,
-        "timeline" : timeline,
+        "timeline" : ordered_tl,
         "all_pokemon" : Pokemon.objects.annotate(count = Count('favorited_by')).order_by('-count')[:10],
     }
     return render(request, "index.html", context)

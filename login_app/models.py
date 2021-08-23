@@ -59,21 +59,31 @@ class UserManager(models.Manager):
         )
 
     def get_timeline(self, user):
-        timeline = []
+        timeline = {}
         for post in user.posts.all():
-            timeline.append(post)
+            timeline[post.created_at] = post
+            # timeline.append(post)
         for review in user.reviews_added.all():
-            timeline.append(review)
+            timeline[review.created_at] = review
+            # timeline.append(review)
+            pass
         for team in user.teams.all():
-            timeline.append(team)
+            # timeline.append(team)
+            pass
         following = user.profile.following.all()
         for person in following:
             for post in person.posts.all():
-                timeline.append(post)
+                timeline[post.created_at] = post
+                # timeline.append(post)
+                pass
             for review in person.reviews_added.all():
-                timeline.append(review)
+                timeline[review.created_at] = review
+                # timeline.append(review)
+                pass
             for team in person.teams.all():
-                timeline.append(team)
+                timeline[team.created_at] = team
+                # timeline.append(team)
+                pass
         return timeline
 
 class User(models.Model):

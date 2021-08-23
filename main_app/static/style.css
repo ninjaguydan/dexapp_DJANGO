@@ -395,7 +395,8 @@ margin-bottom: 3px;
 }
 .card-item-content {
     flex: 1 0 47%;
-    word-break: break-all;
+    /* word-break: break-all; */
+    word-break: keep-all;
 }
     .card-item-content .time {
         position: relative;
@@ -430,6 +431,9 @@ margin-bottom: 3px;
     margin-left: auto;
     color: gray;
 }
+    .card-item-icons p {
+        margin-bottom: 1rem;
+    }
     .card-item-icons p:last-child {
         margin-bottom: 0;
     }
@@ -446,6 +450,9 @@ margin-bottom: 3px;
         .card-item-icons form button:hover, .card-item-icons .reply:hover {
             color: var(--third);
         }
+.card-item.card-item-review p, p {
+    /* margin-bottom: 0; */
+}
 .card form {
     flex: 1;
     /* width: 100%; */
@@ -463,6 +470,10 @@ margin-bottom: 3px;
 }
 .form-post-img {
     display: none;
+}
+.card .pkmn-img {
+    width: 20%;
+    height: 20%;
 }
 
 /*---------- Comment Styles ----------*/

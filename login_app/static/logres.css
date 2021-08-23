@@ -1,6 +1,10 @@
 body {
     position: initial;
 }
+.error, .error2 {
+    color: var(--primary);
+    display: none;
+}
 .logres {
     width: 100%;
     margin: 0 auto;
@@ -12,12 +16,27 @@ body {
     margin-bottom: 15px;
 }
 .tag {
-    display: none;    
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    text-align: center;
 }
-#confirm-pw-input {
+    .tag h3 {
+        font-size: 2em;
+        line-height: 1.25em;
+    }
+    .tag h3 span {
+        color: var(--third);
+        font-weight: 700;
+        font-size: 1em;
+    }
+    .tag img {
+        width: 100%;
+    }
+.form-row div {
     position: relative;
 }
-    #confirm-pw-input i {
+    .form-row div i {
         display: none;
         position: absolute;
         top: 6px;
@@ -26,13 +45,9 @@ body {
     }
 /*-------------------- At 550px --------------------*/
 @media only screen and (min-width: 550px) {
-    .logres {
-        position: absolute;
-        top: 53%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        width: 500px;
+    .logres, .tag {
+        max-width: 500px;
+        margin-top: 30px;
     }
 }
 
@@ -63,7 +78,6 @@ body {
         .tag h3 {
             font-size: 2.25em;
             line-height: 1.25em;
-            font-weight: 300;
         }
         .tag h3 span {
             color: var(--third);

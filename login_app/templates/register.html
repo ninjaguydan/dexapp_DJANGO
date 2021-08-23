@@ -6,12 +6,18 @@
 <link rel="stylesheet" href="{% static 'logres.css' %}">
 {% endblock %}
 
+{% block js %}
+    <script src="{% static 'logres.js' %}" defer></script>
+{% endblock %}
+
 {% block title %}| Sign Up{% endblock %}
 
+<!------------------------ Body ------------------------>
 {% block content %}
 <div class="log-wrapper">
     <div class="logres">
         <h2>Register</h2>
+        <hr>
         <!-- Display error messages if any -->
         {% if messages %}
         <ul>
@@ -22,39 +28,53 @@
         {% endif %}
         <form action="/login/signup" method="POST" id="registration" class="needs-validation">
             {% csrf_token %}
-            <div class="form-group">
+            <div class="form-row">
                 <label>First Name</label>
-                <div>
-                    <input type="text" name="fname" class="form-control" id="mymin">
+                <div class="fname">
+                    <input type="text" name="fname" class="form-control">
+                    <small class="error">First name can't be more than 25 characters.</small>
+                    <small class="error2">First name must be at least 2 characters.</small>
+                    <i class="material-icons success">check_circle</i>
                 </div>
             </div>
             <div class = "form-row">
                 <label>Last Name</label>
-                <div>
+                <div class="lname">
                     <input type="text" name="lname" class="form-control">
+                    <small class="error">Last name can't be more than 25 characters.</small>
+                    <small class="error2">First name must be at least 2 characters.</small>
+                    <i class="material-icons success">check_circle</i>
                 </div>
             </div>
             <div class = "form-row">
                 <label>Username</label>
-                <div>
+                <div class="username">
                     <input type="text" name="username" class="form-control">
+                    <small class="error">Username can't be more than 13 characters.</small>
+                    <small class="error2">First name must be at least 6 characters.</small>
+                    <i class="material-icons success">check_circle</i>
                 </div>
             </div>
             <div class = "form-row">
                 <label>Email</label>
-                <div>
+                <div class="email">
                     <input type="email" name="email" class="form-control">
+                    <small class="error">Must enter a valid email address.</small>
+                    <i class="material-icons success">check_circle</i>
                 </div>
             </div>
             <div class = "form-row">
                 <label>Password</label>
-                <div>
+                <div class="password">
                     <input type="password" name="pw" class="form-control pw">
+                    <small class="error">Password can't be more than 16 characters.</small>
+                    <small class="error2">Password must be at least 8 characters.</small>
+                    <i class="material-icons success">check_circle</i>
                 </div>
             </div>
             <div class = "form-row">
                 <label>Confirm Password</label>
-                <div id="confirm-pw-input">
+                <div class="confirm-pw">
                     <input type="password" name="confirm" class="form-control confirm">
                     <small class="error">Passwords do not match.</small>
                     <i class="material-icons success">check_circle</i>
@@ -66,7 +86,7 @@
             </div>
         </form>
     </div><!-- logres -->
-    
+    <br><br><br>
     <div class="tag">
         <h3>Join a vast community of <span>Pokemon Trainers</span> from all over the world!</h3>
         <img src="{% static 'img/pokeball.png' %}" alt="">

@@ -58,6 +58,24 @@ class UserManager(models.Manager):
             password = pw,
         )
 
+    def get_timeline(self, user):
+        timeline = []
+        for post in user.posts.all():
+            timeline.append(post)
+        for review in user.reviews_added.all():
+            timeline.append(review)
+        for team in user.teams.all():
+            timeline.append(team)
+        following = user.profile.following.all()
+        for person in following:
+            for post in person.posts.all():
+                timeline.append(post)
+            for review in person.reviews_added.all():
+                timeline.append(review)
+            for team in person.teams.all():
+                timeline.append(team)
+        return timeline
+
 class User(models.Model):
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)

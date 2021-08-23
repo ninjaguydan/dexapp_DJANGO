@@ -1,5 +1,5 @@
 from django import template
-from main_app.models import Pokemon
+from main_app.models import Pokemon, Type
 
 register = template.Library()
 
@@ -20,3 +20,7 @@ def check_zero(value):
     else:
         return value
 register.filter('check_zero', check_zero)
+
+def num_to_type(value):
+    return Type.objects.get(id = value).name
+register.filter('num_to_type', num_to_type)

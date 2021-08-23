@@ -24,6 +24,9 @@ a {
     a:hover {
         color: var(--third);
     }
+option {
+    color: var(--fourth);
+}
 p, span {
     font-size: .8em;
 }

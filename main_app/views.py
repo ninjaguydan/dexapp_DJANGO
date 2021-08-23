@@ -27,15 +27,18 @@ def index(request):
             #add gen
             Pokemon.objects.add_gen(i)
         return redirect('/')
-
     if "userid" in request.session:
         user = User.objects.get(id = request.session['userid'])
     else:
         user = None
+    #testing
+    # for u in user.profile.following.all():
+    #     print(u.username)
+    timeline = User.objects.get_timeline(user)
+
     context = {
         "user" : user,
-        "posts" : Post.objects.all().order_by("created_at"),
-        "reviews" : Review.objects.all().order_by("created_at")[:10],
+        "timeline" : timeline,
         "all_pokemon" : Pokemon.objects.annotate(count = Count('favorited_by')).order_by('-count')[:10],
     }
     return render(request, "index.html", context)

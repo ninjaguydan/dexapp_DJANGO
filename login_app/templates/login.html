@@ -12,6 +12,7 @@
 <div class="log-wrapper">
     <div class="logres">
         <h2>Login</h2>
+        <hr>
         <!-- Display Error Messages if any -->
         {% if messages %}
         <ul>
@@ -40,10 +41,10 @@
             </div>
         </form>
     </div><!--logres-->
-    
-    <div class="tag" style="width: 650px;">
+    <br><br><br>
+    <div class="tag">
         <h3 style="text-align: center;">Welcome back!</h3>
-        <img src="{% static 'img/pkmn.png' %}" alt="trainer with 6 pokemon" style="width: 100%;">
+        <img src="{% static 'img/pkmn.png' %}" alt="trainer with 6 pokemon">
     </div><!-- tag -->
 </div><!-- log-wrapper -->
 {% endblock %}

@@ -14,21 +14,6 @@ function openMenu() {
         nav.style.display = "block";
     }
 }
-//check if passwords match when signing up
-$('form').on('keyup', '#confirm-pw-input', function(){
-    let pw = $('input.pw').val()
-    let confirm_pw = $('input.confirm').val()
-    if (confirm_pw.length > 0 ) {
-        $(this).children('.error').show();
-        $(this).children('.success').hide();
-        $('.btn-primary').prop('disabled', true)
-        if ( confirm_pw == pw ) {
-            $(this).children('.error').hide();
-            $(this).children('.success').show();
-            $('.btn-primary').prop('disabled', false)
-        }
-    }
-})
 //textarea counter
 $('.column').on('keyup', 'form', function(){
     let limit = 255;

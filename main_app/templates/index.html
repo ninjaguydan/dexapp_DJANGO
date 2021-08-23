@@ -23,6 +23,7 @@
         <form action="/profile/{{user.id}}/create_post" method="POST" id="post-form" userid="{{user.id}}">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
+            <small class="counter">255/255</small>
             <div class="btn-container">
                 <button class="btn btn-primary btn-post" disabled>Post</button>
             </div>
@@ -31,6 +32,103 @@
     {% endif %}
 
     <!-- Timeline Feed -->
+    <div class="timeline">
+        {% for post in timeline reversed %}
+            {% if post.rating %}
+            <!-- this is a review -->
+            {% elif post.user %}
+            <!-- this is a team -->
+            {% else %}
+            <!-- this is a post -->
+            <div class="card">
+                <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
+                <div class="card-item card-item-content">
+                    <a href="/profile/{{post.added_by.id}}"><p class="bold">{{post.added_by.first_name}} {{post.added_by.last_name}} </a><span>{{post.added_by.username}}</span></p>
+                    <p>{{post.content}}</p>
+                    <p class="time">{{post.created_at|timesince}} ago {% if request.session.userid == post.added_by.id %}| <a href="/profile/{{post.id}}/delete_post"><i class="material-icons">delete</i></a>{% endif %}</p>
+                </div>
+                <!-- Side icons -->
+                <div class="card-item-icons p{{post.id}}">
+                    {% if "userid" not in request.session %}
+                    <!-- If no one is logged in, non-clickable heart is displayed -->
+                    <i class="material-icons">favorite_border</i>
+                    {% elif user not in post.likes.all %}
+                    <!-- "Like Post" form -->
+                    <form action="/profile/like_post" method="POST" class="like-post-form" post_id="{{post.id}}">
+                        {% csrf_token %}
+                        <input type="hidden" name="like" value="{{post.id}}">
+                        <button><i class="material-icons">favorite_border</i></button>
+                    </form>
+                    {% else %}
+                    <!-- "Unlike Post" form -->
+                    <form action="/profile/like_post" method="POST" class="like-post-form" post_id="{{post.id}}">
+                        {% csrf_token %}
+                        <input type="hidden" name="like" value="{{post.id}}">
+                        <button><i class="material-icons active">favorite</i></button>
+                    </form>
+                    {% endif %}
+                    <p>{{post.likes.all|length}}</p>
+                    <i class="material-icons reply" post_id="{{post.id}}">chat_bubble_outline</i>
+                    <p>{{post.comments.all|length}}</p>
+                </div>
+                <!-- Display following Div when chat bubble is clicked -->
+                <div class="comment comment_{{post.id}}">
+                    <!-- All reply comments -->
+                    {% for comment in post.comments.all %}
+                    <div class="card card-reply">
+                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+                        <div class="card-item card-item-content">
+                            <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
+                            <p>{{comment.content}}</p>
+                            <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/profile/{{comment.id}}/delete_post_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
+                        </div>
+                        <!-- Side icons -->
+                        <div class="card-item-icons c{{comment.id}}"">
+                            {% if "userid" not in request.session %}
+                            <!-- If no one is logged in, non-clickable heart is displayed -->
+                            <i class="material-icons">favorite_border</i>
+                            {% elif user not in comment.likes.all %}
+                            <!-- "Like Comment" form -->
+                            <form action="/profile/like_post_comment" method="POST" class="like-post-comment-form" comment_id="{{comment.id}}">
+                                {% csrf_token %}
+                                <input type="hidden" name="like" value="{{comment.id}}">
+                                <button><i class="material-icons">favorite_border</i></button>
+                            </form>
+                            {% else %}
+                            <!-- "Unlike Comment" form -->
+                            <form action="/profile/like_post_comment" method="POST" class="like-post-comment-form" comment_id="{{comment.id}}">
+                                {% csrf_token %}
+                                <input type="hidden" name="like" value="{{comment.id}}">
+                                <button><i class="material-icons active">favorite</i></button>
+                            </form>
+                            {% endif %}
+                            <p>{{comment.likes.all|length}}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+        
+                    <!-- Display Reply Form if a user is logged in -->
+                    {% if request.session.userid %}
+                    <form action="/profile/{{post.id}}/comment_post" method="POST" class="post_comment_form" post_id ="{{post.id}}">
+                        {% csrf_token %}
+                        <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
+                        <small class="counter comment-counter">255/255</small>
+                        <div class="btn-container">
+                            <button class="btn btn-primary btn-post">Reply</button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <!-- don't display the form if no one is logged in -->
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
+
+
     {% for post in posts reversed %}
     <div class="card">
         <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
@@ -40,20 +138,20 @@
             <p class="time">{{post.created_at|timesince}} ago {% if request.session.userid == post.added_by.id %}| <a href="/profile/{{post.id}}/delete_post"><i class="material-icons">delete</i></a>{% endif %}</p>
         </div>
         <!-- Side icons -->
-        <div class="card-item-icons">
+        <div class="card-item-icons p{{post.id}}">
             {% if "userid" not in request.session %}
             <!-- If no one is logged in, non-clickable heart is displayed -->
             <i class="material-icons">favorite_border</i>
             {% elif user not in post.likes.all %}
             <!-- "Like Post" form -->
-            <form action="/profile/like_post" method="POST">
+            <form action="/profile/like_post" method="POST" class="like-post-form" post_id="{{post.id}}">
                 {% csrf_token %}
                 <input type="hidden" name="like" value="{{post.id}}">
                 <button><i class="material-icons">favorite_border</i></button>
             </form>
             {% else %}
             <!-- "Unlike Post" form -->
-            <form action="/profile/like_post" method="POST">
+            <form action="/profile/like_post" method="POST" class="like-post-form" post_id="{{post.id}}">
                 {% csrf_token %}
                 <input type="hidden" name="like" value="{{post.id}}">
                 <button><i class="material-icons active">favorite</i></button>
@@ -75,20 +173,20 @@
                     <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/profile/{{comment.id}}/delete_post_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
                 </div>
                 <!-- Side icons -->
-                <div class="card-item-icons">
+                <div class="card-item-icons c{{comment.id}}"">
                     {% if "userid" not in request.session %}
                     <!-- If no one is logged in, non-clickable heart is displayed -->
                     <i class="material-icons">favorite_border</i>
                     {% elif user not in comment.likes.all %}
                     <!-- "Like Comment" form -->
-                    <form action="/profile/like_post_comment" method="POST">
+                    <form action="/profile/like_post_comment" method="POST" class="like-post-comment-form" comment_id="{{comment.id}}">
                         {% csrf_token %}
                         <input type="hidden" name="like" value="{{comment.id}}">
                         <button><i class="material-icons">favorite_border</i></button>
                     </form>
                     {% else %}
                     <!-- "Unlike Comment" form -->
-                    <form action="/profile/like_post_comment" method="POST">
+                    <form action="/profile/like_post_comment" method="POST" class="like-post-comment-form" comment_id="{{comment.id}}">
                         {% csrf_token %}
                         <input type="hidden" name="like" value="{{comment.id}}">
                         <button><i class="material-icons active">favorite</i></button>
@@ -101,9 +199,10 @@
 
             <!-- Display Reply Form if a user is logged in -->
             {% if request.session.userid %}
-            <form action="/profile/{{post.id}}/comment_post" method="POST" class="post_comment_form">
+            <form action="/profile/{{post.id}}/comment_post" method="POST" class="post_comment_form" post_id ="{{post.id}}">
                 {% csrf_token %}
                 <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
+                <small class="counter comment-counter">255/255</small>
                 <div class="btn-container">
                     <button class="btn btn-primary btn-post">Reply</button>
                 </div>

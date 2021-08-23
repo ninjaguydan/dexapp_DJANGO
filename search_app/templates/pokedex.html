@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% load static %}
+{% load pkmn_extras %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'pkmn.css' %}">
@@ -18,31 +20,58 @@
 <div class="column">
     <h2>Pokedex</h2>
 
+    <!--- Filter Form --->
     <form action="/search/dex" class="filter-form">
         <label>Gen</label>
+        <!-- Filter Generation -->
         <select name="gen" class="form-control-custom">
             <option value="all">All</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
+            {% for n in '12345678'|make_list %}
+                {% if "gen" in request.GET %}
+                    {% if gen == n %}
+                    <option value="{{n}}" selected>{{n}}</option>
+                    {% else %}
+                    <option value="{{n}}">{{n}}</option>
+                    {% endif %}
+                {% else %}
+                <option value="{{n}}">{{n}}</option>
+                {% endif %}
+            {% endfor %}
         </select>
-
+        <!-- Filter Type -->
         <label>Type</label>
         <select name="type" class="form-control-custom">
             <option value="all">All</option>
-            {% for type in types %}
-            <option value="{{type.id}}">{{type.name|title}}</option>
+            {% for t in types %}
+                {% if gen %}
+                    {% if type|num_to_type == t.name %}
+                    <option value="{{t.id}}" selected>{{t.name|title}}</option>
+                    {% else %}
+                    <option value="{{t.id}}">{{t.name|title}}</option>
+                    {% endif %}
+                {% else %}
+                <option value="{{t.id}}">{{t.name|title}}</option>
+                {% endif %}
             {% endfor %}
         </select>
 
         <button class="btn btn-secondary">Filter</button>
     </form>
 
+    <!-- Showing "X" type from "X generation" -->
+    {% if gen %}
+        {% if gen != "all" and type != "all" %}
+        <h5>Showing all {{ type|num_to_type|title }} types from {{gen|ordinal}} generation</h5>
+        {% elif type != "all" %}
+        <h5>Showing all {{ type|num_to_type|title }} types from each generation</h5>
+        {% else %}
+        <h5>Showing all types from {{gen|ordinal}} generation</h5>
+        {% endif %}
+    {% else %}
+        <h5>Showing all types from each generation</h5>
+    {% endif %}
+    
+    <!-- Load Pokemon here -->
     <div class="results dex infinite-container">
         {% for pkmn in pokemon.object_list %}
         <a href="/{{pkmn.id}}" class="infinite-item">
@@ -61,6 +90,7 @@
         {% endfor %}
     </div>
 
+    <!-- Load next block of 24 pokemon when this comes into view -->
     {% if pokemon.has_next %}
         {% if gen %}
             <a class="infinite-more-link" href="?gen={{ gen }}&type={{ type }}&page={{ pokemon.next_page_number }}"></a>
@@ -69,11 +99,13 @@
         {% endif %}
     {% endif %}
 
+    <!-- displays while next batch of Pokemon loads -->
     <div class="loading" style="display: none;">
         Loading...
     </div>
 </div>
 
+<!-- Waypoint script handling dynamic loading -->
 <script>
     var infinite = new Waypoint.Infinite({
         element: $('.results')[0],

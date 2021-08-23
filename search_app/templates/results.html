@@ -20,6 +20,7 @@
         <query query ="{{query}}" hidden></query>
         <small>{{count}} result{{count|pluralize}} found in {{result|title}}</small>
     
+        <!-- Load results from search here -->
         <div class="results infinite-container">
             {% for result in page.object_list %}
                 {% if result.name %}
@@ -44,10 +45,12 @@
             {% endfor %}
         </div>
 
+        <!-- Load next block of 24 results when this comes into view -->
         {% if page.has_next %}
             <a class="infinite-more-link" href="?filter={{ result }}&q={{ query }}&page={{ page.next_page_number }}"></a>
         {% endif %}
 
+        <!-- displays while next batch of results loads -->
         <div class="loading" style="display: none;">
             Loading...
         </div>
@@ -57,6 +60,7 @@
     {% endif %}
 </div>
 
+<!-- Waypoint script handling dynamic loading -->
 <script>
     var infinite = new Waypoint.Infinite({
         element: $('.results')[0],

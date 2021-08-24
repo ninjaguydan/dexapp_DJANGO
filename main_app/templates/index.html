@@ -138,6 +138,7 @@
                     {% endif %} 
                     created the team, <a href="/team/{{post.id}}" class="bold">{{post.name}}</a>
                 </p>
+                <!-- <p class="time">{{post.created_at|timesince}} ago</p> -->
                 <div class="team-grid-index">
                     {% for pokemon in post.pkmn.all|team_filler %}
                     {% if pokemon == 0 %}
@@ -150,6 +151,7 @@
                     </a>
                     {% endif %}
                     {% endfor %}
+                    
                 </div>
                 <!-- Side icons -->
                 <div class="card-item-icons t{{post.id}}">
@@ -176,9 +178,9 @@
                     <i class="material-icons">chat_bubble_outline</i>
                     <p>{{post.comments.all|length}}</p>
                     <!-- Delete icon -->
-                    {% if request.session.userid == post.user.id %}
+                    <!-- {% if request.session.userid == post.user.id %}
                     <a href="/{{post.id}}/delete_team"><i class="material-icons delete">delete</i></a>
-                    {% endif %}
+                    {% endif %} -->
                 </div>
             </div>
             {% else %}
@@ -257,7 +259,7 @@
                         <textarea name="comment" class="form-control form-control-custom" rows="1" placeholder="Leave a reply..."></textarea>
                         <small class="counter comment-counter">255/255</small>
                         <div class="btn-container">
-                            <button class="btn btn-primary btn-post">Reply</button>
+                            <button class="btn btn-primary btn-post" disabled>Reply</button>
                         </div>
                     </form>
                     {% else %}

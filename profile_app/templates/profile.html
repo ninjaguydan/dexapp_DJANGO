@@ -46,17 +46,17 @@
                 <form action="/profile/follow" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="follow" value="{{profile.id}}">
-                    <button class="bold"><i class="material-icons">group_add</i> Follow</button>
+                    <button class="bold follow"><i class="material-icons">group_add</i> Follow</button>
                 </form>
             {% else %}
                 <!-- Unfollow profile -->
                 <form action="/profile/follow" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="follow" value="{{profile.id}}">
-                    <button class="active bold"><i class="material-icons">group_add</i> Following</button>
+                    <button class="active bold follow"><i class="material-icons">group_add</i> Following</button>
                 </form>
             {% endif %}
-                <p class="bold"><i class="material-icons">mail_outline</i> Message</p>
+                <p class="bold msg"><i class="material-icons">mail_outline</i> Message</p>
         </li>
         {% endif %}
         {% if profile.profile.location != None %}

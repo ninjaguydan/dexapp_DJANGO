@@ -32,15 +32,10 @@ def index(request):
         user = User.objects.get(id = request.session['userid'])
     else:
         user = None
-    #testing
-    # for u in user.profile.following.all():
-    #     print(u.created_at)
+    #get all posts, reviews, and teams from people the User follows
+    #and order them chronologically
     timeline = User.objects.get_timeline(user)
-    # for key,value in timeline.items():
     ordered_tl = collections.OrderedDict(sorted(timeline.items()))
-    # for key, value in ordered_tl.items():
-    #     print(key)
-
     context = {
         "user" : user,
         "timeline" : ordered_tl,
@@ -222,7 +217,8 @@ def create_team(request, pkmn_id):
         team = new_team
     )
     update.pkmn.add(pkmn)
-    return redirect(request.META.get('HTTP_REFERER'))
+    context = {"team" : new_team}
+    return render(request, "pokemon-team.html", context)
 
 def update_team(request, team_id):
     #if GET request, redirect

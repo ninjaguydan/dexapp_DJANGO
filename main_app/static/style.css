@@ -525,6 +525,15 @@ margin-bottom: 3px;
     left: 50%;
     transform: translateX(-50%);
 }
+    .popup-container a:hover {
+        color: var(--fifth);
+    }
+    .popup-container .popup {
+        transition: transform .2s;
+    }
+        .popup-container .popup:hover {
+            transform: scale(1.03125);
+        }
 .popup {
     flex-wrap: nowrap;
     border: 1px solid gray;

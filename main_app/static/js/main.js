@@ -205,7 +205,7 @@ $('#create-team').click(function(){
     $('#create-team').css("display", "none");
     $('.new-team').css("display", "block");
 })
-//popup notification AJAX
+//'Add to Team' popup notification AJAX
 $('.edit-profile-modal').on('submit', '#add-to-team', function(e){
     e.preventDefault();
     let pkmn_id = $('tojs').attr('pkmn_id');
@@ -215,6 +215,23 @@ $('.edit-profile-modal').on('submit', '#add-to-team', function(e){
         data: $(this).serialize(),
         success: function(response){
             $('.popup-container').append(response)
+            $('.modal-bg').css("display", "none");
+        }
+    })
+    setTimeout(function(){
+        $('.popup-container').fadeOut()
+    }, 5000);
+})
+//'Create Team' popup notification AJAX
+$('.edit-profile-modal').on('submit','.new-team', function(e){
+    e.preventDefault();
+    let pkmn_id = $('tojs').attr('pkmn_id');
+    $.ajax({
+        url: pkmn_id + "/create_team",
+        method : "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            $('.popup-container').append(response);
             $('.modal-bg').css("display", "none");
         }
     })

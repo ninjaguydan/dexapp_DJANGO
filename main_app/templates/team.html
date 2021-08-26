@@ -160,6 +160,9 @@
                 <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
                 <p>{{comment.content}}</p>
                 <p class="time">{{comment.created_at}} {% if request.session.userid == comment.added_by.id %}| <a href="/{{comment.id}}/delete_team_comment"><i class="material-icons">delete</i></a>{% endif %}</p>
+                <!-- <div class="del del_comment_{{comment.id}}">
+                    <p>Delete</p>
+                </div> -->
             </div>
             <!-- Side icons -->
             <div class="card-item-icons c{{comment.id}}">
@@ -211,7 +214,7 @@
         <form action="/{{team.id}}/update_team" method="POST">
         {% csrf_token %}
             <div class="form-group">
-                <label>Name</label><br><br>
+                <label>Name</label>
                 <input type="text" name="name" value="{{team.name}}" class="form-control form-control-custom">
             </div>
             <!-- current team members -->
@@ -225,6 +228,15 @@
             </div>
             <button class="btn btn-primary">Update</button>
         </form>
+        <button class="btn btn-secondary btn-del">Delete Team</button>
+    </div>
+</div>
+<!-- Confirm Team Delete -->
+<div class="confirm-bg">
+    <div class="card">
+        <p>Are you sure you want to delete {{team.name}}?</p>
+        <a class="btn btn-primary" href="/{{team.id}}/delete_team">Yes</a>
+        <button class="btn btn-secondary">On second thought...</button>
     </div>
 </div>
 {% endif %}

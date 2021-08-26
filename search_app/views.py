@@ -1,4 +1,3 @@
-from django.core import paginator
 from django.shortcuts import render, redirect
 from login_app.models import User
 from main_app.models import Pokemon, Type

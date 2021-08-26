@@ -371,9 +371,9 @@
                 <i class="material-icons">chat_bubble_outline</i>
                 <p>{{team.comments.all|length}}</p>
                 <!-- Delete icon -->
-                {% if request.session.userid == team.user.id %}
+                <!-- {% if request.session.userid == team.user.id %}
                 <a href="/{{team.id}}/delete_team"><i class="material-icons delete">delete</i></a>
-                {% endif %}
+                {% endif %} -->
             </div>
         </div>
         {% empty %}
@@ -452,7 +452,15 @@
             <br>
             <button class="btn btn-primary">Update</button>
         </form>
-        <a href="/profile/delete_profile">Delete Profile</a>
+        <button class="btn btn-secondary btn-del">Delete Profile</button>
+    </div>
+</div>
+<!-- Confirm Profile Delete -->
+<div class="confirm-bg">
+    <div class="card">
+        <p>Are you sure you want to delete your profile? <br> This cannot be undone.</p>
+        <a class="btn btn-primary" href="/profile/delete_profile">Yes</a>
+        <button class="btn btn-secondary">On second thought...</button>
     </div>
 </div>
 {% endif %}

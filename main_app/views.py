@@ -226,6 +226,7 @@ def update_team(request, team_id):
         return redirect('/')
     team = Team.objects.get(id = team_id)
     team.name = request.POST['name']
+    team.save()
     #get all selected pokemon as a list[]
     pokemon = request.POST.getlist('pkmn')
     for i in pokemon:

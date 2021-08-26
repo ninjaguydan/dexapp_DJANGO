@@ -191,7 +191,6 @@ body {
 }
 .edit-profile-modal {
     margin: auto;
-    margin-top: 30px;
     width: 100%;
     max-width: 500px;
     background-color: var(--fourth);
@@ -243,6 +242,7 @@ body {
     .edit-profile-modal .form-group {
         margin-bottom: 20px;
     }
+/*Confirm modal*/
 
 /* Modal "X" */
 #close {

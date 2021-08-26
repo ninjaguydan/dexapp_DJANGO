@@ -59,16 +59,14 @@
     </form>
 
     <!-- Showing "X" type from "X generation" -->
-    {% if gen %}
-        {% if gen != "all" and type != "all" %}
-        <h5>Showing all {{ type|num_to_type|title }} types from {{gen|ordinal}} generation</h5>
-        {% elif type != "all" %}
-        <h5>Showing all {{ type|num_to_type|title }} types from each generation</h5>
-        {% else %}
-        <h5>Showing all types from {{gen|ordinal}} generation</h5>
-        {% endif %}
+    {% if gen != "all" and type != "all" %}
+    <h5>Showing all {{ type|num_to_type|title }} types from {{gen|ordinal}} generation</h5>
+    {% elif type != "all" %}
+    <h5>Showing all {{ type|num_to_type|title }} types from each generation</h5>
+    {% elif gen == "all" %}
+    <h5>Showing all types from each generation</h5>
     {% else %}
-        <h5>Showing all types from each generation</h5>
+    <h5>Showing all types from {{gen|ordinal}} generation</h5>
     {% endif %}
     
     <!-- Load Pokemon here -->

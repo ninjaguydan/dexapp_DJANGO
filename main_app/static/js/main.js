@@ -115,6 +115,13 @@ $('.modal-bg').on('keyup', '.form-group', function(){
         $(this).children('.error').hide();
     }
 })
+//delete profile modal
+$('.btn-del').click(function(){
+    $('.confirm-bg').show()
+})
+$('.confirm-bg button').click(function(){
+    $('.confirm-bg').hide()
+})
 
 //------------------------------ Profile Functions ------------------------------//
 //profile tabs

@@ -287,7 +287,7 @@
         <form action="/{{pokemon.id}}/create_team" method="POST" class="new-team">
         {% csrf_token %}
             <div class="form-group">
-                <label>Name</label><br><br>
+                <label>Name</label>
                 <input type="text" name="name" class="form-control form-control-custom" placeholder="Enter Team name...">
             </div>
             <button class="btn btn-primary">Create</button>
@@ -298,6 +298,9 @@
 <!------------- Added to Team Popup --------------->
 <div class="popup-container">
     <!-- append popups here -->
+    <div class="card">
+        <p>TESTESTESTESTESR</p>
+    </div>
 </div>
 {% endif %}
 {% endblock %}

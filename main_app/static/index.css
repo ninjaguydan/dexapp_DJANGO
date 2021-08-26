@@ -50,6 +50,7 @@ body {
     }
     .list-group-item h5 {
         margin: 10px;
+        line-height: 1.5em;
     }
     .list-group-item > * {
         margin-right: 15px;
@@ -79,7 +80,7 @@ body {
     .list-group-item .icons h6 {
         margin-right: 0;
         margin-bottom: 5px;
-        
+        white-space: nowrap;
     }
     .list-group-item .icons i {
         font-size: 18px;

@@ -122,6 +122,27 @@ $('.btn-del').click(function(){
 $('.confirm-bg button').click(function(){
     $('.confirm-bg').hide()
 })
+//Follow/Following modal
+$('.follow-cnt p').click(function(){
+    $('.follow-list-modal').show();
+})
+$('.follow-list-control p').click(function(){
+    $('.follow-list-modal').hide();
+})
+//switch tabs
+$('.follow-list-control li').click(function(){
+    if ( $(this).html() == "Following" ) {
+        $('.follow-list-control li').removeClass('active');
+        $(this).addClass('active');
+        $('.follower-list').hide();
+        $('.following-list').show();
+    } else {
+        $('.follow-list-control li').removeClass('active');
+        $(this).addClass('active');
+        $('.follower-list').show();
+        $('.following-list').hide();
+    }
+})
 
 //------------------------------ Profile Functions ------------------------------//
 //profile tabs

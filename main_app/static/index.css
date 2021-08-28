@@ -29,6 +29,9 @@ body {
       border: 1px solid #444444;
       border-radius: 0.5rem;
     }
+        #style-4::-webkit-scrollbar-thumb:hover {
+        background-color: #090909;
+        }
 .list-group-item {
     color: var(--fifth);
     display: flex;

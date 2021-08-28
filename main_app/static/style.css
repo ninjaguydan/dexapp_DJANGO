@@ -52,6 +52,9 @@ p, span {
     color: var(--primary);
     display: none;
 }
+.flip-y {
+    transform: scaleY(-1);
+}
 form.search-form.hidden {
     display: none;
 }

@@ -54,9 +54,12 @@ def create_post(request, user_id):
         return redirect('/')
     user = User.objects.get(id= user_id)
     post = Post.objects.new_post(user, request.POST)
-    print(f"We got here from {request.META.get('HTTP_REFERER')}!!")
-    context = {"user" : user, "post" : post, "profile" : user}
-    return render(request, "post.html", context)
+    if request.META.get('HTTP_REFERER')[-1] == "/":
+        return redirect('/')
+    else:
+        # print(f"We got here from {request.META.get('HTTP_REFERER')}!!")
+        context = {"user" : user, "post" : post, "profile" : user}
+        return render(request, "post.html", context)
 
 def delete_post(request, post_id):
     #check if anyone is logged in

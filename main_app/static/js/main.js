@@ -156,6 +156,9 @@ $('.tab-nav li a').click(function(){
 })
 //post AJAX
 $('.column').on('submit', '#post-form', function(e){
+    if ( $(this).attr('post-index') ) {
+        location.reload()
+    }
     e.preventDefault()
     let userid = $(this).attr('userid')
     $.ajax({

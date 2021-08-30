@@ -378,7 +378,6 @@
         </div>
         {% endfor %}
     </div>
-    {{profile.user_img.url}}
 </div>
 
 {% if "userid" in request.session %}
@@ -425,18 +424,18 @@
             <hr>
             <h6>Choose profile photo</h6>
             <div class="img-container">
-                <img src="/media/images/1m.png" id="1m">
-                <img src="/media/images/4m.png" id="4m">
-                <img src="/media/images/2m.png" id="2m">
-                <img src="/media/images/3m.png" id="3m">
-                <img src="/media/images/1f.png" id="1f">
-                <img src="/media/images/4f.png" id="4f">
-                <img src="/media/images/2f.png" id="2f">
-                <img src="/media/images/3f.png" id="3f">
+                <img src="/media/default/1m.png" id="1m">
+                <img src="/media/default/4m.png" id="4m">
+                <img src="/media/default/2m.png" id="2m">
+                <img src="/media/default/3m.png" id="3m">
+                <img src="/media/default/1f.png" id="1f">
+                <img src="/media/default/4f.png" id="4f">
+                <img src="/media/default/2f.png" id="2f">
+                <img src="/media/default/3f.png" id="3f">
                 <input type="hidden" name="img" id="img" value="{{user.user_img}}">
             </div>
             <h6 class="select">...or upload your own!</h6>
-            <input type="file" name="img-uploaded" accept=".jpg, .jpeg, .png"><br>
+            <input type="file" name="img-uploaded" id="img-uploaded" accept=".jpg, .jpeg, .png" value="{{user.user_img}}"><br>
             <small class="time">Must be .JPG, .JPEG, or .PNG file</small>
             <hr>
             <h6>Choose background color</h6>

@@ -33,12 +33,33 @@ class UserManager(models.Manager):
             errors['last_name'] = "Last name must be at least 2 characters"
         return errors
 
-    def update_user(self, user, postData):
+    def update_user(self, user, postData, fileData):
         user = user
         user.first_name = postData['fname']
         user.last_name = postData['lname']
         user.bg_color = postData['color']
-        user.user_img = postData['img']
+        #if current user image is a default image
+        if "default" in user.user_img.url:
+            #check if an image was uploaded, and replace if true
+            if "img-uploaded" in fileData:
+                user.user_img = fileData['img-uploaded']
+            #otherwise user image becomes new default image
+            else:
+                user.user_img = postData['img']
+        #if current user image is an uploaded image
+        else:
+            #check if a new image was uploaded and replace if so
+            if "img-uploaded" in fileData:
+                user.user_img.delete()
+                user.user_img = fileData['img-uploaded']
+            #if a new image was not uploaded but no new image was selected, keep it the same
+            elif "images" in postData['img']:
+                print('We kept the same image!')
+            #replace with new selected image
+            else:
+                user.user_img.delete()
+                user.user_img = postData['img']
+                
         user.save()
 
     def authenticate(self, email, password):

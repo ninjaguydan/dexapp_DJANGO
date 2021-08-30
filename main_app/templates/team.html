@@ -112,7 +112,7 @@
         {% for pokemon in team.pkmn.all|team_filler %}
         {% if pokemon == 0 %}
         <a href="/search/dex">
-            <img src="{% static '' %}img/default-profiles/{{pokemon}}.png" alt="placeholder icon">
+            <img src="/media/default/{{pokemon}}.png" alt="placeholder icon">
         </a>
         {% else %}
         <a href="/{{pokemon.id}}">

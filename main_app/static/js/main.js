@@ -97,7 +97,8 @@ $('.img-container img').click(function(){
     $('.img-container img').css("outline", "none");
     $(this).css("outline", "5px solid #86b7fe");
     let image = $(this).attr('id');
-    $('#img').val("/images/" + image + ".png");
+    $('#img-uploaded').val(null)
+    $('#img').val("/default/" + image + ".png");
 })
 //select profile color
 $('.img-container span').click(function(){

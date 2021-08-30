@@ -24,11 +24,7 @@ def update_profile(request, user_id):
             messages.error(request, value)
         return redirect(f'/profile/{user_id}')
     user = User.objects.get(id = user_id)
-    User.objects.update_user(user, request.POST)
-    #if user uploaded a photo use that instead
-    if "img-uploaded" in request.FILES:
-        user.user_img = request.FILES['img-uploaded']
-        user.save()
+    User.objects.update_user(user, request.POST, request.FILES)
     Profile.objects.update(request.POST, user_id)
     return redirect(f'/profile/{user_id}')
 

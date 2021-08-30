@@ -221,7 +221,7 @@
                     <!-- All reply comments -->
                     {% for comment in post.comments.all %}
                     <div class="card card-reply">
-                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+                        <img src="{{comment.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
                         <div class="card-item card-item-content">
                             <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
                             <p>{{comment.content}}</p>
@@ -268,6 +268,10 @@
                 </div>
             </div>
             {% endif %}
+        {% empty %}
+        <div class="card">
+            <h5>Try posting something, or following someone!</h5>
+        </div>
         {% endfor %}
     </div>
 

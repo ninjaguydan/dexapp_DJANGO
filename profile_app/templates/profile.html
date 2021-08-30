@@ -336,7 +336,7 @@
                 {% for pokemon in team.pkmn.all|team_filler %}
                 {% if pokemon == 0 %}
                 <a href="/search/dex">
-                    <img src="{% static '' %}img/default-profiles/{{pokemon}}.png" alt="placeholder icon">
+                    <img src="/media/default/{{pokemon}}.png" alt="placeholder icon">
                 </a>
                 {% else %}
                 <a href="/{{pokemon.id}}">
@@ -479,26 +479,34 @@
             {% for follower in profile.following.all %}
             <a href="/profile/{{follower.user.id}}">
                 <div class="card">
-                    <img src="{% static '' %}img/default-profiles/{{follower.user.default_img}}.png" alt="profile pic" class="card-item user-img {{follower.user.bg_color}}">
+                    <img src="{{follower.user.user_img.url}}" alt="profile pic" class="card-item user-img {{follower.user.bg_color}}">
                     <div class="card-item card-item-content">
                         <p class="bold">{{follower.user.first_name}} {{follower.user.last_name}}</p>
                         <small class="time">{{follower.user.username}}</small>
                     </div>
                 </div>
             </a>
+            {% empty %}
+            <div class="card">
+                <h6>No followers yet!</h6>
+            </div>
             {% endfor %}
         </div>
         <div class="following-list">
             {% for following in profile.profile.following.all %}
             <a href="/profile/{{following.id}}">
                 <div class="card">
-                    <img src="{% static '' %}img/default-profiles/{{following.default_img}}.png" alt="profile pic" class="card-item user-img {{following.bg_color}}">
+                    <img src="{{following.user_img.url}}" alt="profile pic" class="card-item user-img {{following.bg_color}}">
                     <div class="card-item card-item-content">
                         <p class="bold">{{following.first_name}} {{following.last_name}}</p>
                         <small class="time">{{following.username}}</small>
                     </div>
                 </div>
             </a>
+            {% empty %}
+            <div class="card">
+                <h6>Not following anyone yet!</h6>
+            </div>
             {% endfor %}
         </div>
     </div>

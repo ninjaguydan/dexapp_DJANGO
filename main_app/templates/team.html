@@ -138,7 +138,7 @@
     {% else %}
     <!-- Comment Form -->
     <div class="card">
-        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
+        <img src="{{user.user_img.url}}" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
         <form action="/{{team.id}}/comment_team" method="POST" class="team_comment_form" team_id="{{team.id}}">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="comment" rows="1" placeholder="Thoughts on {{team.name}}?"></textarea>
@@ -155,7 +155,7 @@
         {% for comment in team.comments.all reversed %}
         {% if comment.added_by %}
         <div class="card">
-            <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+            <img src="{{comment.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
             <div class="card-item card-item-content">
                 <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
                 <p>{{comment.content}}</p>

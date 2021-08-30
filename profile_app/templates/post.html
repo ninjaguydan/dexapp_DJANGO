@@ -1,7 +1,7 @@
 {% load static %}
 {% for post in profile.posts.all reversed %}
 <div class="card">
-    <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
+    <img src="{{post.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
     <div class="card-item card-item-content">
         <a href="/profile/{{post.added_by.id}}"><p class="bold">{{post.added_by.first_name}} {{post.added_by.last_name}} </a><span>{{post.added_by.username}}</span></p>
         <p>{{post.content}}</p>

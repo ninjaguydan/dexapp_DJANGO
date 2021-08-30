@@ -3,7 +3,7 @@
 {% for comment in team.comments.all reversed %}
 {% if comment.added_by %}
 <div class="card">
-    <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+    <img src="{{comment.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
     <div class="card-item card-item-content">
         <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
         <p>{{comment.content}}</p>

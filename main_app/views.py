@@ -294,5 +294,4 @@ def delete_team(request, team_id):
         #Check if logged in user is the one who made the team
         if request.session['userid'] == team_to_delete.user.id:
             team_to_delete.delete()
-            return redirect(request.META.get('HTTP_REFERER'))
     return redirect('/')

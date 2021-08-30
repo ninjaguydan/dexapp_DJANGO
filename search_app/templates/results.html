@@ -34,7 +34,7 @@
                 {% if result.first_name %}
                 <a href="/profile/{{result.id}}" class="infinite-item people">
                     <div class="card">
-                        <img src="{% static '' %}img/default-profiles/{{result.default_img}}.png" alt="profile pic" class="{{result.bg_color}} user-img">
+                        <img src="{{result.user_img.url}}" alt="profile pic" class="{{result.bg_color}} user-img">
                         <h6>{{result.username}}</h6>
                         <small>{{result.first_name}} {{result.last_name}}</small>
                     </div>

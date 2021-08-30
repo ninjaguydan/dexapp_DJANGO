@@ -98,6 +98,9 @@ body {
     width: 100%;
     text-align: center;
 }
+.card h6 {
+    margin: 0;
+}
 .pkmn-img {
     display: none;
     width: 15%;

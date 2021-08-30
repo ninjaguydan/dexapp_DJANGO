@@ -121,7 +121,7 @@
     {% else %}
     <!-- Review Form -->
     <div class="card">
-        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
+        <img src="{{user.user_img.url}}" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
         <form action="/{{pokemon.id}}/create_review" method="POST" id="review-form">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="review" rows="2" placeholder="What do you think of {{pokemon.name | title}}?"></textarea>
@@ -153,7 +153,7 @@
     <div class="review-list">
         {% for review in pokemon.reviews.all reversed %}
         <div class="card r{{review.id}}">
-            <img src="{% static '' %}img/default-profiles/{{review.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{review.added_by.bg_color}}">
+            <img src="{{review.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{review.added_by.bg_color}}">
             <div class="card-item card-item-content">
                 <a href="/profile/{{review.added_by.id}}"><p class="bold">{{review.added_by.first_name}} {{review.added_by.last_name}} </a><span>{{review.added_by.username}}</span></p>
                 <span class="n{{review.rating}} star">{{review.rating}}</span>
@@ -190,7 +190,7 @@
                 <!-- All reply comments -->
                 {% for comment in review.comments.all %}
                 <div class="card card-reply c{{comment.id}}">
-                    <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+                    <img src="{{comment.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
                     <div class="card-item card-item-content">
                         <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
                         <p>{{comment.content}}</p>

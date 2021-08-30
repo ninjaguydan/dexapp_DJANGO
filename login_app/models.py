@@ -37,8 +37,8 @@ class UserManager(models.Manager):
         user = user
         user.first_name = postData['fname']
         user.last_name = postData['lname']
-        user.default_img = postData['img']
         user.bg_color = postData['color']
+        user.user_img = postData['img']
         user.save()
 
     def authenticate(self, email, password):
@@ -83,7 +83,8 @@ class User(models.Model):
     username = models.CharField(max_length = 50)
     email = models.CharField(max_length = 50)
     password = models.CharField(max_length = 60)
-    default_img = models.CharField(max_length = 2, default = 0)
+    # default_img = models.CharField(max_length = 2, default = 0)
+    user_img = models.ImageField(default = "/images/0.png", upload_to="images/")
     bg_color = models.CharField(max_length = 20, default = "gray")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)

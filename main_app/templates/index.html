@@ -19,7 +19,7 @@
     {% else %}
     <!-- Post Form -->
     <div class="card">
-        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
+        <img src="{{user.user_img.url}}" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
         <form action="/profile/{{user.id}}/create_post" method="POST" id="post-form" userid="{{user.id}}" post-index="True">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
@@ -81,7 +81,7 @@
                     <!-- All reply comments -->
                     {% for comment in post.comments.all %}
                     <div class="card card-reply c{{comment.id}}">
-                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+                        <img src="{{comment.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
                         <div class="card-item card-item-content">
                             <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
                             <p>{{comment.content}}</p>
@@ -186,7 +186,7 @@
             {% else %}
             <!---------------------- this is a post ---------------------->
             <div class="card">
-                <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
+                <img src="{{post.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
                 <div class="card-item card-item-content">
                     <a href="/profile/{{post.added_by.id}}"><p class="bold">{{post.added_by.first_name}} {{post.added_by.last_name}} </a><span>{{post.added_by.username}}</span></p>
                     <p>{{post.content}}</p>

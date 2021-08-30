@@ -21,7 +21,8 @@
         <li class="list-group-item">
             <h4>{{profile.first_name}} {{profile.last_name}}</h4>
             <h6>{{profile.username}}</h6>
-            <img src="{% static '' %}img/default-profiles/{{profile.default_img}}.png" class="{{profile.bg_color}}">
+            <!-- <img src="{% static '' %}img/default-profiles/{{profile.default_img}}.png" class="{{profile.bg_color}}"> -->
+            <img src="{{profile.user_img.url}}" class="{{profile.bg_color}}" alt="profile picture">
             <!-- Display bio if one exists -->
             {% if profile.profile.bio != None %}
             <p>{{profile.profile.bio}}</p>
@@ -97,7 +98,6 @@
 </div><br><br><br>
 
 
-
 <!---------- Right Column content ---------->
 <div class="column posts" id="tabs">
     <ul class="tab-nav">
@@ -114,7 +114,7 @@
         {% else %}
         <!-- Post Form -->
         <div class="card">
-            <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
+            <img src="{{profile.user_img.url}}" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
             <form action="/profile/{{user.id}}/create_post" method="POST" id="post-form" userid="{{user.id}}">
                 {% csrf_token %}
                 <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
@@ -130,7 +130,7 @@
         <div class="post-list">
             {% for post in profile.posts.all reversed %}
             <div class="card">
-                <img src="{% static '' %}img/default-profiles/{{post.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
+                <img src="{{post.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
                 <div class="card-item card-item-content">
                     <a href="/profile/{{post.added_by.id}}"><p class="bold">{{post.added_by.first_name}} {{post.added_by.last_name}} </a><span>{{post.added_by.username}}</span></p>
                     <p>{{post.content}}</p>
@@ -165,7 +165,7 @@
                     <!-- All reply comments -->
                     {% for comment in post.comments.all %}
                     <div class="card card-reply">
-                        <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+                        <img src="{{comment.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
                         <div class="card-item card-item-content">
                             <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
                             <p>{{comment.content}}</p>
@@ -260,7 +260,7 @@
                 <!-- All reply comments -->
                 {% for comment in review.comments.all %}
                 <div class="card card-reply c{{comment.id}}">
-                    <img src="{% static '' %}img/default-profiles/{{comment.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
+                    <img src="{{comment.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{comment.added_by.bg_color}}">
                     <div class="card-item card-item-content">
                         <a href="/profile/{{comment.added_by.id}}"><p class="bold">{{comment.added_by.first_name}} {{comment.added_by.last_name}} </a><span>{{comment.added_by.username}}</span></p>
                         <p>{{comment.content}}</p>
@@ -378,7 +378,7 @@
         </div>
         {% endfor %}
     </div>
-    
+    {{profile.user_img.url}}
 </div>
 
 {% if "userid" in request.session %}
@@ -398,7 +398,7 @@
             {% endfor %}
         </ul>
         {% endif %}
-        <form action="/profile/{{user.id}}/update" method="POST">
+        <form action="/profile/{{user.id}}/update" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label>First Name</label>
@@ -425,14 +425,19 @@
             <hr>
             <h6>Choose profile photo</h6>
             <div class="img-container">
-                <img src="{% static 'img/default-profiles/1m.png' %}" id="1m">
-                <img src="{% static 'img/default-profiles/2m.png' %}" id="2m">
-                <img src="{% static 'img/default-profiles/3m.png' %}" id="3m">
-                <img src="{% static 'img/default-profiles/1f.png' %}" id="1f">
-                <img src="{% static 'img/default-profiles/2f.png' %}" id="2f">
-                <img src="{% static 'img/default-profiles/3f.png' %}" id="3f">
-                <input type="hidden" name="img" id="img" value="{{user.default_img}}">
+                <img src="/media/images/1m.png" id="1m">
+                <img src="/media/images/4m.png" id="4m">
+                <img src="/media/images/2m.png" id="2m">
+                <img src="/media/images/3m.png" id="3m">
+                <img src="/media/images/1f.png" id="1f">
+                <img src="/media/images/4f.png" id="4f">
+                <img src="/media/images/2f.png" id="2f">
+                <img src="/media/images/3f.png" id="3f">
+                <input type="hidden" name="img" id="img" value="{{user.user_img}}">
             </div>
+            <h6 class="select">...or upload your own!</h6>
+            <input type="file" name="img-uploaded" accept=".jpg, .jpeg, .png"><br>
+            <small class="time">Must be .JPG, .JPEG, or .PNG file</small>
             <hr>
             <h6>Choose background color</h6>
             <div class="img-container colors">
@@ -463,38 +468,40 @@
 {% endif %}
 <!-- Follower/Following List -->
 <div class="follow-list-modal">
-    <div class="follow-list-control">
-        <ul>
-            <li class="active">Following</li>
-            <li>Followers</li>
-        </ul>
-        <p>&#10005;</p>
-    </div>
-    <div class="follower-list">
-        {% for follower in profile.following.all %}
-        <a href="/profile/{{follower.user.id}}">
-            <div class="card">
-                <img src="{% static '' %}img/default-profiles/{{follower.user.default_img}}.png" alt="profile pic" class="card-item user-img {{follower.user.bg_color}}">
-                <div class="card-item card-item-content">
-                    <p class="bold">{{follower.user.first_name}} {{follower.user.last_name}}</p>
-                    <small class="time">{{follower.user.username}}</small>
+    <div class="list">
+        <div class="follow-list-control">
+            <ul>
+                <li class="active">Following</li>
+                <li>Followers</li>
+            </ul>
+            <p>&#10005;</p>
+        </div>
+        <div class="follower-list">
+            {% for follower in profile.following.all %}
+            <a href="/profile/{{follower.user.id}}">
+                <div class="card">
+                    <img src="{% static '' %}img/default-profiles/{{follower.user.default_img}}.png" alt="profile pic" class="card-item user-img {{follower.user.bg_color}}">
+                    <div class="card-item card-item-content">
+                        <p class="bold">{{follower.user.first_name}} {{follower.user.last_name}}</p>
+                        <small class="time">{{follower.user.username}}</small>
+                    </div>
                 </div>
-            </div>
-        </a>
-        {% endfor %}
-    </div>
-    <div class="following-list">
-        {% for following in profile.profile.following.all %}
-        <a href="/profile/{{following.id}}">
-            <div class="card">
-                <img src="{% static '' %}img/default-profiles/{{following.default_img}}.png" alt="profile pic" class="card-item user-img {{following.bg_color}}">
-                <div class="card-item card-item-content">
-                    <p class="bold">{{following.first_name}} {{following.last_name}}</p>
-                    <small class="time">{{following.username}}</small>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="following-list">
+            {% for following in profile.profile.following.all %}
+            <a href="/profile/{{following.id}}">
+                <div class="card">
+                    <img src="{% static '' %}img/default-profiles/{{following.default_img}}.png" alt="profile pic" class="card-item user-img {{following.bg_color}}">
+                    <div class="card-item card-item-content">
+                        <p class="bold">{{following.first_name}} {{following.last_name}}</p>
+                        <small class="time">{{following.username}}</small>
+                    </div>
                 </div>
-            </div>
-        </a>
-        {% endfor %}
+            </a>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}

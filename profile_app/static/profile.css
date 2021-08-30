@@ -203,7 +203,7 @@ body {
 }
     .edit-profile-modal .img-container {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         row-gap: 20px;
         column-gap: 20px;
         text-align: center;
@@ -213,6 +213,13 @@ body {
         }
     .edit-profile-modal h6 {
         margin-bottom: 30px;
+    }
+    .edit-profile-modal h6.select {
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+    .edit-profile-modal .time {
+        width: 100%;
     }
     .edit-profile-modal img {
         width: 100%;
@@ -257,6 +264,10 @@ body {
     overflow: auto;
     animation: zoom 0.3s forwards;
     -webkit-animation: zoom 0.3s forwards;
+}
+.follow-list-modal .list {
+    max-width: 500px;
+    margin: 0 auto;
 }
 .follower-list {
     display: none;

@@ -42,7 +42,7 @@
     {% if request.session.userid %}
     <!-- Nav Slider -->
     <div class="mobile-nav-slider">
-        <img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="{{user.bg_color}} user-img">
+        <img src="{{user.user_img.url}}" alt="profile pic" class="{{user.bg_color}} user-img">
         <p class="bold">{{user.first_name}} {{user.last_name}}</p>
         <span class="username">{{user.username}}</span>
         <br>
@@ -79,7 +79,7 @@
                     <!-- <div class="notification">10</div> -->
                 </li>
                 <li class="bold">
-                    <a href="/profile/{{user.id}}"><img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="user-img {{user.bg_color}}"></a>
+                    <a href="/profile/{{user.id}}"><img src="{{user.user_img.url}}" alt="profile pic" class="user-img {{user.bg_color}}"></a>
                     <span>{{user.username}} <i class="material-icons">arrow_drop_down</i></span>
                 </li>
                 <!-- tell JavaScript whether or not someone is logged in -->
@@ -131,7 +131,7 @@
             <!-- <div class="notification">10</div> -->
         </li>
         <li>
-            <a href="/profile/{{user.id}}"><img src="{% static '' %}img/default-profiles/{{user.default_img}}.png" alt="profile pic" class="user-img {{user.bg_color}}"></a>
+            <a href="/profile/{{user.id}}"><img src="{{user.user_img.url}}" alt="profile pic" class="user-img {{user.bg_color}}"></a>
         </li>
         {% else %}
         <li><a href="/"><i class="material-icons">home</i></a></li>

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'messages.css' %}">
+{% endblock %}
+
+{% block title %}| Messages{% endblock %}
+
+
+<!------------------------ Body ------------------------>
+{% block content %}
+<div class="column message-list">
+    <div class="card">
+        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
+        <div class="card-item card-item-content">
+            <div>
+                <p class="bold">Daniel Thompson <span>danboy</span></p>
+                <small class="time">8/16/21</small>
+            </div>
+            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
+        </div>
+    </div>
+    <div class="card">
+        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
+        <div class="card-item card-item-content">
+            <div>
+                <p class="bold">Daniel Thompson <span>danboy</span></p>
+                <small class="time">8/16/21</small>
+            </div>
+            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
+        </div>
+    </div>
+    <div class="card">
+        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
+        <div class="card-item card-item-content">
+            <div>
+                <p class="bold">Daniel Thompson <span>danboy</span></p>
+                <small class="time">8/16/21</small>
+            </div>
+            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
+        </div>
+    </div>
+    <div class="card">
+        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
+        <div class="card-item card-item-content">
+            <div>
+                <p class="bold">Daniel Thompson <span>danboy</span></p>
+                <small class="time">8/16/21</small>
+            </div>
+            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
+        </div>
+    </div>
+    <div class="card">
+        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
+        <div class="card-item card-item-content">
+            <div>
+                <p class="bold">Daniel Thompson <span>danboy</span></p>
+                <small class="time">8/16/21</small>
+            </div>
+            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
+        </div>
+    </div>
+</div>
+
+<div class="column messages">
+    <div class="ms-header">
+        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
+        <p class="bold">Daniel Thompson <span>danboy</span></p>
+    </div>
+    <div class="msg-container">
+        <p>This is the first message from the sender. It should be at the top and aligned to the left.</p>
+        <p>This is a reply. This should be a different color and aligned to the right.</p>
+        <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure it doesn't go beyong 2 lines.</p>
+    </div>
+    
+
+</div>
+
+
+
+{% endblock %}

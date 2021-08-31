@@ -30,12 +30,14 @@ def index(request):
         return redirect('/')
     if "userid" in request.session:
         user = User.objects.get(id = request.session['userid'])
+        #get all posts, reviews, and teams from people the User follows and order them chronologically
+        timeline = User.objects.get_timeline(user)
+        ordered_tl = collections.OrderedDict(sorted(timeline.items()))
     else:
         user = None
-    #get all posts, reviews, and teams from people the User follows
-    #and order them chronologically
-    timeline = User.objects.get_timeline(user)
-    ordered_tl = collections.OrderedDict(sorted(timeline.items()))
+        #get all posts, reviews, and teams from everyone and order them chronologically
+        timeline = User.objects.guest_timeline()
+        ordered_tl = collections.OrderedDict(sorted(timeline.items()))
     context = {
         "user" : user,
         "timeline" : ordered_tl,

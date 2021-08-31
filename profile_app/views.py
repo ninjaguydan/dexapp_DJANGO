@@ -118,3 +118,11 @@ def like_post_comment(request):
         comment.likes.add(user)
     context = {"comment" : comment, "user" : user}
     return render(request, "post-comment-like.html", context)
+
+def messages(request):
+    if "userid" in request.session:
+        user = User.objects.get(id = request.session['userid'])
+    else:
+        return redirect("/")
+    context = {"user" : user}
+    return render(request, "messages.html", context)

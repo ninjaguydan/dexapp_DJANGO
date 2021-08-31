@@ -1,0 +1,26 @@
+.card {
+    align-items: center;
+}
+.card a {
+    width: 10%;
+    min-width: 42px;
+}
+.card a img {
+    width: 100%;
+    min-width: 42px;
+    height: unset;
+}
+.card .card-item-content {
+    cursor: pointer;
+}
+.card .card-item-content div {
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+}
+.card .card-item-content div p {
+    margin-bottom: 0;
+}
+.card .card-item-content > p {
+    color: gray;
+}

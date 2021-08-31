@@ -1,4 +1,6 @@
+from django.core import validators
 from django.db import models
+from django.core.validators import FileExtensionValidator
 import re
 import bcrypt
 
@@ -87,7 +89,6 @@ class UserManager(models.Manager):
             timeline[review.created_at] = review
         for team in user.teams.all():
             timeline[team.created_at] = team
-            pass
         following = user.profile.following.all()
         for person in following:
             for post in person.posts.all():
@@ -98,13 +99,24 @@ class UserManager(models.Manager):
                 timeline[team.created_at] = team
         return timeline
 
+    def guest_timeline(self):
+        timeline = {}
+        for user in User.objects.all():
+            for post in user.posts.all():
+                timeline[post.created_at] = post
+            for review in user.reviews_added.all():
+                timeline[review.created_at] = review
+            for team in user.teams.all():
+                timeline[team.created_at] = team
+        return timeline
+
 class User(models.Model):
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
     username = models.CharField(max_length = 50)
     email = models.CharField(max_length = 50)
     password = models.CharField(max_length = 60)
-    user_img = models.ImageField(default = "/default/0.png", upload_to="images/")
+    user_img = models.ImageField(default = "/default/0.png", upload_to="images/", validators = [FileExtensionValidator(['png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG'])])
     bg_color = models.CharField(max_length = 20, default = "gray")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)

@@ -144,6 +144,14 @@ $('.follow-list-control li').click(function(){
         $('.following-list').hide();
     }
 })
+//open/close message
+$('.msg').click(function(){
+    $('.message-bg').show();
+})
+
+$('.close').click(function(){
+    $('.message-bg').hide();
+})
 
 //------------------------------ Profile Functions ------------------------------//
 //profile tabs

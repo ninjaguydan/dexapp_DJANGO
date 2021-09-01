@@ -16,4 +16,5 @@ urlpatterns = [
     path('like_post_comment', views.like_post_comment),
     
     path('messages', views.messages),
+    path('<int:profile_id>/send_message', views.send_message),
 ]

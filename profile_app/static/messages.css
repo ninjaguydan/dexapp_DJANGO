@@ -5,6 +5,9 @@
 .card {
     align-items: center;
 }
+    .card:hover {
+        background-color: #404040;
+    }
     .card a {
         width: 10%;
         min-width: 42px;
@@ -27,6 +30,7 @@
     }
     .card .card-item-content > p {
         color: gray;
+        font-size: 0.8em;
     }
 /* Messages Column */
 .messages {
@@ -39,6 +43,7 @@
     max-width: 500px;
     margin: 0 auto;
     height: -webkit-fill-available;
+    animation: overlay .3s forwards;
 }
 /* Message Header Style */
 .ms-header {
@@ -73,6 +78,9 @@
     padding-right: 15px;
     max-width: 500px;
 }
+    .msg-container p {
+        font-size: 0.8em;
+    }
     .msg-container .time {
         position: relative;
         top: -10px;
@@ -82,6 +90,7 @@
 .sent-container {
     width: 90%;
     margin-left: auto;
+    margin-bottom: 15px;
 }
     .sent-container .time {
         margin-left: auto;
@@ -97,13 +106,27 @@
 .recieved-container {
     width: 90%;
     margin-right: auto;
+    margin-bottom: 15px;
 }
 .recieved {
     background-color:#555555;
     color: var(--fifth);
     padding: 10px;
     border-radius: .3rem .3rem .3rem 0;
-} 
+}
+/* Scroll bar styles */
+#style-3::-webkit-scrollbar {
+    width: 5px;
+    background-color: var(--secondary);
+    }
+    #style-3::-webkit-scrollbar-thumb {
+    background-color: var(--fourth);
+    border: 1px solid #444444;
+    border-radius: 0.5rem;
+    }
+        #style-3::-webkit-scrollbar-thumb:hover {
+        background-color: #444444;
+        }
 /* Form Styles */
 form.card {
     justify-content: space-around;
@@ -129,3 +152,55 @@ form.card {
             form.card button i:hover {
                 color: var(--third);
             }
+/* Message List animation */
+@keyframes overlay {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/*-------------------- At 550px --------------------*/
+@media only screen and (min-width: 550px) {
+    /* Message Styles */
+    .msg-container {
+        top: 225px;
+        bottom: 80px;
+    }
+    .ms-header {
+        border-bottom: 1px solid gray;
+    }
+    /* Form Styles */
+    form.card {
+        bottom: 0;
+    }
+}
+
+/*-------------------- At 1080px --------------------*/
+@media only screen and (min-width: 1080px) {
+    /* Message Styles */
+    .msg-container {
+        top: 243px;
+        bottom: 70px;
+    }
+    .messages {
+        position: static;
+        display: block !important;
+    }
+    .ms-header {
+        position: fixed;
+    }
+        .ms-header i {
+            display: none;
+        }
+    /* Form Styles */
+    form.card {
+        left: unset;
+        right: unset;
+        margin: unset;
+        width: 100%;
+        max-width: 500px;
+    }
+}

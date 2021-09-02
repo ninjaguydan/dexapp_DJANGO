@@ -108,6 +108,23 @@ class CommentManager(models.Manager):
                 added_by = user,
                 review = review,
             )
+class MessageManager(models.Manager):
+    def create_message(self, postData, user, profile):
+        thread = Thread.objects.filter(users__id = user.id).filter(users__id = profile.id)
+        if len(thread) == 0:
+            shared_thread = Thread.objects.create(user_2 = profile)
+            shared_thread.users.add(user, profile)
+        else:
+            shared_thread = thread[0]
+        if len(postData['message']) > 0 and len(postData['message']) < 255:
+            return Message.objects.create(
+                content = postData['message'],
+                sender = user,
+                receiver = profile,
+                thread = shared_thread,
+            )
+        else:
+            return None
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name = "profile", on_delete=models.CASCADE)
@@ -127,12 +144,20 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now = True)
     objects = PostManager()
 
-class Message(models.Model):
-    content = models.TextField()
-    user = models.ForeignKey(User, related_name = "messages_sent", on_delete = models.CASCADE)
-    receiver = models.ForeignKey(User, related_name = "messages", on_delete = models.CASCADE)
+class Thread(models.Model):
+    users = models.ManyToManyField(User, related_name = "threads")
+    user_2 = models.ForeignKey(User, on_delete = models.CASCADE, null = True) #delete null later
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+
+class Message(models.Model):
+    content = models.TextField()
+    sender = models.ForeignKey(User, related_name = "messages_sent", on_delete = models.CASCADE)
+    receiver = models.ForeignKey(User, related_name = "messages", on_delete = models.CASCADE)
+    thread = models.ForeignKey(Thread, related_name = "messages", on_delete = models.CASCADE, null = True) #delete null later
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+    objects = MessageManager()
 
 class Team(models.Model):
     name = models.CharField(max_length = 100)

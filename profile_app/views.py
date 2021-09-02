@@ -124,21 +124,21 @@ def messages(request):
         user = User.objects.get(id = request.session['userid'])
     else:
         return redirect("/")
-    messages = Message.objects.all()
-    context = {"user" : user, "messages" : messages}
+    threads = user.threads.all().order_by('-updated_at')
+    
+    for i in threads:
+        print(i.user_2)
+
+    context = {"user" : user, "threads" : threads}
     return render(request, "messages.html", context)
 
 def send_message(request, profile_id):
     if request.method == "GET":
         return redirect('/')
     user = User.objects.get(id = request.session['userid'])
-    recipient = User.objects.get(id = profile_id)
-    message = Message.objects.create(
-        content = request.POST['message'],
-        user = user,
-        receiver = recipient
-    )
+    profile = User.objects.get(id = profile_id)
+    Message.objects.create_message(request.POST, user, profile)
     if "messages" in request.META.get('HTTP_REFERER'):
-        context = {"user" : user, "message" : message}
+        context = {"user" : user, "threads" : user.threads.all()}
     else:
         return redirect(request.META.get('HTTP_REFERER'))

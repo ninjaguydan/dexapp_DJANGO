@@ -34,7 +34,7 @@
     }
 /* Messages Column */
 .messages {
-    /* display: none; */
+    display: none;
     position: fixed;
     background-color: var(--secondary);
     top: 80px;

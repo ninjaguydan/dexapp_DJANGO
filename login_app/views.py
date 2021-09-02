@@ -51,6 +51,9 @@ def signup(request):
         new_user = User.objects.register(request.POST)
         Profile.objects.create(user = new_user)
         request.session['userid'] = new_user.id
+        if new_user.id != 1:
+            admin = User.objects.get(id = 1)
+            admin.profile.following.add(new_user)
         return redirect("/")
 
 def logout(request):

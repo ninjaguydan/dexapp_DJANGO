@@ -20,7 +20,7 @@
     <!-- Post Form -->
     <div class="card">
         <img src="{{user.user_img.url}}" alt="profile pic" class="card-item user-img {{user.bg_color}} form-post-img">
-        <form action="/profile/{{user.id}}/create_post" method="POST" id="post-form" userid="{{user.id}}" post-index="True">
+        <form action="/profile/{{user.id}}/create_post" method="POST" userid="{{user.id}}" post-index="True">
             {% csrf_token %}
             <textarea class="form-control form-control-custom" name="post" rows="1" placeholder="What's on your mind?"></textarea>
             <small class="counter">255/255</small>

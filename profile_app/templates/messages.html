@@ -14,192 +14,27 @@
 
 <!------------------------ Body ------------------------>
 {% block content %}
+<!-- column of all threads -->
 <div class="column message-list">
     {% for thread in threads %}
     <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
+        <a href="/profile/{{thread.user_2.id}}" class="card-item"><img src="{{thread.user_2.user_img.url}}" alt="profile pic" class="user-img {{thread.user_2.bg_color}}"></a>
         <div class="card-item card-item-content">
             <div>
                 <p class="bold">{{thread.user_2.first_name}} {{thread.user_2.last_name}} <span>{{thread.user_2.username}}</span></p>
-                <small class="time">8/16/21</small>
+                <small class="time">{{thread.updated_at|date:"SHORT_DATE_FORMAT"}}</small>
             </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
+            {% for message in thread.messages.all %}
+                {% if forloop.last %}
+                <p>{{message.content}}</p>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
-        
     {% endfor %}
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
-    <div class="card">
-        <a href="" class="card-item"><img src="/media/default/0.png" alt="profile pic" class="user-img gray"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">Daniel Thompson <span>danboy</span></p>
-                <small class="time">8/16/21</small>
-            </div>
-            <p>This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure...</p>
-        </div>
-    </div>
 </div>
 
+<!-- Column of all messages in selected thread -->
 <div class="column messages">
     <div class="ms-header">
         <i class="material-icons back">arrow_back</i>

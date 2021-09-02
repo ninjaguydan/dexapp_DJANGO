@@ -55,7 +55,7 @@ def create_post(request, user_id):
     user = User.objects.get(id= user_id)
     post = Post.objects.new_post(user, request.POST)
     if request.META.get('HTTP_REFERER')[-1] == "/":
-        return redirect('/')
+        return redirect(request.META.get('HTTP_REFERER'))
     else:
         # print(f"We got here from {request.META.get('HTTP_REFERER')}!!")
         context = {"user" : user, "post" : post, "profile" : user}
@@ -125,10 +125,6 @@ def messages(request):
     else:
         return redirect("/")
     threads = user.threads.all().order_by('-updated_at')
-    
-    for i in threads:
-        print(i.user_2)
-
     context = {"user" : user, "threads" : threads}
     return render(request, "messages.html", context)
 

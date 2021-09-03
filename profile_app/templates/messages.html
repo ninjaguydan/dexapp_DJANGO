@@ -17,6 +17,7 @@
 <!-- column of all threads -->
 <div class="column message-list">
     {% for thread in threads %}
+    {% if thread.messages.all|length != 0 %}
     <div class="card" thread_id="{{thread.id}}">
         {% for u in thread.users.all %}
         {% if u != user %}
@@ -34,6 +35,11 @@
             {% endif %}
             {% endfor %}
         </div>
+    </div>
+    {% endif %}
+    {% empty %}
+    <div class="card">
+        <h5>No Messages yet!</h5>
     </div>
     {% endfor %}
 </div>

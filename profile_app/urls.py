@@ -18,4 +18,5 @@ urlpatterns = [
     path('messages', views.messages),
     path('messages/<int:thread_id>', views.display_thread),
     path('<int:profile_id>/send_message', views.send_message),
+    path('<int:message_id>/delete_message', views.delete_message)
 ]

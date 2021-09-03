@@ -35,3 +35,16 @@ $('.column').on('submit', '.msg-form', function(e){
         }
     })
 })
+
+//delete message from thread
+$('.column').on('click', '.sent-container .material-icons', function(){
+    let message_id = $(this).attr('message_id');
+    $.ajax({
+        url: "/profile/" + message_id + "/delete_message",
+        method: "GET",
+        data: $(this).serialize(),
+        success: function(response){
+            $('.msg-container').html(response);
+        }
+    })
+})

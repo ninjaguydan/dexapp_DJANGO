@@ -74,11 +74,12 @@
     overflow: auto;
     position: fixed;
     top: 200px;
-    bottom: 151px;
+    bottom: 172px;
     padding: 15px;
+    left: 0;
     width: 100%;
     max-width: 500px;
-    background-color: #151515;
+    background-image: linear-gradient(var(--secondary), var(--fourth));
 }
     .msg-container p {
         font-size: 0.8em;
@@ -93,17 +94,30 @@
     width: 75%;
     margin-left: auto;
     margin-bottom: 15px;
+    position: relative;
 }
     .sent-container .time {
         margin-left: auto;
         text-align: end;
     }
+    .sent-container i {
+        position: absolute;
+        left: -30px;
+        top: 50%;
+        transform: translateY(-135%);
+        font-size: 18px;
+        color: #8080803b;
+        cursor: pointer;
+    }
+        .sent-container i:hover {
+            color: #808080;
+        }
 .sent {
     background-color:#4cb9f3;
     color: var(--secondary);
     font-weight: 500;
     padding: 10px;
-    border-radius: .3rem .3rem 0 .3rem;
+    border-radius: .75rem .75rem 0 .75rem;
 }
 .recieved-container {
     width: 75%;
@@ -114,15 +128,15 @@
     background-color:#555555;
     color: var(--fifth);
     padding: 10px;
-    border-radius: .3rem .3rem .3rem 0;
+    border-radius: .75rem .75rem .75rem 0;
 }
 /* Scroll bar styles */
 #style-3::-webkit-scrollbar {
     width: 5px;
-    background-color: var(--secondary);
+    background-color: var(--fourth);
     }
     #style-3::-webkit-scrollbar-thumb {
-    background-color: var(--fourth);
+    background-color: var(--secondary);
     border: 1px solid #444444;
     border-radius: 0.5rem;
     }
@@ -139,6 +153,7 @@ form.card {
     right: 0;
     max-width: 500px;
     margin: 0 auto;
+    padding-bottom: 40px;
 }
     form.card textarea {
         width: 80%;
@@ -169,7 +184,10 @@ form.card {
     /* Message Styles */
     .msg-container {
         top: 225px;
-        bottom: 80px;
+        bottom: 100px;
+        right: unset;
+        left: unset;
+        width: 100%;
     }
     /* Form Styles */
     form.card {
@@ -182,7 +200,7 @@ form.card {
     /* Message Styles */
     .msg-container {
         top: 243px;
-        bottom: 70px;
+        bottom: 90px;
     }
     .messages {
         position: static;

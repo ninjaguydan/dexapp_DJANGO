@@ -13,6 +13,7 @@
         <div class="sent-container">
             <p class="sent">{{message.content}}</p>
             <small class="time">{{message.created_at|date:"n/j/y, g:i a"}}</small>
+            <i class="material-icons" message_id="{{message.id}}">delete</i>
         </div>
         {% else %}
         <div class="recieved-container">

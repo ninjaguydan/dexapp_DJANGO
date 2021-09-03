@@ -146,3 +146,14 @@ def display_thread(request, thread_id):
         "display_thread" : Thread.objects.get(id = thread_id),
     }
     return render(request, "threads.html", context)
+
+def delete_message(request, message_id):
+    if "userid" in request.session:
+        message = Message.objects.get(id = message_id)
+        if request.session['userid'] == message.sender.id:
+            message.delete()
+            context = {
+                "user" : User.objects.get(id = request.session['userid']), 
+                "display_thread" : Thread.objects.get(id = message.thread.id)}
+            return render(request, "append-msg.html", context)
+    return redirect(request.META.get('HTTP_REFERER'))

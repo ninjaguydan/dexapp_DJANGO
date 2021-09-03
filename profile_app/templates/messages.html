@@ -17,17 +17,21 @@
 <!-- column of all threads -->
 <div class="column message-list">
     {% for thread in threads %}
-    <div class="card">
-        <a href="/profile/{{thread.user_2.id}}" class="card-item"><img src="{{thread.user_2.user_img.url}}" alt="profile pic" class="user-img {{thread.user_2.bg_color}}"></a>
+    <div class="card" thread_id="{{thread.id}}">
+        {% for u in thread.users.all %}
+        {% if u != user %}
+        <a href="/profile/{{u.id}}" class="card-item"><img src="{{u.user_img.url}}" alt="profile pic" class="user-img {{u.bg_color}}"></a>
         <div class="card-item card-item-content">
             <div>
-                <p class="bold">{{thread.user_2.first_name}} {{thread.user_2.last_name}} <span>{{thread.user_2.username}}</span></p>
+                <p class="bold">{{u.first_name}} {{u.last_name}} <span>{{u.username}}</span></p>
+        {% endif %}
+        {% endfor %}
                 <small class="time">{{thread.updated_at|date:"SHORT_DATE_FORMAT"}}</small>
             </div>
             {% for message in thread.messages.all %}
-                {% if forloop.last %}
-                <p>{{message.content}}</p>
-                {% endif %}
+            {% if forloop.last %}
+            <p>{{message.content|truncatechars:99}}</p>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
@@ -36,60 +40,35 @@
 
 <!-- Column of all messages in selected thread -->
 <div class="column messages">
-    <div class="ms-header">
+    <!-- <div class="ms-header">
         <i class="material-icons back">arrow_back</i>
-        <a href=""><img src="/media/default/0.png" alt="profile pic" class="user-img purple"></a>
-        <p class="bold">Daniel Thompson</p>
+        {% for u in display_thread.users.all %}
+        {% if u != user %}
+        <a href=""><img src="{{u.user_img.url}}" alt="profile pic" class="user-img {{u.bg_color}}"></a>
+        <p class="bold">{{u.first_name}} {{u.last_name}}</p>
+        {% endif %}
+        {% endfor %}
     </div>
     <div class="msg-container" id="style-3">
-        <div class="recieved-container">
-            <p class="recieved">This is the first message from the sender. It should be at the top and aligned to the left.</p>
-            <small class="time">3:02pm</small>
-        </div>
-        <div class="sent-container">
-            <p class="sent">This is the first message from the sender. It should be at the top and aligned to the left.</p>
-            <small class="time">3:02pm</small>
-        </div>
-        <div class="sent-container">
-            <p class="sent">This is the first message from the sender. It should be at the top and aligned to the left.</p>
-            <small class="time">3:02pm</small>
-        </div>
-        <div class="recieved-container">
-            <p class="recieved">This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure it doesn't go beyong 2 lines.</p>
-            <small class="time">3:02pm</small>
-        </div>
-        <div class="sent-container">
-            <p class="sent">This is the first message from the sender. It should be at the top and aligned to the left.</p>
-            <small class="time">3:02pm</small>
-        </div>
-        <div class="recieved-container">
-            <p class="recieved">This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure it doesn't go beyong 2 lines.</p>
-            <small class="time">3:02pm</small>
-        </div>
-        <div class="sent-container">
-            <p class="sent">This is the first message from the sender. It should be at the top and aligned to the left.</p>
-            <small class="time">3:02pm</small>
-        </div>
-        <div class="recieved-container">
-            <p class="recieved">This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure it doesn't go beyong 2 lines.</p>
-            <small class="time">3:02pm</small>
-        </div>
-        <div class="sent-container">
-            <p class="sent">This is the first message from the sender. It should be at the top and aligned to the left.</p>
-            <small class="time">3:02pm</small>
-        </div>
-        <div class="recieved-container">
-            <p class="recieved">This is a message from a person.. if it gets too long, we will need to truncate. I need to make sure it doesn't go beyong 2 lines.</p>
-            <small class="time">3:02pm</small>
-        </div>
-        
+        {% for message in display_thread.messages.all %}
+            {% if message.sender == user %}
+            <div class="sent-container">
+                <p class="sent">{{message.content}}</p>
+                <small class="time">{{message.created_at|date:"n/j/y, g:i a"}}</small>
+            </div>
+            {% else %}
+            <div class="recieved-container">
+                <p class="recieved">{{message.content}}</p>
+                <small class="time">{{message.created_at|date:"n/j/y, g:i a"}}</small>
+            </div>
+            {% endif %}
+        {% endfor %}
     </div>
     <form action="/profile/{{profile.id}}/send_message" class="card" method="POST">
         {% csrf_token %}
         <textarea name="message" rows="1" class="form-control form-control-custom"></textarea>
         <button><i class="material-icons">send</i></button>
-    </form>
-
+    </form> -->
 </div>
 
 

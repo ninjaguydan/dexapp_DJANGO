@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Post, Message, Comment, Profile
+from .models import Post, Message, Comment, Profile, Thread
 from login_app.models import User
 
 
@@ -125,7 +125,7 @@ def messages(request):
     else:
         return redirect("/")
     threads = user.threads.all().order_by('-updated_at')
-    context = {"user" : user, "threads" : threads}
+    context = {"user" : user, "threads" : threads,}
     return render(request, "messages.html", context)
 
 def send_message(request, profile_id):
@@ -133,8 +133,16 @@ def send_message(request, profile_id):
         return redirect('/')
     user = User.objects.get(id = request.session['userid'])
     profile = User.objects.get(id = profile_id)
-    Message.objects.create_message(request.POST, user, profile)
+    message = Message.objects.create_message(request.POST, user, profile)
     if "messages" in request.META.get('HTTP_REFERER'):
-        context = {"user" : user, "threads" : user.threads.all()}
+        context = {"user" : user, "display_thread" : Thread.objects.get(id = message.thread.id)}
+        return render(request, "append-msg.html", context)
     else:
         return redirect(request.META.get('HTTP_REFERER'))
+
+def display_thread(request, thread_id):
+    context = {
+        "user" : User.objects.get(id = request.session['userid']),
+        "display_thread" : Thread.objects.get(id = thread_id),
+    }
+    return render(request, "threads.html", context)

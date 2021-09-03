@@ -1,0 +1,33 @@
+<div class="ms-header">
+    <i class="material-icons back">arrow_back</i>
+    {% for u in display_thread.users.all %}
+    {% if u != user %}
+    <a href=""><img src="{{u.user_img.url}}" alt="profile pic" class="user-img {{u.bg_color}}"></a>
+    <p class="bold">{{u.first_name}} {{u.last_name}}</p>
+    {% endif %}
+    {% endfor %}
+</div>
+<div class="msg-container" id="style-3">
+    {% for message in display_thread.messages.all %}
+        {% if message.sender == user %}
+        <div class="sent-container">
+            <p class="sent">{{message.content}}</p>
+            <small class="time">{{message.created_at|date:"n/j/y, g:i a"}}</small>
+        </div>
+        {% else %}
+        <div class="recieved-container">
+            <p class="recieved">{{message.content}}</p>
+            <small class="time">{{message.created_at|date:"n/j/y, g:i a"}}</small>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% for u in display_thread.users.all %}
+{% if u != user %}
+<form action="/profile/{{u.id}}/send_message" class="card msg-form" method="POST" profile_id={{u.id}}>
+{% endif %}
+{% endfor %}
+    {% csrf_token %}
+    <textarea name="message" rows="1" class="form-control form-control-custom"></textarea>
+    <button><i class="material-icons">send</i></button>
+</form>

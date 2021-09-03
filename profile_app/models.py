@@ -112,7 +112,7 @@ class MessageManager(models.Manager):
     def create_message(self, postData, user, profile):
         thread = Thread.objects.filter(users__id = user.id).filter(users__id = profile.id)
         if len(thread) == 0:
-            shared_thread = Thread.objects.create(user_2 = profile)
+            shared_thread = Thread.objects.create()
             shared_thread.users.add(user, profile)
         else:
             shared_thread = thread[0]
@@ -146,7 +146,6 @@ class Post(models.Model):
 
 class Thread(models.Model):
     users = models.ManyToManyField(User, related_name = "threads")
-    user_2 = models.ForeignKey(User, on_delete = models.CASCADE, null = True) #delete null later
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
@@ -154,7 +153,7 @@ class Message(models.Model):
     content = models.TextField()
     sender = models.ForeignKey(User, related_name = "messages_sent", on_delete = models.CASCADE)
     receiver = models.ForeignKey(User, related_name = "messages", on_delete = models.CASCADE)
-    thread = models.ForeignKey(Thread, related_name = "messages", on_delete = models.CASCADE, null = True) #delete null later
+    thread = models.ForeignKey(Thread, related_name = "messages", on_delete = models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     objects = MessageManager()

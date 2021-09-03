@@ -75,8 +75,10 @@
     position: fixed;
     top: 200px;
     bottom: 151px;
-    padding-right: 15px;
+    padding: 15px;
+    width: 100%;
     max-width: 500px;
+    background-color: #151515;
 }
     .msg-container p {
         font-size: 0.8em;
@@ -88,7 +90,7 @@
         display: block;
     }
 .sent-container {
-    width: 90%;
+    width: 75%;
     margin-left: auto;
     margin-bottom: 15px;
 }
@@ -104,7 +106,7 @@
     border-radius: .3rem .3rem 0 .3rem;
 }
 .recieved-container {
-    width: 90%;
+    width: 75%;
     margin-right: auto;
     margin-bottom: 15px;
 }
@@ -169,9 +171,6 @@ form.card {
         top: 225px;
         bottom: 80px;
     }
-    .ms-header {
-        border-bottom: 1px solid gray;
-    }
     /* Form Styles */
     form.card {
         bottom: 0;
@@ -187,14 +186,11 @@ form.card {
     }
     .messages {
         position: static;
-        display: block !important;
+        /* display: block !important; */
     }
-    .ms-header {
-        position: fixed;
+    .ms-header i {
+        display: none;
     }
-        .ms-header i {
-            display: none;
-        }
     /* Form Styles */
     form.card {
         left: unset;

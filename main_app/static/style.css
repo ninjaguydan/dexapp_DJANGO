@@ -70,6 +70,20 @@ form.search-form.hidden {
     padding-bottom: 95px;
     padding-top: 90px;
 }
+/* Scroll bar styles */
+#style-2::-webkit-scrollbar {
+    width: 5px;
+    background-color: var(--fourth);
+    }
+    #style-2::-webkit-scrollbar-thumb {
+    background-color: var(--secondary);
+    border: 1px solid #444444;
+    border-radius: 0.5rem;
+    }
+        #style-2::-webkit-scrollbar-thumb:hover {
+        background-color: #444444;
+        }
+
 input:-internal-autofill-selected {
     background-color: transparent !important;
 }
@@ -180,6 +194,47 @@ form.search-form {
         .search-form button i:hover {
             color: var(--third);
         }
+/* Dropdown notifications */
+.dropdown-notif {
+    display: none;
+    position: fixed;
+    bottom: 5.2rem;
+    /* top: 4.25rem; */
+    top: unset;
+    right: 0.2rem;
+    font-size: 0.8em;
+    height: 500px;
+    width: 85%;
+    max-width: 320px;
+    box-shadow: -4px 4px 8px rgba(39, 39, 39, 0.6);
+    overflow: auto;
+}
+    .dropdown-notif .empty {
+        padding-left: 16px;
+    }
+    .dropdown-notif.dropdown-menu {
+        padding-top: 0;
+        border-radius: .5rem .5rem 0 0;
+    }
+    .dropdown-notif .dropdown-item {
+        white-space: unset;
+    }
+    .dropdown-notif .dropdown-item:first-child {
+        text-align: right;
+        font-weight: 700;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #282828;
+        margin-bottom: 10px;
+        justify-content: flex-end;
+    }
+    .dropdown-notif .dropdown-item:first-child:hover {
+        color: unset;
+        background-color: initial;
+    }
+.dropdown-menu-dark {
+    background-color: var(--fourth);
+}        
 
 
 /*------ Top Navigation Styles ------*/
@@ -687,9 +742,8 @@ margin-bottom: 3px;
         .notification {
             top: 1px;
         }
-            
     /* Dropdown menu styles */
-    .dropdown-menu {
+    .dropdown-menu.dropdown-nav {
         display: none;
         position: fixed;
         top: 4.25rem;
@@ -710,9 +764,6 @@ margin-bottom: 3px;
             margin-right: 12px;
             margin-left: 2px;
         }
-    .dropdown-menu-dark {
-        background-color: var(--fourth);
-    }
     .form-post-img {
         display: block;
     }
@@ -725,27 +776,16 @@ margin-bottom: 3px;
     .review-counter {
         right: 190px;
     }
-}
-/* Delete popup */
-.del {
-    padding: 5px 15px;
-    background-color: gray;
-    border-radius: .25rem;
-    position: absolute;
-    left: 205px;
-    bottom: 15px;
-}
-    .del:after {
-        content: "";
-        position: absolute;
-        border-style: solid;
-        display: block;
-        width: 0;
-        border-color: transparent gray;
-        bottom:5px; /* value = - border-top-width - border-bottom-width */
-        left:-5px; /* controls horizontal position */
-        border-width:10px 15px 10px 0;
+    /* Dropdown notifications */
+    .dropdown-notif {
+        bottom: unset;
+        top: 4.25rem;
+        right: 4.2rem;
+    
+        
+        
     }
+}
 /*-------------------- At 800px --------------------*/
 @media only screen and (min-width: 800px) {
     .search-icon {

@@ -8,6 +8,11 @@ body {
     max-width: 700px;
     margin: 0 auto;
 }
+.card h5 {
+    font-size: .8em;
+    text-align: center;
+    width: 100%;
+}
 .list-group {
     flex-direction: row;
     overflow: auto;
@@ -100,6 +105,9 @@ body {
     .column {
         width: 58%;
         margin: 0;
+    }
+    .card h5 {
+        font-size: 1em;
     }
     .rank {
         display: block;

@@ -51,8 +51,12 @@ def signup(request):
         new_user = User.objects.register(request.POST)
         Profile.objects.create(user = new_user)
         request.session['userid'] = new_user.id
+        #new user is automatically followed by me
         if new_user.id != 1:
             admin = User.objects.get(id = 1)
+            new_user.profile.notif_counter += 1
+            new_user.profile.save()
+            new_user.profile.new_followers.add(admin)
             admin.profile.following.add(new_user)
         return redirect("/")
 

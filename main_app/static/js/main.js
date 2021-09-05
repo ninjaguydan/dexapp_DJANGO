@@ -47,20 +47,25 @@ if (loggedIn == "False") {
 
 //display main nav dropdown menu
 $('.main-nav span').click(function(){
-    console.log("what?");
-    $('.dropdown-menu').toggle();
+    $('.dropdown-menu.dropdown-nav').toggle();
     $('.main-nav span').toggleClass('active');
+})
+
+//display notifications
+$('.nav-icon.bell').click(function(){
+    $('.dropdown-menu.dropdown-notif').toggle();
+    $('.nav-icon.bell').toggleClass('active');
 })
 
 //Close dropdown menu when clicking anywhere outside of it
 function closeDropdown() {
     $('.dropdown-menu').hide();
-    $('.main-nav span').removeClass('active');
+    $('.main-nav span, .nav-icon.bell').removeClass('active');
 }
 $(document.body).click(function(e){
     closeDropdown();
 })
-$('.main-nav span').click(function(e) {
+$('.main-nav span, .nav-icon.bell').click(function(e) {
     e.stopPropagation();
 })
 

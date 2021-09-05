@@ -132,6 +132,9 @@ class Profile(models.Model):
     location = models.CharField(max_length=100, null = True)
     pronouns = models.CharField(max_length=20, null = True)
     following = models.ManyToManyField(User, related_name = "following", blank = True)
+    msg_counter = models.IntegerField(default = 0)
+    notif_counter = models.IntegerField(default = 0)
+    new_followers = models.ManyToManyField(User, related_name = "new")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     objects = ProfileManager()
@@ -146,6 +149,7 @@ class Post(models.Model):
 
 class Thread(models.Model):
     users = models.ManyToManyField(User, related_name = "threads")
+    has_new = models.BooleanField(default = False)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 

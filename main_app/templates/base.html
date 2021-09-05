@@ -72,11 +72,15 @@
             {% if request.session.userid %}
                 <li>
                     <a href="/profile/messages"><i class="material-icons">mail</i></a>
-                    <!-- <div class="notification">4</div> -->
+                    {% if user.profile.msg_counter != 0 %}
+                    <div class="notification">{{user.profile.msg_counter}}</div>
+                    {% endif %}
                 </li>
                 <li>
-                    <i class="material-icons nav-icon">notifications</i>
-                    <!-- <div class="notification">10</div> -->
+                    <i class="material-icons nav-icon bell">notifications</i>
+                    {% if user.profile.notif_counter != 0 %}
+                    <div class="notification">{{user.profile.notif_counter}}</div>
+                    {% endif %}
                 </li>
                 <li class="bold">
                     <a href="/profile/{{user.id}}"><img src="{{user.user_img.url}}" alt="profile pic" class="user-img {{user.bg_color}}"></a>
@@ -97,7 +101,7 @@
 
     {% if request.session.userid %}
     <!-- Dropdown Menu -->
-    <ul class="dropdown-menu dropdown-menu-dark">
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-nav">
         <li><a class="dropdown-item" href="/profile/{{user.id}}"><i class="material-icons">account_circle</i>Profile</a></li>
         <li><a class="dropdown-item" href="/search/dex"><img src="{% static 'img/dex-icon.svg' %}" alt=""> Pokedex</a></li>
         <li><a class="dropdown-item" href="/"><i class="material-icons">home</i>Home</a></li>
@@ -124,11 +128,15 @@
         {% if request.session.userid %}
         <li>
             <a href="/profile/messages"><i class="material-icons">mail</i></a>
-            <!-- <div class="notification">4</div> -->
+            {% if user.profile.msg_counter != 0 %}
+            <div class="notification">{{user.profile.msg_counter}}</div>
+            {% endif %}
         </li>
         <li>
-            <i class="material-icons nav-icon">notifications</i>
-            <!-- <div class="notification">10</div> -->
+            <i class="material-icons nav-icon bell">notifications</i>
+            {% if user.profile.notif_counter != 0 %}
+            <div class="notification">{{user.profile.notif_counter}}</div>
+            {% endif %}
         </li>
         <li>
             <a href="/profile/{{user.id}}"><img src="{{user.user_img.url}}" alt="profile pic" class="user-img {{user.bg_color}}"></a>
@@ -140,6 +148,24 @@
         {% endif %}
     </ul>
     
+    <!-- Notifications -->
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-notif" id="style-2">
+        <li class="dropdown-item"><a href="/profile/clear">Clear Notifications</a></li>
+        {% if user.profile.notif_counter != 0 %}
+            {% for u in user.profile.new_followers.all %}
+            <li class="dropdown-item">
+                <a href="/profile/{{u.id}}">
+                    <img src="{{u.user_img.url}}" class="user-img {{u.bg_color}}">{{u.username}} followed you!
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            {% endfor %}
+        {% else %}
+        <li class="empty">No notifications yet!</li>
+        {% endif %}
+    </ul>
+
+
     <!--main content wrapper-->
     <div class="wrapper">
         {% block content %}

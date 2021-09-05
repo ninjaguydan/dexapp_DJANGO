@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Post, Message, Comment, Profile, Thread
 from login_app.models import User
+from datetime import datetime
 
 
 def profile(request, profile_id):
@@ -46,6 +47,9 @@ def follow(request):
         if user_to_follow in user.profile.following.all():
             user.profile.following.remove(user_to_follow)
         else:
+            user_to_follow.profile.notif_counter += 1
+            user_to_follow.profile.save()
+            user_to_follow.profile.new_followers.add(user)
             user.profile.following.add(user_to_follow)
         return redirect(f'/profile/{user_to_follow.id}')
 
@@ -124,6 +128,8 @@ def messages(request):
         user = User.objects.get(id = request.session['userid'])
     else:
         return redirect("/")
+    user.profile.msg_counter = 0
+    user.profile.save()
     threads = user.threads.all().order_by('-updated_at')
     context = {"user" : user, "threads" : threads,}
     return render(request, "messages.html", context)
@@ -134,6 +140,10 @@ def send_message(request, profile_id):
     user = User.objects.get(id = request.session['userid'])
     profile = User.objects.get(id = profile_id)
     message = Message.objects.create_message(request.POST, user, profile)
+    message.thread.updated_at = datetime.now()
+    message.thread.save()
+    profile.profile.msg_counter += 1
+    profile.profile.save()
     if "messages" in request.META.get('HTTP_REFERER'):
         context = {"user" : user, "display_thread" : Thread.objects.get(id = message.thread.id)}
         return render(request, "append-msg.html", context)
@@ -156,4 +166,13 @@ def delete_message(request, message_id):
                 "user" : User.objects.get(id = request.session['userid']), 
                 "display_thread" : Thread.objects.get(id = message.thread.id)}
             return render(request, "append-msg.html", context)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def clear_notifications(request):
+    if "userid" in request.session:
+        user = User.objects.get(id = request.session['userid'])
+        user.profile.notif_counter = 0
+        user.profile.save()
+        for u in user.profile.new_followers.all():
+            user.profile.new_followers.remove(u)
     return redirect(request.META.get('HTTP_REFERER'))

@@ -141,6 +141,7 @@ def send_message(request, profile_id):
     profile = User.objects.get(id = profile_id)
     message = Message.objects.create_message(request.POST, user, profile)
     message.thread.updated_at = datetime.now()
+    message.thread.has_new = True
     message.thread.save()
     profile.profile.msg_counter += 1
     profile.profile.save()
@@ -151,9 +152,13 @@ def send_message(request, profile_id):
         return redirect(request.META.get('HTTP_REFERER'))
 
 def display_thread(request, thread_id):
+    thread = Thread.objects.get(id = thread_id)
+    if thread.messages.all().last().receiver.id == request.session['userid']:
+        thread.has_new = False
+        thread.save()
     context = {
         "user" : User.objects.get(id = request.session['userid']),
-        "display_thread" : Thread.objects.get(id = thread_id),
+        "display_thread" : thread,
     }
     return render(request, "threads.html", context)
 

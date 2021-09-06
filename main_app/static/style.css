@@ -157,6 +157,7 @@ form.search-form {
     width: 100%;
     padding: 10px;
     background-color: var(--fourth);
+    border-top: 10px solid var(--secondary);
 }
     .search-form select {
         border-radius: 1rem 0 0 1rem;
@@ -199,7 +200,6 @@ form.search-form {
     display: none;
     position: fixed;
     bottom: 5.2rem;
-    /* top: 4.25rem; */
     top: unset;
     right: 0.2rem;
     font-size: 0.8em;
@@ -231,6 +231,9 @@ form.search-form {
     .dropdown-notif .dropdown-item:first-child:hover {
         color: unset;
         background-color: initial;
+    }
+    .dropdown-notif .user-img {
+        margin-right: 15px;
     }
 .dropdown-menu-dark {
     background-color: var(--fourth);
@@ -772,6 +775,8 @@ margin-bottom: 3px;
         bottom: unset;
         top: 71px;
         width: 100%;
+        border-top: unset;
+        border-bottom: 10px solid var(--secondary);
     }
     .review-counter {
         right: 190px;
@@ -797,6 +802,7 @@ margin-bottom: 3px;
         width: 42%;
         right: 385px;
         background-color: transparent;
+        border-bottom: unset
     }
     /* index  */
     p.team-title {
@@ -851,6 +857,9 @@ margin-bottom: 3px;
             width: 60px;
             height: 60px;
         }
+    .dropdown-notif .user-img {
+        height: unset;
+    }
     form.search-form {
         top: 12px;
     }

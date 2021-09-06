@@ -17,26 +17,38 @@
 <!-- column of all threads -->
 <div class="column message-list">
     {% for thread in threads %}
-    {% if thread.messages.all|length != 0 %}
-    <div class="card" thread_id="{{thread.id}}">
-        {% for u in thread.users.all %}
-        {% if u != user %}
-        <a href="/profile/{{u.id}}" class="card-item"><img src="{{u.user_img.url}}" alt="profile pic" class="user-img {{u.bg_color}}"></a>
-        <div class="card-item card-item-content">
-            <div>
-                <p class="bold">{{u.first_name}} {{u.last_name}} <span>{{u.username}}</span></p>
-        {% endif %}
-        {% endfor %}
-                <small class="time">{{thread.updated_at|date:"SHORT_DATE_FORMAT"}}</small>
-            </div>
-            {% for message in thread.messages.all %}
-            {% if forloop.last %}
-            <p>{{message.content|truncatechars:99}}</p>
+        <!-- Display thread if it has any messages at all -->
+        {% if thread.messages.all|length != 0 %}
+            <!-- If thread has new messages -->
+            {% if thread.has_new == True %}
+                <!-- and if receiver of the new message is the currently logged in user -->
+                {% if thread.messages.all.last.receiver == user %}
+                <div class="card unread" thread_id="{{thread.id}}">
+                {% else %}
+                <div class="card" thread_id="{{thread.id}}">
+                {% endif %}
+            {% else %}
+            <div class="card" thread_id="{{thread.id}}">
+            {% endif %}
+
+            {% for u in thread.users.all %}
+            {% if u != user %}
+            <a href="/profile/{{u.id}}" class="card-item"><img src="{{u.user_img.url}}" alt="profile pic" class="user-img {{u.bg_color}}"></a>
+            <div class="card-item card-item-content">
+                <div>
+                    <p class="bold">{{u.first_name}} {{u.last_name}} <span>{{u.username}}</span></p>
             {% endif %}
             {% endfor %}
+                    <small class="time">{{thread.updated_at|date:"SHORT_DATE_FORMAT"}}</small>
+                </div>
+                {% for message in thread.messages.all %}
+                {% if forloop.last %}
+                <p>{{message.content|truncatechars:99}}</p>
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    {% endif %}
+        {% endif %}
     {% empty %}
     <div class="card">
         <h5>No Messages yet!</h5>

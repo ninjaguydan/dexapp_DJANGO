@@ -1,6 +1,13 @@
 body {
     position: initial;
 }
+.btn-container .reset-pw {
+    font-size: .8em;
+    color: gray;
+}
+    .btn-container .reset-pw:hover {
+        color: white;
+    }
 .error, .error2 {
     color: var(--primary);
     display: none;
@@ -43,6 +50,24 @@ body {
         right: 10px;
         color: var(--third);
     }
+.logres.reset {
+    margin: 0 auto;
+}
+.logres.reset form input[type="email"], .logres.reset form input[type="password"] {
+    border-radius: .25rem;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.logres.reset form input[type="email"]:focus-visible, .logres.reset form input[type="password"]:focus-visible {
+    outline: unset;
+}
+.logres.reset form input[type="email"]:focus, .logres.reset form input[type="password"]:focus {
+    border-color: #e58494;
+    box-shadow: 0 0 0 0.25rem rgb(253 49 88 / 25%);
+}
+.logres.reset .helptext {
+    display: none;
+}
 /*-------------------- At 550px --------------------*/
 @media only screen and (min-width: 550px) {
     .logres, .tag {

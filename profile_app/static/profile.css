@@ -1,6 +1,9 @@
 body {
     position: relative;
 }
+.popup-container {
+    display: none;
+}
 /* Profile info/ Left column styles */
 .profile {
     max-width: 500px;

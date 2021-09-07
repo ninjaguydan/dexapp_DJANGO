@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'logres.css' %}">
+{% endblock %}
+
+{% block title %}| Reset Password{% endblock %}
+
+
+<!------------------------ Body ------------------------>
+{% block content %}
+    <div class="logres reset">
+        <h2>Password reset complete!</h2>
+        <hr>
+        <p>Your new password has been set.</p>
+
+        <a class="btn btn-primary" href="/login">Log in</a>
+    </div>
+{% endblock %}

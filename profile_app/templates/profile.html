@@ -471,11 +471,18 @@
             <h4><span>Message to</span> {{profile.username}}</h4>
             <p class="close">&#10005;</p>
         </div>
-        <form action="/profile/{{profile.id}}/send_message" method="POST">
+        <form action="/profile/{{profile.id}}/send_message" method="POST" receiver_id="{{profile.id}}">
             {% csrf_token %}
             <textarea name="message" rows="4" class="form-control form-control-custom"></textarea>
-            <button class="btn btn-primary">Send <i class="material-icons">send</i></button>
+            <button class="btn btn-primary" disabled>Send <i class="material-icons">send</i></button>
         </form>
+    </div>
+</div>
+<!------------- Message Sent Popup --------------->
+<div class="popup-container">
+    <div class="card popup">
+        <i class="material-icons">check_circle</i>
+        <p>Message sent!</p>
     </div>
 </div>
 {% endif %}

@@ -36,3 +36,16 @@ def team_filler(team):
     else:
         return team
 register.filter('team_filler', team_filler)
+
+#Get dictionary items one by one because I'm too frustrated to figure out a simpler way to do this
+def get_username(dictionary, key):
+    return dictionary[key].added_by.username
+register.filter('get_username', get_username)
+
+def get_sprite(dictionary, key):
+    return dictionary[key].pkmn.sprite_url
+register.filter('get_sprite', get_sprite)
+
+def get_user_img(dictionary, key):
+    return dictionary[key].added_by.user_img.url
+register.filter('get_user_img', get_user_img)

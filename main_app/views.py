@@ -3,6 +3,7 @@ from django.db.models import Count
 from login_app.models import User
 from .models import Review, Pokemon, Type
 from profile_app.models import Post, Comment, Team
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import collections
 import requests
 import json
@@ -38,6 +39,22 @@ def index(request):
         #get all posts, reviews, and teams from everyone and order them chronologically
         timeline = User.objects.guest_timeline()
         ordered_tl = collections.OrderedDict(sorted(timeline.items()))
+
+    # # print(ordered_tl)
+    # key_list = []
+    # for key, value in ordered_tl.items():
+    #     print(key)
+    #     key_list.append(key)
+
+    # page = request.GET.get('page', 1)
+    # paginator = Paginator(ordered_tl, 30)
+    # try:
+    #     page = paginator.page(page)
+    # except PageNotAnInteger:
+    #     page = paginator.page(1)
+    # except EmptyPage:
+    #     page = paginator.page(paginator.num_pages)
+
     context = {
         "user" : user,
         "timeline" : ordered_tl,

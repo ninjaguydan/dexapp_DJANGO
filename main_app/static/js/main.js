@@ -15,7 +15,7 @@ function openMenu() {
     }
 }
 //textarea counter
-$('.column').on('keyup', 'form', function(){
+$(document).on('keyup', 'form', function(){
     let limit = 255;
     let input = $(this).find('textarea').val();
     limit -= input.length;
@@ -27,7 +27,7 @@ $('.column').on('keyup', 'form', function(){
     }
 })
 // disable buttons if form inputs contain only white space 
-$('.column').on('keyup', 'form', function(){
+$(document).on('keyup', 'form', function(){
     let str = $(this).find('textarea').val().replace(/\s/g, '').length;
     if (!str || str > 255) {
         $(this).find('button').prop("disabled", true)
@@ -156,6 +156,26 @@ $('.msg').click(function(){
 
 $('.close').click(function(){
     $('.message-bg').hide();
+})
+
+//confirm message
+$(document).on('submit', '.message-bg form', function(e){
+    e.preventDefault();
+    let receiver_id = $(this).attr('receiver_id');
+    $.ajax({
+        url: "/profile/" + receiver_id + "/send_message",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(response){
+            $('.popup-container').show();
+            $('.message-bg form textarea').val(null);
+            $('.message-bg').hide();
+        }
+    })
+    setTimeout(function(){
+        $('.popup-container').fadeOut()
+    }, 5000);
+
 })
 
 //------------------------------ Profile Functions ------------------------------//

@@ -165,6 +165,9 @@ class Pokemon(models.Model):
     immune_to = models.ManyToManyField('main_app.Type', related_name = "immune_pkmn")
     objects = PokeManager()
 
+    def __str__(self):
+        return f"{self.id} {self.name.capitalize()}"
+
 class Type(models.Model):
     name = models.CharField(max_length=50, null=True)
     pkmn = models.ManyToManyField(Pokemon, related_name = "types")

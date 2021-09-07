@@ -140,14 +140,17 @@ def send_message(request, profile_id):
     user = User.objects.get(id = request.session['userid'])
     profile = User.objects.get(id = profile_id)
     message = Message.objects.create_message(request.POST, user, profile)
-    message.thread.updated_at = datetime.now()
-    message.thread.has_new = True
-    message.thread.save()
-    profile.profile.msg_counter += 1
-    profile.profile.save()
-    if "messages" in request.META.get('HTTP_REFERER'):
-        context = {"user" : user, "display_thread" : Thread.objects.get(id = message.thread.id)}
-        return render(request, "append-msg.html", context)
+    if message != None:
+        message.thread.updated_at = datetime.now()
+        message.thread.has_new = True
+        message.thread.save()
+        profile.profile.msg_counter += 1
+        profile.profile.save()
+        if "messages" in request.META.get('HTTP_REFERER'):
+            context = {"user" : user, "display_thread" : Thread.objects.get(id = message.thread.id)}
+            return render(request, "append-msg.html", context)
+        else:
+            return redirect(request.META.get('HTTP_REFERER'))
     else:
         return redirect(request.META.get('HTTP_REFERER'))
 

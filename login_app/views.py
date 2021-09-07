@@ -1,11 +1,17 @@
-from django.shortcuts import render
-
-# Create your views here.
+from datetime import date
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import User
 from profile_app.models import Profile
 
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.tokens import default_token_generator
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 
 #render login page
@@ -63,3 +69,36 @@ def signup(request):
 def logout(request):
     request.session.clear()
     return redirect('/login')
+
+def password_reset_request(request):
+    if request.method == "POST":
+        pw_form = PasswordResetForm(request.POST)
+        if pw_form.is_valid():
+            data = pw_form.cleaned_data['email']
+            user_email = User.objects.filter(Q(email=data))
+            if user_email.exists():
+                for user in user_email:
+                    subject = "Password Reset Request"
+                    email_template_name = 'password_message.txt'
+                    parameters = {
+                        'email' : user.email,
+                        'domain' : 'localhost:8000',
+                        'site_name' : 'DexApp',
+                        'uid' : urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token' : default_token_generator.make_token(user),
+                        'protocol' : 'http',
+                        'username' : user.first_name.capitalize(),
+                    }
+                    email = render_to_string(email_template_name, parameters)
+                    try:
+                        send_mail(subject, email, '', [user.email], fail_silently=False)
+                    except:
+                        return HttpResponse('Invalid Header')
+                    return redirect('password_reset_done')
+    else:
+        pw_form = PasswordResetForm()
+
+    context = {
+        "password_form" : pw_form,
+    }
+    return render(request, "pw_reset.html", context)

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'logres.css' %}">
+{% endblock %}
+
+{% block title %}| Reset Password{% endblock %}
+
+
+<!------------------------ Body ------------------------>
+{% block content %}
+    <div class="logres reset">
+        <h2>Password reset</h2>
+        <hr>
+        <p>Forgotten your password? Enter your email address below, and we'll email instructions for setting a new one.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{password_form}}
+            <input type="Submit" name="Send email" class="btn btn-primary" value="Reset my password">
+        </form>
+    </div>
+{% endblock %}

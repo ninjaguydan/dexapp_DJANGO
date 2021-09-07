@@ -1,7 +1,7 @@
 {% load static %}
 {% for review in pokemon.reviews.all reversed %}
 <div class="card r{{review.id}}">
-    <img src="{% static '' %}img/default-profiles/{{review.added_by.default_img}}.png" alt="profile pic" class="card-item user-img {{review.added_by.bg_color}}">
+    <img src="{{review.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{review.added_by.bg_color}}">
     <div class="card-item card-item-content">
         <a href="/profile/{{review.added_by.id}}"><p class="bold">{{review.added_by.first_name}} {{review.added_by.last_name}} </a><span>{{review.added_by.username}}</span></p>
         <span class="n{{review.rating}} star">{{review.rating}}</span>

@@ -1,3 +1,6 @@
+.popup-container {
+    display: block;
+}
 /* List group styles */
 .list-group-item img {
     border-radius:unset;

@@ -296,8 +296,10 @@ $('.edit-profile-modal').on('submit','.new-team', function(e){
         method : "POST",
         data: $(this).serialize(),
         success: function(response){
+            $('.popup-container').show();
             $('.popup-container').append(response);
             $('.modal-bg').css("display", "none");
+            $('.new-team textarea').val(null);
         }
     })
     setTimeout(function(){

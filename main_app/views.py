@@ -40,24 +40,24 @@ def index(request):
         timeline = User.objects.guest_timeline()
         ordered_tl = collections.OrderedDict(sorted(timeline.items()))
 
-    # # print(ordered_tl)
-    # key_list = []
-    # for key, value in ordered_tl.items():
-    #     print(key)
-    #     key_list.append(key)
+    # print(ordered_tl)
+    key_list = []
+    for key, value in ordered_tl.items():
+        # print(value)
+        key_list.append(value)
 
-    # page = request.GET.get('page', 1)
-    # paginator = Paginator(ordered_tl, 30)
-    # try:
-    #     page = paginator.page(page)
-    # except PageNotAnInteger:
-    #     page = paginator.page(1)
-    # except EmptyPage:
-    #     page = paginator.page(paginator.num_pages)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(key_list[::-1], 20)
+    try:
+        page = paginator.page(page)
+    except PageNotAnInteger:
+        page = paginator.page(1)
+    except EmptyPage:
+        page = paginator.page(paginator.num_pages)
 
     context = {
         "user" : user,
-        "timeline" : ordered_tl,
+        "timeline" : page,
         "all_pokemon" : Pokemon.objects.annotate(count = Count('favorited_by')).order_by('-count')[:10],
     }
     return render(request, "index.html", context)
@@ -313,4 +313,4 @@ def delete_team(request, team_id):
         #Check if logged in user is the one who made the team
         if request.session['userid'] == team_to_delete.user.id:
             team_to_delete.delete()
-    return redirect('/')
+    return redirect(f"/profile/{request.session['userid']}")

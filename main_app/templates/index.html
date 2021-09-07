@@ -32,11 +32,11 @@
     {% endif %}
 
     <!-- Timeline Feed -->
-    <div class="timeline">
-        {% for key, post in timeline.items reversed %}
+    <div class="timeline infinite-container">
+        {% for post in timeline.object_list %}
             {% if post.rating %}
             <!---------------------- this is a review ---------------------->
-            <div class="card r{{post.id}}">
+            <div class="card r{{post.id}} infinite-item">
                 <img src="{{post.pkmn.sprite_url}}" alt="profile pic" class="card-item pkmn-img">
                 <div class="card-item card-item-content card-item-review">
                     <p>
@@ -129,7 +129,7 @@
             </div>
             {% elif post.user %}
             <!---------------------- this is a team ---------------------->
-            <div class="card">
+            <div class="card infinite-item">
                 <p class="team-title">
                     {% if post.user.id == request.session.userid %}
                     You
@@ -185,7 +185,7 @@
             </div>
             {% else %}
             <!---------------------- this is a post ---------------------->
-            <div class="card">
+            <div class="card infinite-item">
                 <img src="{{post.added_by.user_img.url}}" alt="profile pic" class="card-item user-img {{post.added_by.bg_color}}">
                 <div class="card-item card-item-content">
                     <a href="/profile/{{post.added_by.id}}"><p class="bold">{{post.added_by.first_name}} {{post.added_by.last_name}} </a><span>{{post.added_by.username}}</span></p>
@@ -275,6 +275,16 @@
         {% endfor %}
     </div>
 
+    <!-- Load next block of 30 results when this comes into view -->
+    {% if timeline.has_next %}
+    <a class="infinite-more-link" href="?page={{ timeline.next_page_number }}">loading</a>
+    {% endif %}
+
+    <!-- displays while next batch of results loads -->
+    <div class="loading" style="display: none;">
+        Loading...
+    </div>
+
 </div>
 
 <!-- Right column content -->
@@ -301,5 +311,29 @@
 
 </div>
 
-
+<!-- Waypoint script handling dynamic loading -->
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.timeline')[0],
+        onBeforePageLoad: function(){
+            $('.loading').show();
+        },
+        onAfterPageLoad: function($items) {
+            $('.loading').hide();
+            function allRatings() {
+            $('.n1').html(displayRating(1));
+            $('.n2').html(displayRating(2));
+            $('.n3').html(displayRating(3));
+            $('.n4').html(displayRating(4));
+            $('.n5').html(displayRating(5));
+            $('.n6').html(displayRating(6));
+            $('.n7').html(displayRating(7));
+            $('.n8').html(displayRating(8));
+            $('.n9').html(displayRating(9));
+            $('.n10').html(displayRating(10));
+        }
+        allRatings()
+        }
+    });
+</script>
 {% endblock %}
